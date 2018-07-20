@@ -61,7 +61,7 @@ tbr_binom_window <- function(x, tcolumn, unit = "years", n, i, alpha) {
   u <- (c("years", "months", "weeks", "days", "hours", "minutes", "seconds"))
 
   if (!unit %in% u) {
-    stop("unit must be one of ", u)
+    stop("unit must be one of ", paste(u, collapse = ", "))
   }
 
   # creates a time-based window

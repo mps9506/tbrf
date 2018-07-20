@@ -68,7 +68,7 @@ tbr_mean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
   u <- (c("years", "months", "weeks", "days", "hours", "minutes", "seconds"))
 
   if (!unit %in% u) {
-    stop("unit must be one of ", u)
+    stop("unit must be one of ", paste(u, collapse = ", "))
   }
 
   # if conf.level = NA return one column

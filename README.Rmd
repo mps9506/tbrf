@@ -7,9 +7,9 @@ output: github_document
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
+  comment = "##",
   fig.path = "man/figures/README-",
-  out.width = "100%"
+  fig.retina = 2
 )
 ```
 # tbrf
@@ -32,18 +32,17 @@ devtools::install.github("mps9506/tbrf")
 
 
 ### Rolling Geometric Mean
-```{r example, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+```{r example, fig.retina=2, echo=TRUE}
 library(tbrf)
 library(dplyr)
 library(ggplot2)
 
 ## Generate sample data
 set.seed(100)
-df <- data.frame(
-  date = sample(seq(as.Date('2000-01-01'), 
-                    as.Date('2015/12/30'), by = "day"), 50),
-  value = rexp(50, 1/100)
-)
+df <- data.frame(date = sample(seq(as.Date('2000-01-01'), 
+                                   as.Date('2017-12-30'), by = "day"), 68),
+                 value = rexp(68, 1/100))
+
 
 head(df)
 
@@ -52,13 +51,16 @@ df <- tbr_gmean(df, x = value, tcolumn = date,
                 unit = "years", n = 5, conf.level = 0.95)
 df
 
-## in a tidy pipeline
+
+## tidy pipeline sample. sample data with breaks
 set.seed(100)
-df <- data.frame(
-  date = sample(seq(as.Date('2000-01-01'), 
-                    as.Date('2015/12/30'), by = "day"), 50),
-  value = rexp(50, 1/100)
-)
+
+df <- data.frame(date = sample(seq(as.Date('2000-01-01'), 
+                                   as.Date('2007-12-30'), by = "day"), 25),
+                 value = rexp(25, 1/100)) %>%
+  bind_rows(data.frame(date = sample(seq(as.Date('2009-01-01'), 
+                                         as.Date('2011-12-30'), by = "day"), 5),
+                       value = rexp(5, 1/1000)))
 
 df <- df %>%
   tbr_gmean(x = value, tcolumn = date, unit = "years",
@@ -72,3 +74,12 @@ ggplot(df) +
   scale_y_log10()
 ```
 
+### Test Results
+
+```{r message=FALSE, warning=FALSE, error=FALSE}
+library(tbrf)
+
+date()
+
+devtools::test()
+```

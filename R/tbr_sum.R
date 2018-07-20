@@ -51,7 +51,7 @@ tbr_sum_window <- function(x, tcolumn, unit = "years", n, i, na.rm) {
   u <- (c("years", "months", "weeks", "days", "hours", "minutes", "seconds"))
 
   if (!unit %in% u) {
-    stop("unit must be one of ", u)
+    stop("unit must be one of ", paste(u, collapse = ", "))
   }
 
   # create a time-based window by calculating the duration between current row
