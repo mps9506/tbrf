@@ -8,22 +8,25 @@
 #' @param tcolumn formated time column.
 #' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
-#' @param conf.level confidence level of the interval. Default is .95.
+#' @param ... additional arguments passed to DescTools::Gmean
 #'
 #' @return tibble with columns for the rolling geometric mean and upper and lower confidence levels.
 #' @export
 #'
-#' @examples
-#' ## Sample data
-#' df <- tibble::data_frame(
-#' date = sample(seq(as.Date('2000-01-01'),
-#' as.Date('2015/12/30'), by = "day"), 100),
-#' value = rexp(100, 0.2))
-#'
-#' df <- tbrf::roll_gmean(df, x = value,
-#' tcolumn = date, unit = "years", n = 5,
-#' conf.level = 0.95)
-tbr_gmean <- function(.tbl, x, tcolumn, unit = "years", n, conf.level = 0.95) {
+tbr_gmean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
+
+  #Match dots args: method = "boot", conf.level = 0.95, sides = "two.sided",
+  #na.rm = FALSE, type = "basic", parallel = "boot.parallel", R = 999
+  dots <- list(...)
+
+  default_dots <- list(method = "boot", conf.level = 0.95,
+                       sides = "two.sided", na.rm = FALSE,
+                       type = "basic", parallel = "boot.parallel",
+                       R = 999)
+
+  default_dots[names(dots)] <- dots
+
+  print(default_dots)
 
   # apply the window function to each row
   .tbl <- .tbl %>%
@@ -33,8 +36,11 @@ tbr_gmean <- function(.tbl, x, tcolumn, unit = "years", n, conf.level = 0.95) {
                                          tcolumn = !! rlang::enquo(tcolumn), #posix formatted time column
                                          unit = unit,
                                          n = n,
-                                         conf.level = conf.level,
-                                         i = .x))) %>%
+                                         i = .x,
+                                         method = default_dots$method,
+                                         conf.level = default_dots$conf.level,
+                                         sides = default_dots$sides,
+                                         na.rm = default_dots$na.rm))) %>%
     tidyr::unnest(temp)
   .tbl <- tibble::as_tibble(.tbl)
   return(.tbl)
@@ -47,16 +53,15 @@ tbr_gmean <- function(.tbl, x, tcolumn, unit = "years", n, conf.level = 0.95) {
 #' @param tcolumn formated time column.
 #' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
-#' @param conf.level confidence level of the interval. Default is .95.
-#' @param ... additional arguments passed to DescTools::GMean()
 #' @param i row
+#' @param ... additional arguments passed to DescTools::Gmean
 #'
 #' @importFrom lubridate as.duration duration
 #' @importFrom tibble as.tibble
 #' @importFrom DescTools Gmean
 #' @return list
 #' @keywords internal
-tbr_gmean_window <- function(x, tcolumn, unit = "years", n, conf.level, i) {
+tbr_gmean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
 
   # checks for valid unit values
   u <- (c("years", "months", "weeks", "days", "hours", "minutes", "seconds"))
@@ -65,11 +70,49 @@ tbr_gmean_window <- function(x, tcolumn, unit = "years", n, conf.level, i) {
     stop("unit must be one of ", u)
   }
 
-  # creates a time-based window
-  temp <- x[lubridate::as.duration(tcolumn[i] - tcolumn)/lubridate::duration(num = 1, units = unit) <= n & lubridate::as.duration(tcolumn[i] - tcolumn)/lubridate::duration(num = 1, units = unit) >= 0]
+  # if conf.level = NA return one column
+  # else three columns
+  dots <- list(...)
+  #print(dots)
 
-  # calculates the geometric mean with confidence interval
-  results <- tibble::as_tibble(as.list(DescTools::Gmean(x = temp, conf.level = conf.level)))
+  if (is.na(dots$conf.level)) {
+    resultsColumns <- c("mean")
+  }
 
-  return(results)
+  else {
+    resultsColumns <- c("mean", "lwr.ci", "upr.ci")
+  }
+
+
+  # do not calculate the first row, always returns NA
+  if (i == 1) {
+    results <- list_NA(resultsColumns)
+    return(results)
+  }
+  else {
+    # create a time-based window by calculating the duration between current row
+    # and the previous rows select the rows where 0 <= duration <= n
+    window <- x[lubridate::as.duration(tcolumn[i] - tcolumn)/lubridate::duration(num = 1, units = unit) <= n & lubridate::as.duration(tcolumn[i] - tcolumn)/lubridate::duration(num = 1, units = unit) >= 0]
+
+    # if length is 1 or less, return NAs
+    if (length(window) <= 1) {
+      results <- list_NA(resultsColumns)
+      # return some messages that NAs are returned
+      return(results)
+      message("NAs produced because the specified time window (n) is too short. Specify a larger n to eliminate NAs")
+    }
+    # else calculate the geometric mean with confidence interval
+    else{
+
+      if (is.na(dots$conf.level)) {
+        results <- tibble::as.tibble(list(mean = DescTools::Gmean(x = window, ...)))
+      }
+
+      else {
+        results <- tibble::as_tibble(as.list(DescTools::Gmean(x = window, ...)))
+      }
+
+      return(results)
+    }
+  }
 }
