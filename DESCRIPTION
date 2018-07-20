@@ -2,11 +2,11 @@ Package: tbrf
 Type: Package
 Title: Time-Based Rolling Functions
 Version: 0.1.0
-Author: Michael Schramm
-Maintainer: The package maintainer <yourself@somewhere.net>
+Authors@R: person("Michael", "Schramm", role=c("aut", "cre"),
+    email = "michael.schramm@ag.tamu.edu")
 Description: Provides functions for rolling statistics based
     on date and time windows instead of lagged observations.
-License: MIT + file LICENSE
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
@@ -15,3 +15,5 @@ Imports:
     dplyr
 Suggests: 
     testthat
+Author: Michael Schramm [aut, cre]
+Maintainer: Michael Schramm <michael.schramm@ag.tamu.edu.
