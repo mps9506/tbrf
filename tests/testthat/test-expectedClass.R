@@ -1,10 +1,10 @@
-context("dplyr chain works")
+context("core functions return expected structures")
 library(tbrf)
 
 test_that("tbr_binom returns tbl_df in tidy chain", {
   df <- data.frame(
-    date = sample(seq(as.Date('2000-01-01'), as.Date('2015/12/30'), by = "day"), 100),
-    value = rbinom(100, 1, 0.25)
+    date = sample(seq(as.Date('2000-01-01'), as.Date('2005/12/30'), by = "day"), 10),
+    value = rbinom(10, 1, 0.25)
   )
 
   expect_s3_class(df %>% tbr_binom(x = value,
@@ -15,7 +15,7 @@ test_that("tbr_binom returns tbl_df in tidy chain", {
                   "tbl_df")
 })
 
-df <- tibble::data_frame(
+df <- data.frame(
   date = sample(seq(as.Date('2000-01-01'), as.Date('2005/12/30'), by = "day"), 10),
   value = rexp(10, 1/100)
 )
@@ -35,8 +35,7 @@ test_that("tbr_mean returns tbl_df in tidy chain", {
   expect_s3_class(df %>% tbr_mean(x = value,
                                    tcolumn = date,
                                    unit = "years",
-                                   n = 5,
-                                   conf.level = 0.95),
+                                   n = 5),
                   "tbl_df")
 })
 
@@ -45,8 +44,7 @@ test_that("tbr_median returns tbl_df in tidy chain", {
   expect_s3_class(df %>% tbr_median(x = value,
                                    tcolumn = date,
                                    unit = "years",
-                                   n = 5,
-                                   conf.level = 0.95),
+                                   n = 5),
                   "tbl_df")
 })
 
