@@ -4,7 +4,7 @@
 \alias{tbr_median}
 \title{Time-Based Rolling Median}
 \usage{
-tbr_median(.tbl, x, tcolumn, unit = "years", n, conf.level = 0.95, ...)
+tbr_median(.tbl, x, tcolumn, unit = "years", n, ...)
 }
 \arguments{
 \item{.tbl}{a data frame with at least two variables; time column formatted as date, date/time and value column.}
@@ -17,9 +17,7 @@ tbr_median(.tbl, x, tcolumn, unit = "years", n, conf.level = 0.95, ...)
 
 \item{n}{numeric, describing the length of the time window.}
 
-\item{conf.level}{confidence level of the interval. Default is .95.}
-
-\item{...}{additional arguments passed to DescTools::MedianCI()}
+\item{...}{additional arguments passed to DescTools::MedianCI}
 }
 \value{
 tibble with columns for the rolling median and upper and lower confidence intervals.

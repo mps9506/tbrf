@@ -4,7 +4,7 @@
 \alias{tbr_mean_window}
 \title{Mean Based on a Time-Window}
 \usage{
-tbr_mean_window(x, tcolumn, unit = "years", n, conf.level, i, ...)
+tbr_mean_window(x, tcolumn, unit = "years", n, i, ...)
 }
 \arguments{
 \item{x}{column containing the values to calculate the mean.}
@@ -15,11 +15,9 @@ tbr_mean_window(x, tcolumn, unit = "years", n, conf.level, i, ...)
 
 \item{n}{numeric, describing the length of the time window.}
 
-\item{conf.level}{confidence level of the interval. Default is .95.}
-
 \item{i}{row}
 
-\item{...}{additional arguments passed to DescTools::MeanCI()}
+\item{...}{additional arguments passed to MeanCI}
 }
 \value{
 list

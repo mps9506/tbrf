@@ -4,7 +4,7 @@
 \alias{tbr_median_window}
 \title{Median Based on a Time-Window}
 \usage{
-tbr_median_window(x, tcolumn, unit = "years", n, conf.level, i, ...)
+tbr_median_window(x, tcolumn, unit = "years", n, i, ...)
 }
 \arguments{
 \item{x}{column containing the values to calculate the median.}
@@ -15,11 +15,9 @@ tbr_median_window(x, tcolumn, unit = "years", n, conf.level, i, ...)
 
 \item{n}{numeric, describing the length of the time window.}
 
-\item{conf.level}{confidence level of the interval. Default is .95.}
-
 \item{i}{row}
 
-\item{...}{additional arguments passed to DescTools::MedianCI()}
+\item{...}{additional arguments passed to DescTools::MedianCI}
 }
 \value{
 list

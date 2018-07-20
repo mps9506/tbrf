@@ -4,7 +4,7 @@
 \alias{tbr_gmean_window}
 \title{Geometric mean based on a time-window}
 \usage{
-tbr_gmean_window(x, tcolumn, unit = "years", n, conf.level, i)
+tbr_gmean_window(x, tcolumn, unit = "years", n, i, ...)
 }
 \arguments{
 \item{x}{column containing the values to calculate the geometric mean.}
@@ -15,11 +15,9 @@ tbr_gmean_window(x, tcolumn, unit = "years", n, conf.level, i)
 
 \item{n}{numeric, describing the length of the time window.}
 
-\item{conf.level}{confidence level of the interval. Default is .95.}
-
 \item{i}{row}
 
-\item{...}{additional arguments passed to DescTools::GMean()}
+\item{...}{additional arguments passed to Gmean}
 }
 \value{
 list

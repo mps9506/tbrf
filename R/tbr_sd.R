@@ -51,7 +51,8 @@ tbr_sd_window <- function(x, tcolumn, unit = "years", n, i, ...) {
     stop("unit must be one of ", u)
   }
 
-  # creates a time-based window
+  # create a time-based window by calculating the duration between current row
+  # and the previous rows select the rows where 0 <= duration <= n
   window <- x[lubridate::as.duration(tcolumn[i] - tcolumn)/lubridate::duration(num = 1, units = unit) <= n & lubridate::as.duration(tcolumn[i] - tcolumn)/lubridate::duration(num = 1, units = unit) >= 0]
 
   # calculates the sd

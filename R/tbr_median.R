@@ -7,15 +7,24 @@
 #' @param tcolumn formated time column.
 #' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
-#' @param conf.level confidence level of the interval. Default is .95.
-#' @param ... additional arguments passed to DescTools::MedianCI()
+#' @param ... additional arguments passed to DescTools::MedianCI
 #'
 #' @importFrom rlang enquo
 #' @importFrom purrr map
 #' @importFrom tidyr unnest
 #' @return tibble with columns for the rolling median and upper and lower confidence intervals.
 #' @export
-tbr_median <- function(.tbl, x, tcolumn, unit = "years", n, conf.level = 0.95, ...) {
+tbr_median <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
+
+  #Match dots args: method = "boot", conf.level = 0.95,
+  #sides = "two.sided", na.rm = FALSE, R = 999
+  dots <- list(...)
+
+  default_dots <- list(method = "boot", conf.level = 0.95,
+                       sides = "two.sided", na.rm = FALSE,
+                       R = 999)
+
+  default_dots[names(dots)] <- dots
 
   # apply the window function to each row
   .tbl <- .tbl %>%
@@ -25,9 +34,12 @@ tbr_median <- function(.tbl, x, tcolumn, unit = "years", n, conf.level = 0.95, .
                                         tcolumn = !! rlang::enquo(tcolumn), #posix formatted time column
                                         unit = unit,
                                         n = n,
-                                        conf.level = conf.level,
                                         i = .x,
-                                        ...))) %>%
+                                        method = default_dots$method,
+                                        conf.level = default_dots$conf.level,
+                                        sides = default_dots$sides,
+                                        na.rm = default_dots$na.rm,
+                                        R = default_dots$R))) %>%
     tidyr::unnest(temp)
   .tbl <- tibble::as_tibble(.tbl)
   return(.tbl)
@@ -39,16 +51,14 @@ tbr_median <- function(.tbl, x, tcolumn, unit = "years", n, conf.level = 0.95, .
 #' @param tcolumn formated time column.
 #' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
-#' @param conf.level confidence level of the interval. Default is .95.
 #' @param i row
-#' @param ... additional arguments passed to DescTools::MedianCI()
+#' @param ... additional arguments passed to DescTools::MedianCI
 #'
 #' @importFrom lubridate as.duration duration
 #' @importFrom tibble as.tibble
-#' @importFrom DescTools MedianCI
 #' @return list
 #' @keywords internal
-tbr_median_window <- function(x, tcolumn, unit = "years", n, conf.level, i, ...) {
+tbr_median_window <- function(x, tcolumn, unit = "years", n, i, ...) {
 
   # checks for valid unit values
   u <- (c("years", "months", "weeks", "days", "hours", "minutes", "seconds"))
@@ -57,11 +67,32 @@ tbr_median_window <- function(x, tcolumn, unit = "years", n, conf.level, i, ...)
     stop("unit must be one of ", u)
   }
 
-  # creates a time-based window
-  temp <- x[lubridate::as.duration(tcolumn[i] - tcolumn)/lubridate::duration(num = 1, units = unit) <= n & lubridate::as.duration(tcolumn[i] - tcolumn)/lubridate::duration(num = 1, units = unit) >= 0]
+  # do not calculate the first row, always returns NA
+  # note that MedianCI always returns confidence intervals
+  # unlike other DescTools stats
+  if (i == 1) {
+    results <- list(NA, NA, NA)
+    names(results) <- c("mean", "lwr.ci", "upr.ci")
+    return(tibble::as_tibble(results))
+  }
 
-  # calculates the geometric mean with confidence interval
-  results <- tibble::as_tibble(as.list(DescTools::MedianCI(x = temp, conf.level = conf.level, ...)))
+  else {
+    # create a time-based window by calculating the duration between current row
+    # and the previous rows select the rows where 0 <= duration <= n
+    window <- x[lubridate::as.duration(tcolumn[i] - tcolumn)/lubridate::duration(num = 1, units = unit) <= n & lubridate::as.duration(tcolumn[i] - tcolumn)/lubridate::duration(num = 1, units = unit) >= 0]
 
-  return(results)
+    # if length is 1 or less, return NAs
+    if (length(window) <= 1) {
+      results <- list_NA(resultsColumns)
+      # return some messages that NAs are returned
+      return(results)
+      message("NAs produced because the specified time window (n) is too short. Specify a larger n to eliminate NAs")
+    }
+
+    else {
+      results <- tibble::as_tibble(as.list(MedianCI(x = window, ...)))
+
+      return(results)
+    }
+  }
 }

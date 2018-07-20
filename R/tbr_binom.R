@@ -8,6 +8,7 @@
 #' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
 #' @param alpha numeric, probability of a type 1 error, so confidence coefficient = 1-alpha
+#' @param method
 #'
 #' @import dplyr
 #' @importFrom rlang enquo
@@ -69,7 +70,7 @@ tbr_binom_window <- function(x, tcolumn, unit = "years", n, i, alpha) {
     summarise(n = n(), successes = as.integer(sum(temp)))
 
   # calculates the binomial test with confidence intervals
-  results <- Hmisc::binconf(x = df$successes, n = df$n, alpha = alpha, return.df = TRUE)
+  results <- binconf(x = df$successes, n = df$n, alpha = alpha, return.df = TRUE)
 
   return(results)
 }

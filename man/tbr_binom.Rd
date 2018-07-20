@@ -18,6 +18,8 @@ tbr_binom(.tbl, x, tcolumn, unit = "years", n, alpha = 0.05)
 \item{n}{numeric, describing the length of the time window.}
 
 \item{alpha}{numeric, probability of a type 1 error, so confidence coefficient = 1-alpha}
+
+\item{method}{}
 }
 \value{
 tibble with columns for the rolling binomial probability and upper and lower confidence intervals.

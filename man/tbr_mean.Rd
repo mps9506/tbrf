@@ -4,7 +4,7 @@
 \alias{tbr_mean}
 \title{Time-Based Rolling Mean}
 \usage{
-tbr_mean(.tbl, x, tcolumn, unit = "years", n, conf.level = 0.95, ...)
+tbr_mean(.tbl, x, tcolumn, unit = "years", n, ...)
 }
 \arguments{
 \item{.tbl}{a data frame with at least two variables; time column formatted as date, date/time and value column.}
@@ -17,9 +17,7 @@ tbr_mean(.tbl, x, tcolumn, unit = "years", n, conf.level = 0.95, ...)
 
 \item{n}{numeric, describing the length of the time window.}
 
-\item{conf.level}{confidence level of the interval. Default is .95.}
-
-\item{...}{additional arguments passed to DescTools::MeanCI()}
+\item{...}{additional arguments passed to DescTools::MeanCI}
 }
 \value{
 tibble with columns for the rolling mean and upper and lower confidence intervals.

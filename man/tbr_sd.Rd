@@ -4,7 +4,7 @@
 \alias{tbr_sd}
 \title{Time-Based Rolling Standard Deviation}
 \usage{
-tbr_sd(.tbl, x, tcolumn, unit = "years", n)
+tbr_sd(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE)
 }
 \arguments{
 \item{.tbl}{a data frame with at least two variables; time column formatted as date, date/time and value column.}
@@ -16,6 +16,8 @@ tbr_sd(.tbl, x, tcolumn, unit = "years", n)
 \item{unit}{character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"}
 
 \item{n}{numeric, describing the length of the time window.}
+
+\item{na.rm}{logical. Should missing values be removed?}
 }
 \value{
 tibble with column for the rolling sd.

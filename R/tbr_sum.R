@@ -6,13 +6,14 @@
 #' @param tcolumn formated time column.
 #' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
+#' @param na.rm logical. Should missing values be removed?
 #'
 #' @import dplyr
 #' @importFrom rlang enquo
 #' @importFrom purrr map
 #' @return dataframe with column for the rolling sum.
 #' @export
-tbr_sum <- function(.tbl, x, tcolumn, unit = "years", n) {
+tbr_sum <- function(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE) {
 
   # apply the window function to each row
   .tbl <- .tbl %>%
@@ -22,7 +23,8 @@ tbr_sum <- function(.tbl, x, tcolumn, unit = "years", n) {
                                       tcolumn = !! rlang::enquo(tcolumn), #posix formatted time column
                                       unit = unit,
                                       n = n,
-                                      i = .x))) %>%
+                                      i = .x,
+                                      na.rm = na.rm))) %>%
     tidyr::unnest(sum)
 
   .tbl <- tibble::as_tibble(.tbl)
@@ -37,12 +39,13 @@ tbr_sum <- function(.tbl, x, tcolumn, unit = "years", n) {
 #' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
 #' @param i row
+#' @param na.rm logical. Should missing values be removed?
 #'
 #' @importFrom lubridate as.duration duration
 #' @importFrom tibble as.tibble
 #' @return numeric value
 #' @keywords internal
-tbr_sum_window <- function(x, tcolumn, unit = "years", n, i) {
+tbr_sum_window <- function(x, tcolumn, unit = "years", n, i, na.rm) {
 
   # checks for valid unit values
   u <- (c("years", "months", "weeks", "days", "hours", "minutes", "seconds"))
@@ -51,11 +54,12 @@ tbr_sum_window <- function(x, tcolumn, unit = "years", n, i) {
     stop("unit must be one of ", u)
   }
 
-  # creates a time-based window
-  temp <- x[lubridate::as.duration(tcolumn[i] - tcolumn)/lubridate::duration(num = 1, units = unit) <= n & lubridate::as.duration(tcolumn[i] - tcolumn)/lubridate::duration(num = 1, units = unit) >= 0]
+  # create a time-based window by calculating the duration between current row
+  # and the previous rows select the rows where 0 <= duration <= n
+  window <- x[lubridate::as.duration(tcolumn[i] - tcolumn)/lubridate::duration(num = 1, units = unit) <= n & lubridate::as.duration(tcolumn[i] - tcolumn)/lubridate::duration(num = 1, units = unit) >= 0]
 
   # calculates the sum
-  results <- sum(temp)
+  results <- sum(window, na.rm = na.rm)
 
   return(results)
 }

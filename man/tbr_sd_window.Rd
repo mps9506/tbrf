@@ -4,7 +4,7 @@
 \alias{tbr_sd_window}
 \title{Standard Deviation Based on a Time-Window}
 \usage{
-tbr_sd_window(x, tcolumn, unit = "years", n, i)
+tbr_sd_window(x, tcolumn, unit = "years", n, i, ...)
 }
 \arguments{
 \item{x}{column containing the values to calculate the standard deviation.}

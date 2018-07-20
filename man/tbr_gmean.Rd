@@ -4,7 +4,7 @@
 \alias{tbr_gmean}
 \title{Time-Based Rolling Geometric Mean}
 \usage{
-tbr_gmean(.tbl, x, tcolumn, unit = "years", n, conf.level = 0.95)
+tbr_gmean(.tbl, x, tcolumn, unit = "years", n, ...)
 }
 \arguments{
 \item{.tbl}{a data frame with at least two variables; time column formatted as date, date/time and value column.}
@@ -17,7 +17,7 @@ tbr_gmean(.tbl, x, tcolumn, unit = "years", n, conf.level = 0.95)
 
 \item{n}{numeric, describing the length of the time window.}
 
-\item{conf.level}{confidence level of the interval. Default is .95.}
+\item{...}{additional arguments passed to DescTools::Gmean}
 }
 \value{
 tibble with columns for the rolling geometric mean and upper and lower confidence levels.
@@ -25,14 +25,6 @@ tibble with columns for the rolling geometric mean and upper and lower confidenc
 \description{
 Produces a a rolling time-window based vector of geometric means and confidence intervals.
 }
-\examples{
-## Sample data
-df <- tibble::data_frame(
-date = sample(seq(as.Date('2000-01-01'),
-as.Date('2015/12/30'), by = "day"), 100),
-value = rexp(100, 0.2))
-
-df <- tbrf::roll_gmean(df, x = value,
-tcolumn = date, unit = "years", n = 5,
-conf.level = 0.95)
+\seealso{
+\code{\link{DescTools:GMean}}
 }

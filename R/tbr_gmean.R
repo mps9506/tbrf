@@ -10,9 +10,14 @@
 #' @param n numeric, describing the length of the time window.
 #' @param ... additional arguments passed to DescTools::Gmean
 #'
+#' @import dplyr
+#' @importFrom rlang enquo
+#' @importFrom purrr map
+#' @importFrom tibble as_tibble
+#' @importFrom tidyr unnest
 #' @return tibble with columns for the rolling geometric mean and upper and lower confidence levels.
 #' @export
-#'
+#' @seealso \code{\link{DescTools:GMean}}
 tbr_gmean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
 
   #Match dots args: method = "boot", conf.level = 0.95, sides = "two.sided",
@@ -25,8 +30,6 @@ tbr_gmean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
                        R = 999)
 
   default_dots[names(dots)] <- dots
-
-  print(default_dots)
 
   # apply the window function to each row
   .tbl <- .tbl %>%
@@ -54,11 +57,10 @@ tbr_gmean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
 #' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
 #' @param i row
-#' @param ... additional arguments passed to DescTools::Gmean
+#' @param ... additional arguments passed to Gmean
 #'
 #' @importFrom lubridate as.duration duration
 #' @importFrom tibble as.tibble
-#' @importFrom DescTools Gmean
 #' @return list
 #' @keywords internal
 tbr_gmean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
@@ -73,7 +75,6 @@ tbr_gmean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
   # if conf.level = NA return one column
   # else three columns
   dots <- list(...)
-  #print(dots)
 
   if (is.na(dots$conf.level)) {
     resultsColumns <- c("mean")
@@ -82,7 +83,6 @@ tbr_gmean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
   else {
     resultsColumns <- c("mean", "lwr.ci", "upr.ci")
   }
-
 
   # do not calculate the first row, always returns NA
   if (i == 1) {
@@ -105,11 +105,11 @@ tbr_gmean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
     else{
 
       if (is.na(dots$conf.level)) {
-        results <- tibble::as.tibble(list(mean = DescTools::Gmean(x = window, ...)))
+        results <- tibble::as.tibble(list(mean = Gmean(x = window, ...)))
       }
 
       else {
-        results <- tibble::as_tibble(as.list(DescTools::Gmean(x = window, ...)))
+        results <- tibble::as_tibble(as.list(Gmean(x = window, ...)))
       }
 
       return(results)
