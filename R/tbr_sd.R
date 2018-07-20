@@ -5,14 +5,13 @@
 #' @param tcolumn formated time column.
 #' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
+#' @param na.rm logical. Should missing values be removed?
 #'
 #' @importFrom rlang enquo
 #' @importFrom purrr map
 #' @return tibble with column for the rolling sd.
 #' @export
-#'
-#' @examples
-tbr_sd <- function(.tbl, x, tcolumn, unit = "years", n) {
+tbr_sd <- function(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE) {
 
   # apply the window function to each row
   .tbl <- .tbl %>%
@@ -22,7 +21,8 @@ tbr_sd <- function(.tbl, x, tcolumn, unit = "years", n) {
                                          tcolumn = !! rlang::enquo(tcolumn), #posix formatted time column
                                          unit = unit,
                                          n = n,
-                                         i = .x))) %>%
+                                         i = .x,
+                                         na.rm = na.rm))) %>%
     tidyr::unnest(sd)
 
   .tbl <- tibble::as_tibble(.tbl)
@@ -42,7 +42,7 @@ tbr_sd <- function(.tbl, x, tcolumn, unit = "years", n) {
 #' @importFrom tibble as.tibble
 #' @return numeric value
 #' @keywords internal
-tbr_sd_window <- function(x, tcolumn, unit = "years", n, i) {
+tbr_sd_window <- function(x, tcolumn, unit = "years", n, i, ...) {
 
   # checks for valid unit values
   u <- (c("years", "months", "weeks", "days", "hours", "minutes", "seconds"))
@@ -52,10 +52,10 @@ tbr_sd_window <- function(x, tcolumn, unit = "years", n, i) {
   }
 
   # creates a time-based window
-  temp <- x[lubridate::as.duration(tcolumn[i] - tcolumn)/lubridate::duration(num = 1, units = unit) <= n & lubridate::as.duration(tcolumn[i] - tcolumn)/lubridate::duration(num = 1, units = unit) >= 0]
+  window <- x[lubridate::as.duration(tcolumn[i] - tcolumn)/lubridate::duration(num = 1, units = unit) <= n & lubridate::as.duration(tcolumn[i] - tcolumn)/lubridate::duration(num = 1, units = unit) >= 0]
 
   # calculates the sd
-  results <- sd(x = temp)
+  results <- sd(x = window, ...)
 
   return(results)
 }
