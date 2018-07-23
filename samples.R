@@ -30,8 +30,7 @@ df_new <- tbr_gmean(.tbl = df,
                            x = value,
                            tcolumn = date,
                            unit = "years",
-                           n = 5,
-                           conf.level = 0.95)
+                           n = 5)
 
 ## sum
 df <- tibble::data_frame(
@@ -65,14 +64,68 @@ df_new <- tbrf::tbr_sum(df,
 
 str(df_new)
 
-##regression
+
 
 df <- tibble::data_frame(
-  date = sample(seq(as.Date('2000-01-01'), as.Date('2015/12/30'), by = "day"), 100),
-  x = rnorm(100, 0.2),
-  y = rexp(100, 0.25)
+  date = sample(seq(as.Date('2000-01-01'), as.Date('2010/12/30'), by = "day"), 10),
+  value = rexp(10, 1/100)
 )
+df_new <- tbr_gmean(.tbl = df,
+                    x = value,
+                    tcolumn = date,
+                    unit = "years",
+                    n = 5,
+                    conf.level = 0.95)
+
+df_new <- tbr_gmean(.tbl = df,
+                    x = value,
+                    tcolumn = date,
+                    unit = "years",
+                    n = 5,
+                    conf.level = NA)
+df_new <- tbr_gmean(.tbl = df,
+                    x = value,
+                    tcolumn = date,
+                    unit = "years",
+                    n = 5,
+                    method = "classic",
+                    conf.level = NA)
+df_new <- tbr_mean(.tbl = df,
+                    x = value,
+                    tcolumn = date,
+                    unit = "years",
+                    n = 5,
+                    conf.level = 0.95)
+df_new <- tbr_sd(.tbl = df,
+                 x = value,
+                 tcolumn = date,
+                 unit = "years",
+                 n = 5)
 
 
-library(dplyr)
-df_new <- tbr_lm(data = df, tcolumn = date, unit = "years", n = 5)
+
+df <- data_frame(date = sample(seq(as.Date('2000-01-01'),
+                                   as.Date('2005-12-30'), by = "day"), 25)) %>%
+  bind_rows(data.frame(date = sample(seq(as.Date('2009-01-01'),
+                                         as.Date('2011-12-30'), by = "day"), 25))) %>%
+  arrange(date) %>%
+  mutate(value = 1:50)
+
+
+df <- df %>%
+  tbr_misc(x = value, tcolumn = date, unit = "years", n = 5, func = sum) %>%
+  tbr_misc(x = value, tcolumn = date, unit = "years", n = 5, func = length)
+
+library(ggplot2)
+ggplot(df) +
+  geom_point(aes(date, value)) +
+  geom_errorbarh(aes(xmin = min_date, xmax = max_date, y = value, color = results1)) +
+  scale_color_distiller(type = "seq", palette = "OrRd", direction = 1) +
+  theme_minimal() +
+  guides(color = guide_colorbar(title = "Number of samples"))
+
+Dissolved_Oxygen
+df <- Dissolved_Oxygen %>%
+  tbr_misc(x = Average_DO, tcolumn = Date, unit = "years", n = 5, func = range)
+
+
