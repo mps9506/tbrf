@@ -17,5 +17,6 @@ RoxygenNote: 6.0.1
 Imports:
     boot,
     dplyr
-Suggests: 
+Suggests:
+    ggplot2
     testthat
