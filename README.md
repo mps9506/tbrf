@@ -18,7 +18,8 @@ the rolling statistical measure.
 
 ## Installation
 
-tbrf is still under development and can be installed from github with:
+tbrf is still under active development (do not expect stable behavior)
+and can be installed from github with:
 
 ``` r
 devtools::install.github("mps9506/tbrf")
@@ -26,19 +27,66 @@ devtools::install.github("mps9506/tbrf")
 
 ## Examples
 
+tbrf includes built-in functions to calculate binomial probability
+(`tbr_binom`), geometric mean (`tbr_gmean`), mean (`tbr_mean`), median
+(`tbr_median`), standard deviation (`tbr_sd`), and sum (`tbr_sum`).
+
+A generic function (`tbr_misc`) is provided for users to apply other
+functions that accept a vector of numeric values as an argument.
+
+``` r
+library(tbrf)
+library(dplyr)
+library(ggplot2)
+
+# Some sample data
+df <- data_frame(date = sample(seq(as.Date('2000-01-01'),
+                                   as.Date('2005-12-30'), by = "day"), 25)) %>%
+  bind_rows(data.frame(date = sample(seq(as.Date('2009-01-01'),
+                                         as.Date('2011-12-30'), by = "day"), 25))) %>%
+  arrange(date) %>%
+  mutate(value = 1:50)
+
+# Use length function in tbr_misc to calculate n samples used in the rolling function
+df <- df %>%
+  tbr_misc(x = value, tcolumn = date, unit = "years", n = 5, func = length)
+df
+## # A tibble: 50 x 5
+##    date       value results min_date   max_date  
+##    <date>     <int>   <int> <date>     <date>    
+##  1 2000-02-07     1       1 2000-02-07 2000-02-07
+##  2 2000-04-01     2       2 2000-02-07 2000-04-01
+##  3 2000-05-26     3       3 2000-02-07 2000-05-26
+##  4 2000-09-16     4       4 2000-02-07 2000-09-16
+##  5 2000-10-20     5       5 2000-02-07 2000-10-20
+##  6 2000-12-24     6       6 2000-02-07 2000-12-24
+##  7 2001-05-16     7       7 2000-02-07 2001-05-16
+##  8 2001-06-13     8       8 2000-02-07 2001-06-13
+##  9 2002-02-01     9       9 2000-02-07 2002-02-01
+## 10 2002-04-12    10      10 2000-02-07 2002-04-12
+## # ... with 40 more rows
+
+ggplot(df) +
+  geom_point(aes(date, value)) +
+  geom_errorbarh(aes(xmin = min_date, xmax = max_date, 
+                     y = value, color = results)) +
+  scale_color_distiller(type = "seq", palette = "OrRd", 
+                        direction = 1) +
+  guides(color = guide_colorbar(title = "Number of samples")) +
+  theme_minimal() +
+  theme(legend.position = "bottom") +
+  labs(x = "Sample Date", y = "Sample Value",
+       title = "Window length and n used by tbrf",
+       caption = "Lines depict time window used in the function\nColors indicate number of samples in the time window")
+```
+
+<img src="man/figures/README-tbr_misc-1.png" width="672" />
+
 ### Rolling Geometric Mean
 
 ``` r
 library(tbrf)
 library(dplyr)
-## 
-## Attaching package: 'dplyr'
-## The following objects are masked from 'package:stats':
-## 
-##     filter, lag
-## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union
 library(ggplot2)
 
 ## Generate sample data
@@ -116,13 +164,19 @@ ggplot(df) +
 
 <img src="man/figures/README-example-1.png" width="672" />
 
+## Contributing
+
+Please note that this project is released with a [Contributor Code of
+Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree
+to abide by its terms.
+
 ### Test Results
 
 ``` r
 library(tbrf)
 
 date()
-## [1] "Fri Jul 20 16:47:24 2018"
+## [1] "Tue Jul 24 08:26:12 2018"
 
 devtools::test()
 ## v | OK F W S | Context
@@ -134,7 +188,7 @@ devtools::test()
 / |  4       | core functions return expected structures
 - |  5       | core functions return expected structures
 \ |  6       | core functions return expected structures
-v |  6       | core functions return expected structures [3.7 s]
+v |  6       | core functions return expected structures [3.6 s]
 ## 
 / |  0       | core functions return expected errors and messages
 - |  1       | core functions return expected errors and messages
@@ -146,7 +200,7 @@ v |  6       | core functions return expected structures [3.7 s]
 v |  6       | core functions return expected errors and messages
 ## 
 ## == Results =========================================================================================
-## Duration: 3.7 s
+## Duration: 3.6 s
 ## 
 ## OK:       12
 ## Failed:   0
