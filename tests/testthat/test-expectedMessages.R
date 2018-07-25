@@ -66,3 +66,14 @@ test_that("tbr_sum returns error", {
                                  n = 5),
                   "Evaluation error: unit must be one of years, months, weeks, days, hours, minutes, seconds.")
 })
+
+
+test_that("tbr_misc returns error", {
+
+  expect_error(df %>% tbr_misc(x = value,
+                              tcolumn = date,
+                              unit = "year",
+                              n = 5,
+                              func = sum),
+               "Evaluation error: unit must be one of years, months, weeks, days, hours, minutes, seconds.")
+})

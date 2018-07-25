@@ -65,3 +65,14 @@ test_that("tbr_sum returns tbl_df in tidy chain", {
                                 n = 5),
                   "tbl_df")
 })
+
+
+test_that("tbr_misc returns tbl_df in tidy chain", {
+
+  expect_s3_class(df %>% tbr_misc(x = value,
+                                 tcolumn = date,
+                                 unit = "years",
+                                 n = 5,
+                                 func = sum),
+                  "tbl_df")
+})
