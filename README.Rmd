@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # tbrf
 
  [![Travis build status](https://travis-ci.org/mps9506/tbrf.svg?branch=master)](https://travis-ci.org/mps9506/tbrf)
+ [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
  
 The goal of tbrf is to provide time-window based rolling statistical functions. The package differs from other rolling statistic packages because the intended use is for irregular measured data. Althogh tbrf can be used to apply statistical functions to regularly sampled data, [`zoo`](https://CRAN.R-project.org/package=zoo) provides a richer environment for working with time series data.
 
@@ -102,6 +103,13 @@ ggplot(df) +
 Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
 By participating in this project you agree to abide by its terms.
 
+## License
+
+tbrf code is released under GPL-3 | LICENSE.md
+
+`binconf()` is licensed under GPL (>=2) by Frank Harrell's [`Hmisc`](https://github.com/harrelfe/Hmisc) package.
+
+`Gmean()`, `MeanCI()`, `MedianCI()`,`SignTest()`, and `Winsorize()` are licensed under GPL (>= 2) by Andri Signorell's [DescTools](https://cran.r-project.org/package=DescTools) package.
 
 ## Test Results
 

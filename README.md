@@ -5,6 +5,8 @@
 
 [![Travis build
 status](https://travis-ci.org/mps9506/tbrf.svg?branch=master)](https://travis-ci.org/mps9506/tbrf)
+[![License: GPL
+v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 The goal of tbrf is to provide time-window based rolling statistical
 functions. The package differs from other rolling statistic packages
@@ -104,13 +106,24 @@ Please note that this project is released with a [Contributor Code of
 Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree
 to abide by its terms.
 
+## License
+
+tbrf code is released under GPL-3 | LICENSE.md
+
+`binconf()` is licensed under GPL (\>=2) by Frank Harrell’s
+[`Hmisc`](https://github.com/harrelfe/Hmisc) package.
+
+`Gmean()`, `MeanCI()`, `MedianCI()`,`SignTest()`, and `Winsorize()` are
+licensed under GPL (\>= 2) by Andri Signorell’s
+[DescTools](https://cran.r-project.org/package=DescTools) package.
+
 ## Test Results
 
 ``` r
 library(tbrf)
 
 date()
-## [1] "Wed Jul 25 09:24:06 2018"
+## [1] "Wed Jul 25 15:47:48 2018"
 
 devtools::test()
 ## v | OK F W S | Context
@@ -123,7 +136,7 @@ devtools::test()
 - |  5       | core functions return expected structures
 \ |  6       | core functions return expected structures
 | |  7       | core functions return expected structures
-v |  7       | core functions return expected structures [3.8 s]
+v |  7       | core functions return expected structures [3.7 s]
 ## 
 / |  0       | core functions return expected errors and messages
 - |  1       | core functions return expected errors and messages
@@ -136,12 +149,10 @@ v |  7       | core functions return expected structures [3.8 s]
 v |  7       | core functions return expected errors and messages
 ## 
 ## == Results ==========================================================================================
-## Duration: 3.9 s
+## Duration: 3.8 s
 ## 
 ## OK:       14
 ## Failed:   0
 ## Warnings: 0
 ## Skipped:  0
-## 
-## Your tests are super!
 ```
