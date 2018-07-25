@@ -16,7 +16,12 @@ LazyData: true
 RoxygenNote: 6.0.1
 Imports:
     boot,
-    dplyr
+    dplyr,
+    lubridate,
+    purrr,
+    rlang,
+    tibble,
+    tidyr
 Suggests:
     ggplot2,
     testthat
