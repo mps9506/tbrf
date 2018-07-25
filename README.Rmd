@@ -12,6 +12,9 @@ knitr::opts_chunk$set(
   fig.retina = 2
 )
 ```
+
+ [![Travis build status](https://travis-ci.org/mps9506/tbrf.svg?branch=master)](https://travis-ci.org/mps9506/tbrf)
+
 # tbrf
 
 The goal of tbrf is to provide time-window based rolling statistical functions. The package differs from other rolling statistic packages because the intended use is for irregular measured data.
@@ -67,50 +70,24 @@ ggplot(df) +
   
 ```
 
+```{r}
+data("Dissolved_Oxygen")
 
+df <- Dissolved_Oxygen %>%
+  tbr_mean(x = Average_DO, tcolumn = Date, unit = "years", n = 5)
 
-### Rolling Geometric Mean
-```{r example, fig.retina=2, echo=TRUE}
-library(tbrf)
-library(dplyr)
-library(ggplot2)
-
-## Generate sample data
-set.seed(100)
-df <- data.frame(date = sample(seq(as.Date('2000-01-01'), 
-                                   as.Date('2017-12-30'), by = "day"), 68),
-                 value = rexp(68, 1/100))
-
-
-head(df)
-
-## apply the geomean to each row
-df <- tbr_gmean(df, x = value, tcolumn = date,
-                unit = "years", n = 5, conf.level = 0.95)
-df
-
-
-## tidy pipeline sample. sample data with breaks
-set.seed(100)
-
-df <- data.frame(date = sample(seq(as.Date('2000-01-01'), 
-                                   as.Date('2007-12-30'), by = "day"), 25),
-                 value = rexp(25, 1/100)) %>%
-  bind_rows(data.frame(date = sample(seq(as.Date('2009-01-01'), 
-                                         as.Date('2011-12-30'), by = "day"), 5),
-                       value = rexp(5, 1/1000)))
-
-df <- df %>%
-  tbr_gmean(x = value, tcolumn = date, unit = "years",
-            n = 5, conf.level = 0.95)
 df
 
 ggplot(df) +
-  geom_point(aes(date, value)) +
-  geom_line(aes(date, mean)) +
-  geom_ribbon(aes(x = date, ymin = lwr.ci, ymax = upr.ci), alpha = 0.4) +
-  scale_y_log10()
+  geom_point(aes(Date, Average_DO)) +
+  geom_line(aes(Date, mean)) +
+  geom_ribbon(aes(Date, ymin = lwr.ci, ymax = upr.ci), alpha = 0.5) +
+  theme_minimal() +
+   labs(x = "Sample Date", y = "Concentration (mg/L)",
+       title = "5-yr rolling mean",
+       caption = "Line depicts the 5-yr mean\nShaded area indicates the 95% CI")
 ```
+
 
 ## Contributing
 

@@ -1,6 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+[![Travis build
+status](https://travis-ci.org/mps9506/tbrf.svg?branch=master)](https://travis-ci.org/mps9506/tbrf)
+
 # tbrf
 
 The goal of tbrf is to provide time-window based rolling statistical
@@ -54,16 +57,16 @@ df
 ## # A tibble: 50 x 5
 ##    date       value results min_date   max_date  
 ##    <date>     <int>   <int> <date>     <date>    
-##  1 2000-02-07     1       1 2000-02-07 2000-02-07
-##  2 2000-04-01     2       2 2000-02-07 2000-04-01
-##  3 2000-05-26     3       3 2000-02-07 2000-05-26
-##  4 2000-09-16     4       4 2000-02-07 2000-09-16
-##  5 2000-10-20     5       5 2000-02-07 2000-10-20
-##  6 2000-12-24     6       6 2000-02-07 2000-12-24
-##  7 2001-05-16     7       7 2000-02-07 2001-05-16
-##  8 2001-06-13     8       8 2000-02-07 2001-06-13
-##  9 2002-02-01     9       9 2000-02-07 2002-02-01
-## 10 2002-04-12    10      10 2000-02-07 2002-04-12
+##  1 2000-04-15     1       1 2000-04-15 2000-04-15
+##  2 2000-06-08     2       2 2000-04-15 2000-06-08
+##  3 2000-06-21     3       3 2000-04-15 2000-06-21
+##  4 2000-07-25     4       4 2000-04-15 2000-07-25
+##  5 2000-11-20     5       5 2000-04-15 2000-11-20
+##  6 2001-02-23     6       6 2000-04-15 2001-02-23
+##  7 2001-06-06     7       7 2000-04-15 2001-06-06
+##  8 2001-11-25     8       8 2000-04-15 2001-11-25
+##  9 2002-06-13     9       9 2000-04-15 2002-06-13
+## 10 2002-07-15    10      10 2000-04-15 2002-07-15
 ## # ... with 40 more rows
 
 ggplot(df) +
@@ -82,87 +85,40 @@ ggplot(df) +
 
 <img src="man/figures/README-tbr_misc-1.png" width="672" />
 
-### Rolling Geometric Mean
-
 ``` r
-library(tbrf)
-library(dplyr)
-library(ggplot2)
+data("Dissolved_Oxygen")
 
-## Generate sample data
-set.seed(100)
-df <- data.frame(date = sample(seq(as.Date('2000-01-01'), 
-                                   as.Date('2017-12-30'), by = "day"), 68),
-                 value = rexp(68, 1/100))
+df <- Dissolved_Oxygen %>%
+  tbr_mean(x = Average_DO, tcolumn = Date, unit = "years", n = 5)
 
-
-head(df)
-##         date     value
-## 1 2005-07-16 161.34566
-## 2 2004-08-20  14.51295
-## 3 2009-12-08  43.30075
-## 4 2001-01-05  54.95578
-## 5 2008-06-05  66.80542
-## 6 2008-09-12 254.36060
-
-## apply the geomean to each row
-df <- tbr_gmean(df, x = value, tcolumn = date,
-                unit = "years", n = 5, conf.level = 0.95)
 df
-## # A tibble: 68 x 5
-##    date       value  mean lwr.ci upr.ci
-##    <date>     <dbl> <dbl>  <dbl>  <dbl>
-##  1 2001-01-05  55.0  NA     NA     NA  
-##  2 2002-03-15  58.6  56.8   55.0   58.6
-##  3 2002-05-01 198.   86.1   37.4  135. 
-##  4 2003-01-22 113.   92.0   56.8  149. 
-##  5 2003-01-27  68.0  86.6   58.9  128. 
-##  6 2003-03-25 153.   95.3   64.4  135. 
-##  7 2003-07-19 169.  103.    70.4  150. 
-##  8 2003-09-03 114.  105.    75.6  145. 
-##  9 2003-09-17  63.0  98.9   74.2  134. 
-## 10 2003-10-09  21.2  84.8   57.4  126. 
-## # ... with 58 more rows
-
-
-## tidy pipeline sample. sample data with breaks
-set.seed(100)
-
-df <- data.frame(date = sample(seq(as.Date('2000-01-01'), 
-                                   as.Date('2007-12-30'), by = "day"), 25),
-                 value = rexp(25, 1/100)) %>%
-  bind_rows(data.frame(date = sample(seq(as.Date('2009-01-01'), 
-                                         as.Date('2011-12-30'), by = "day"), 5),
-                       value = rexp(5, 1/1000)))
-
-df <- df %>%
-  tbr_gmean(x = value, tcolumn = date, unit = "years",
-            n = 5, conf.level = 0.95)
-df
-## # A tibble: 30 x 5
-##    date       value  mean lwr.ci upr.ci
-##    <date>     <dbl> <dbl>  <dbl>  <dbl>
-##  1 2000-06-13  93.5  NA     NA     NA  
-##  2 2001-05-10  20.7  44.0   20.7   93.5
-##  3 2001-08-17 223.   75.5   25.6  276. 
-##  4 2002-01-22  54.1  69.4   30.9  144. 
-##  5 2002-03-26 102.   74.9   39.8  166. 
-##  6 2002-06-17 176.   86.4   47.1  176. 
-##  7 2002-11-04 114.   89.9   55.0  164. 
-##  8 2002-11-09  35.3  80.0   47.7  135. 
-##  9 2002-12-15  55.5  76.8   48.6  122. 
-## 10 2003-03-04 198.   84.4   52.4  135. 
-## # ... with 20 more rows
+## # A tibble: 236 x 9
+##    Station_ID Date       Param_Code Param_Desc     Average_DO Min_DO  mean
+##         <int> <date>     <chr>      <chr>               <dbl>  <dbl> <dbl>
+##  1      12515 2000-01-03 00300      OXYGEN, DISSO~       6.19   6.19 NA   
+##  2      12515 2000-03-14 00300      OXYGEN, DISSO~       6.7    6.7   6.73
+##  3      12517 2000-03-14 00300      OXYGEN, DISSO~       7.3    7.3   6.73
+##  4      12515 2000-03-16 00300      OXYGEN, DISSO~       6.41   6.41  6.65
+##  5      12515 2000-05-03 00300      OXYGEN, DISSO~       4.42   4.42  6.20
+##  6      12517 2000-06-14 00300      OXYGEN, DISSO~       5.74   5.74  6.13
+##  7      12515 2000-06-15 00300      OXYGEN, DISSO~       4.86   4.86  5.95
+##  8      12515 2000-07-11 00300      OXYGEN, DISSO~       4.48   4.48  5.76
+##  9      12515 2000-09-12 00300      OXYGEN, DISSO~       5.64   5.64  5.75
+## 10      12517 2000-10-17 00300      OXYGEN, DISSO~       7.96   7.96  5.97
+## # ... with 226 more rows, and 2 more variables: lwr.ci <dbl>, upr.ci <dbl>
 
 ggplot(df) +
-  geom_point(aes(date, value)) +
-  geom_line(aes(date, mean)) +
-  geom_ribbon(aes(x = date, ymin = lwr.ci, ymax = upr.ci), alpha = 0.4) +
-  scale_y_log10()
+  geom_point(aes(Date, Average_DO)) +
+  geom_line(aes(Date, mean)) +
+  geom_ribbon(aes(Date, ymin = lwr.ci, ymax = upr.ci), alpha = 0.5) +
+  theme_minimal() +
+   labs(x = "Sample Date", y = "Concentration (mg/L)",
+       title = "5-yr rolling mean",
+       caption = "Line depicts the 5-yr mean\nShaded area indicates the 95% CI")
 ## Warning: Removed 1 rows containing missing values (geom_path).
 ```
 
-<img src="man/figures/README-example-1.png" width="672" />
+<img src="man/figures/README-unnamed-chunk-1-1.png" width="672" />
 
 ## Contributing
 
@@ -176,7 +132,7 @@ to abide by its terms.
 library(tbrf)
 
 date()
-## [1] "Tue Jul 24 08:26:12 2018"
+## [1] "Wed Jul 25 08:12:54 2018"
 
 devtools::test()
 ## v | OK F W S | Context
@@ -188,7 +144,7 @@ devtools::test()
 / |  4       | core functions return expected structures
 - |  5       | core functions return expected structures
 \ |  6       | core functions return expected structures
-v |  6       | core functions return expected structures [3.6 s]
+v |  6       | core functions return expected structures [3.7 s]
 ## 
 / |  0       | core functions return expected errors and messages
 - |  1       | core functions return expected errors and messages
@@ -199,8 +155,8 @@ v |  6       | core functions return expected structures [3.6 s]
 \ |  6       | core functions return expected errors and messages
 v |  6       | core functions return expected errors and messages
 ## 
-## == Results =========================================================================================
-## Duration: 3.6 s
+## == Results ==========================================================================================
+## Duration: 3.7 s
 ## 
 ## OK:       12
 ## Failed:   0
