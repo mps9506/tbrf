@@ -11,13 +11,12 @@
 #' @param ... additional arguments passed to DescTools::Gmean
 #'
 #' @import dplyr
-#' @importFrom rlang enquo
+#' @import rlang
 #' @importFrom purrr map
 #' @importFrom tibble as_tibble
 #' @importFrom tidyr unnest
 #' @return tibble with columns for the rolling geometric mean and upper and lower confidence levels.
 #' @export
-#' @seealso \code{\link{DescTools:GMean}}
 tbr_gmean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
 
   #Match dots args: method = "boot", conf.level = 0.95, sides = "two.sided",
@@ -34,7 +33,7 @@ tbr_gmean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
   # apply the window function to each row
   .tbl <- .tbl %>%
     arrange(!! rlang::enquo(tcolumn)) %>%
-    mutate(temp = purrr::map(row_number(),
+    mutate("temp" := purrr::map(row_number(),
                              ~tbr_gmean_window(x = !! rlang::enquo(x), #column that indicates success/failure
                                          tcolumn = !! rlang::enquo(tcolumn), #posix formatted time column
                                          unit = unit,
@@ -44,7 +43,7 @@ tbr_gmean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
                                          conf.level = default_dots$conf.level,
                                          sides = default_dots$sides,
                                          na.rm = default_dots$na.rm))) %>%
-    tidyr::unnest(temp)
+    tidyr::unnest(!! "temp")
   .tbl <- tibble::as_tibble(.tbl)
   return(.tbl)
 }

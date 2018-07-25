@@ -25,6 +25,3 @@ tibble with columns for the rolling geometric mean and upper and lower confidenc
 \description{
 Produces a a rolling time-window based vector of geometric means and confidence intervals.
 }
-\seealso{
-\code{\link{DescTools:GMean}}
-}

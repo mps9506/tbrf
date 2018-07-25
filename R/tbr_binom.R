@@ -8,10 +8,9 @@
 #' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
 #' @param alpha numeric, probability of a type 1 error, so confidence coefficient = 1-alpha
-#' @param method
 #'
 #' @import dplyr
-#' @importFrom rlang enquo
+#' @import rlang
 #' @importFrom purrr map
 #' @importFrom tidyr unnest
 #' @return tibble with columns for the rolling binomial probability and upper and lower confidence intervals.
@@ -24,21 +23,21 @@
 #' )
 #'
 #' ## Run Function
-#' df <- tbrf::roll_binom(df, x = value,
+#' df <- tbr_binom(df, x = value,
 #' tcolumn = date, unit = "years", n = 5,
 #' alpha = 0.1)
 tbr_binom <- function(.tbl, x, tcolumn, unit = "years", n, alpha = 0.05) {
 
   .tbl <- .tbl %>%
     arrange(!! rlang::enquo(tcolumn)) %>%
-    mutate(temp = purrr::map(row_number(),
+    mutate("temp" := purrr::map(row_number(),
                                   ~tbr_binom_window(x = !! rlang::enquo(x), #column that indicates success/failure
                                                tcolumn = !! rlang::enquo(tcolumn), #posix formatted time column
                                                unit = unit,
                                                n = n,
                                                alpha = alpha,
                                                i = .x))) %>%
-    tidyr::unnest(temp)
+    tidyr::unnest(!! "temp")
   .tbl <- tibble::as_tibble(.tbl)
   return(.tbl)
 }

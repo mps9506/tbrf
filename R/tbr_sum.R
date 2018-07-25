@@ -9,7 +9,7 @@
 #' @param na.rm logical. Should missing values be removed?
 #'
 #' @import dplyr
-#' @importFrom rlang enquo
+#' @import rlang
 #' @importFrom purrr map
 #' @return dataframe with column for the rolling sum.
 #' @export
@@ -18,14 +18,14 @@ tbr_sum <- function(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE) {
   # apply the window function to each row
   .tbl <- .tbl %>%
     arrange(!! rlang::enquo(tcolumn)) %>%
-    mutate(sum = purrr::map(row_number(),
+    mutate("sum" := purrr::map(row_number(),
                             ~tbr_sum_window(x = !! rlang::enquo(x), #column that indicates success/failure
                                       tcolumn = !! rlang::enquo(tcolumn), #posix formatted time column
                                       unit = unit,
                                       n = n,
                                       i = .x,
                                       na.rm = na.rm))) %>%
-    tidyr::unnest(sum)
+    tidyr::unnest(!! "sum")
 
   .tbl <- tibble::as_tibble(.tbl)
   return(.tbl)

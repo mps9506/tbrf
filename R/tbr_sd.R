@@ -7,7 +7,8 @@
 #' @param n numeric, describing the length of the time window.
 #' @param na.rm logical. Should missing values be removed?
 #'
-#' @importFrom rlang enquo
+#' @import dplyr
+#' @import rlang
 #' @importFrom purrr map
 #' @return tibble with column for the rolling sd.
 #' @export
@@ -16,14 +17,14 @@ tbr_sd <- function(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE) {
   # apply the window function to each row
   .tbl <- .tbl %>%
     arrange(!! rlang::enquo(tcolumn)) %>%
-    mutate(sd = purrr::map(row_number(),
+    mutate("sd" := purrr::map(row_number(),
                              ~tbr_sd_window(x = !! rlang::enquo(x), #column that indicates success/failure
                                          tcolumn = !! rlang::enquo(tcolumn), #posix formatted time column
                                          unit = unit,
                                          n = n,
                                          i = .x,
                                          na.rm = na.rm))) %>%
-    tidyr::unnest(sd)
+    tidyr::unnest(!! "sd")
 
   .tbl <- tibble::as_tibble(.tbl)
   return(.tbl)
@@ -38,6 +39,7 @@ tbr_sd <- function(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE) {
 #' @param i row
 #' @param ... additional arguments passed to base::sd()
 #'
+#' @importFrom stats sd
 #' @importFrom lubridate as.duration duration
 #' @importFrom tibble as.tibble
 #' @return numeric value

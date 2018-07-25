@@ -18,8 +18,6 @@ tbr_binom(.tbl, x, tcolumn, unit = "years", n, alpha = 0.05)
 \item{n}{numeric, describing the length of the time window.}
 
 \item{alpha}{numeric, probability of a type 1 error, so confidence coefficient = 1-alpha}
-
-\item{method}{}
 }
 \value{
 tibble with columns for the rolling binomial probability and upper and lower confidence intervals.
@@ -35,7 +33,7 @@ value = rbinom(100, 1, 0.25)
 )
 
 ## Run Function
-df <- tbrf::roll_binom(df, x = value,
+df <- tbr_binom(df, x = value,
 tcolumn = date, unit = "years", n = 5,
 alpha = 0.1)
 }

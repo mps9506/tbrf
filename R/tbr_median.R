@@ -9,7 +9,7 @@
 #' @param n numeric, describing the length of the time window.
 #' @param ... additional arguments passed to DescTools::MedianCI
 #'
-#' @importFrom rlang enquo
+#' @import rlang
 #' @importFrom purrr map
 #' @importFrom tidyr unnest
 #' @return tibble with columns for the rolling median and upper and lower confidence intervals.
@@ -29,7 +29,7 @@ tbr_median <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
   # apply the window function to each row
   .tbl <- .tbl %>%
     arrange(!! rlang::enquo(tcolumn)) %>%
-    mutate(temp = purrr::map(row_number(),
+    mutate("temp" := purrr::map(row_number(),
                              ~tbr_median_window(x = !! rlang::enquo(x), #column that indicates success/failure
                                         tcolumn = !! rlang::enquo(tcolumn), #posix formatted time column
                                         unit = unit,
@@ -40,7 +40,7 @@ tbr_median <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
                                         sides = default_dots$sides,
                                         na.rm = default_dots$na.rm,
                                         R = default_dots$R))) %>%
-    tidyr::unnest(temp)
+    tidyr::unnest(!! "temp")
   .tbl <- tibble::as_tibble(.tbl)
   return(.tbl)
 }
@@ -66,6 +66,8 @@ tbr_median_window <- function(x, tcolumn, unit = "years", n, i, ...) {
   if (!unit %in% u) {
     stop("unit must be one of ", paste(u, collapse = ", "))
   }
+
+  resultsColumns <- c("mean", "lwr.ci", "upr.ci")
 
   # do not calculate the first row, always returns NA
   # note that MedianCI always returns confidence intervals

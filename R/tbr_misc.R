@@ -9,6 +9,8 @@
 #' @param func specified function
 #' @param ... optional additional arguments passed to function f
 #'
+#' @import rlang
+#' @import dplyr
 #' @importFrom tidyr unnest
 #' @return tibble
 #' @export
