@@ -40,7 +40,7 @@ tbr_median <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
                                         sides = default_dots$sides,
                                         na.rm = default_dots$na.rm,
                                         R = default_dots$R))) %>%
-    tidyr::unnest(!! "temp")
+    tidyr::unnest()
   .tbl <- tibble::as_tibble(.tbl)
   return(.tbl)
 }

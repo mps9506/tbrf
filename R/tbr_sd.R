@@ -24,7 +24,7 @@ tbr_sd <- function(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE) {
                                          n = n,
                                          i = .x,
                                          na.rm = na.rm))) %>%
-    tidyr::unnest(!! "sd")
+    tidyr::unnest()
 
   .tbl <- tibble::as_tibble(.tbl)
   return(.tbl)

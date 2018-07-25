@@ -43,7 +43,7 @@ tbr_gmean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
                                          conf.level = default_dots$conf.level,
                                          sides = default_dots$sides,
                                          na.rm = default_dots$na.rm))) %>%
-    tidyr::unnest(!! "temp")
+    tidyr::unnest()
   .tbl <- tibble::as_tibble(.tbl)
   return(.tbl)
 }
