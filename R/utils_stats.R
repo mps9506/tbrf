@@ -27,6 +27,7 @@
 #' @param n vector containing the numbers of corresponding observations
 #' @param alpha cprobability of a type I error, so confidence coefficient = 1-alpha
 #'
+#' @importFrom stats qf qnorm
 #' @keywords internal
 
 binconf <- function(x, n, alpha = 0.05,
@@ -148,6 +149,7 @@ binconf <- function(x, n, alpha = 0.05,
 #' @param ... further arguments are passed to the \code{\link{boot}} function. Supported arguments are \code{type} (\code{"norm"}, \code{"basic"}, \code{"stud"}, \code{"perc"}, \code{"bca"}), \code{parallel} and the number of bootstrap replicates \code{R}. If not defined those will be set to their defaults, being \code{"basic"} for \code{type}, option \code{"boot.parallel"} (and if that is not set, \code{"no"}) for \code{parallel} and \code{999} for \code{R}.
 #'
 #' @return a numeric value.
+#' @importFrom stats na.omit
 #' @export
 #' @author Andri Signorell <andri@signorell.net>
 #' @keywords internal
@@ -203,6 +205,7 @@ Gmean <- function(x, method = c("classic", "boot"),
 #' @param ... further arguments are passed to the \code{\link{boot}} function. Supported arguments are \code{type} (\code{"norm"}, \code{"basic"}, \code{"stud"}, \code{"perc"}, \code{"bca"}), \code{parallel} and the number of bootstrap replicates \code{R}. If not defined those will be set to their defaults, being \code{"basic"} for \code{type},  option \code{"boot.parallel"} (and if that is not set, \code{"no"}) for \code{parallel}
 #'
 #' @return a numeric vector with 3 elements: \item{mean}{mean}, \item{lwr.ci}{lower bound of the confidence interval}, \item{upr.ci}{upper bound of the confidence interval}
+#' @importFrom stats qt qnorm var
 #' @export
 #' @author Andri Signorell <andri@signorell.net>
 #' @keywords internal
@@ -325,6 +328,7 @@ MeanCI <- function (x, sd = NULL, trim = 0, method = c("classic", "boot"),
 #' @param R The number of bootstrap replicates. Usually this will be a single positive integer. See \code{\link{boot.ci}} for details.
 #'
 #' @return a numeric vector with 3 elements: \item{median}{median}, \item{lwr.ci}{lower bound of the confidence interval}, \item{upr.ci}{upper bound of the confidence interval}
+#' @importFrom stats median na.omit
 #' @export
 #' @author Andri Signorell <andri@signorell.net>
 #' @keywords internal
@@ -371,3 +375,229 @@ MedianCI <- function(x, conf.level=0.95, sides = c("two.sided","left","right"), 
 }
 
 
+# Winsorize ---------------------------------------------------------------
+
+#' Winsorize
+#'
+#' @importFrom stats quantile
+#' @keywords internal
+Winsorize <- function(x, minval = NULL, maxval = NULL,
+                      probs=c(0.05, 0.95), na.rm = FALSE) {
+
+  # following an idea from Gabor Grothendieck
+  # http://r.789695.n4.nabble.com/how-to-winsorize-data-td930227.html
+
+  # in HuberM things are implemented the same way
+
+  # don't eliminate NAs in x, moreover leave them untouched,
+  # just calc quantile without them...
+
+  # pmax(pmin(x, maxval), minval)
+
+  # the pmax(pmin()-version is slower than the following
+
+  if(is.null(minval) || is.null(maxval)){
+    xq <- quantile(x=x, probs=probs, na.rm=na.rm)
+    if(is.null(minval)) minval <- xq[1]
+    if(is.null(maxval)) maxval <- xq[2]
+  }
+
+  x[x<minval] <- minval
+  x[x>maxval] <- maxval
+
+  return(x)
+
+  # see also Andreas Alfons, KU Leuven
+  # roubustHD, Winsorize
+
+  # Jim Lemon's rather clumsy implementation:
+
+  # #added winsor.var and winsor.sd and winsor.mean (to supplement winsor.means)
+  # #August 28, 2009 following a suggestion by Jim Lemon
+  # #corrected January 15, 2009 to use the quantile function rather than sorting.
+  # #suggested by Michael Conklin in correspondence with Karl Healey
+  # #this preserves the order of the data
+  # "wins" <- function(x,trim=.2, na.rm=TRUE) {
+  # if ((trim < 0) | (trim>0.5) )
+  # stop("trimming must be reasonable")
+  # qtrim <- quantile(x,c(trim,.5, 1-trim),na.rm = na.rm)
+  # xbot <- qtrim[1]
+  # xtop <- qtrim[3]
+  # if(trim<.5) {
+  # x[x < xbot]  <- xbot
+  # x[x > xtop] <- xtop} else {x[!is.na(x)] <- qtrim[2]}
+  # return(x) }
+
+}
+
+
+# Sign Test ---------------------------------------------------------------
+
+#' Sign Test
+#'
+#' @importFrom stats binom.test complete.cases qbinom pbinom terms
+#' @keywords internal
+
+SignTest <- function (x, ...)  UseMethod("SignTest")
+
+SignTest.formula <- function (formula, data, subset, na.action, ...) {
+
+  # this is designed just like wilcox.test.formula
+
+  if (missing(formula) || (length(formula) != 3L) || (length(attr(terms(formula[-2L]),
+                                                                  "term.labels")) != 1L))
+    stop("'formula' missing or incorrect")
+  m <- match.call(expand.dots = FALSE)
+  if (is.matrix(eval(m$data, parent.frame())))
+    m$data <- as.data.frame(data)
+  m[[1L]] <- as.name("model.frame")
+  m$... <- NULL
+  mf <- eval(m, parent.frame())
+  DNAME <- paste(names(mf), collapse = " by ")
+  names(mf) <- NULL
+  response <- attr(attr(mf, "terms"), "response")
+  g <- factor(mf[[-response]])
+  if (nlevels(g) != 2L)
+    stop("grouping factor must have exactly 2 levels")
+  DATA <- split(mf[[response]], g)
+  names(DATA) <- c("x", "y")
+  y <- DoCall("SignTest", c(DATA, list(...)))
+  y$data.name <- DNAME
+  y
+}
+
+# test:
+#  cbind( c(NA,sort(x)), 0:n, dbinom(0:n, size=n, prob=0.5),  pbinom(0:n, size=n, prob=0.5))
+
+SignTest.default <- function(x, y = NULL, alternative = c("two.sided", "less", "greater"),
+                             mu = 0, conf.level = 0.95, ...) {
+
+  MedianCI_Binom <- function( x, conf.level = 0.95,
+                              alternative = c("two.sided", "less", "greater"), na.rm = FALSE ){
+    # http://www.stat.umn.edu/geyer/old03/5102/notes/rank.pdf
+    # http://de.scribd.com/doc/75941305/Confidence-Interval-for-Median-Based-on-Sign-Test
+    if(na.rm) x <- na.omit(x)
+    n <- length(x)
+    switch( match.arg(alternative)
+            , "two.sided" = {
+              k <- qbinom(p = (1 - conf.level) / 2, size=n, prob=0.5, lower.tail=TRUE)
+              ci <- sort(x)[c(k, n - k + 1)]
+              attr(ci, "conf.level") <- 1 - 2 * pbinom(k-1, size=n, prob=0.5)
+            }
+            , "greater" = {
+              k <- qbinom(p = (1 - conf.level), size=n, prob=0.5, lower.tail=TRUE)
+              ci <- c(sort(x)[k], Inf)
+              attr(ci, "conf.level") <- 1 - pbinom(k-1, size=n, prob=0.5)
+            }
+            , "less" = {
+              k <- qbinom(p = conf.level, size=n, prob=0.5, lower.tail=TRUE)
+              ci <- c(-Inf, sort(x)[k])
+              attr(ci, "conf.level") <- pbinom(k, size=n, prob=0.5)
+            }
+    )
+    return(ci)
+  }
+
+  alternative <- match.arg(alternative)
+
+  if (!missing(mu) && ((length(mu) > 1L) || !is.finite(mu)))
+    stop("'mu' must be a single number")
+
+  if (!((length(conf.level) == 1L) && is.finite(conf.level) &&
+        (conf.level > 0) && (conf.level < 1)))
+    stop("'conf.level' must be a single number between 0 and 1")
+
+  if (!is.numeric(x))
+    stop("'x' must be numeric")
+
+  if (!is.null(y)) {
+    if (!is.numeric(y))
+      stop("'y' must be numeric")
+    if (length(x) != length(y))
+      stop("'x' and 'y' must have the same length")
+
+    DNAME <- paste(deparse(substitute(x)), "and", deparse(substitute(y)))
+    OK <- complete.cases(x, y)
+    x <- x[OK]
+    y <- y[OK]
+    METHOD <- "Dependent-samples Sign-Test"
+    x <- (x - y)
+
+  } else {
+    DNAME <- deparse(substitute(x))
+    x <- x[is.finite(x)]
+    METHOD <- "One-sample Sign-Test"
+  }
+
+  d <- (x - mu)
+
+  # Naive version:
+  n.valid <- sum(d > 0) + sum(d < 0)
+  if(n.valid > 0) {
+    RVAL <- binom.test(x=sum(d > 0), n=n.valid, p=0.5, alternative = alternative, conf.level = conf.level )
+  } else {
+    RVAL <- binom.test(x=1, n=1)
+  }
+
+  RVAL$method <- METHOD
+  RVAL$data.name <- DNAME
+  names(mu) <- if (!is.null(y)) "median difference" else "median"
+
+  names(RVAL$statistic) <- "S"
+  RVAL$estimate <- median(d + mu, na.rm=TRUE)
+  names(RVAL$parameter) <- "number of differences"
+  mci <- MedianCI_Binom(d + mu, conf.level=conf.level, alternative=alternative, na.rm=TRUE)
+  RVAL$conf.int <- mci
+  attr(RVAL$conf.int, "conf.level") = round(attr(mci,"conf.level"), 3)
+
+  names(RVAL$estimate) <- "median of the differences"
+  RVAL$null.value <- mu
+  class(RVAL) <- "htest"
+  return(RVAL)
+
+}
+
+DoCall <- function (what, args, quote = FALSE, envir = parent.frame())  {
+
+  # source: Gmisc
+  # author: Max Gordon <max@gforge.se>
+
+  if (quote)
+    args <- lapply(args, enquote)
+
+  if (is.null(names(args)) ||
+      is.data.frame(args)){
+    argn <- args
+    args <- list()
+  }else{
+    # Add all the named arguments
+    argn <- lapply(names(args)[names(args) != ""], as.name)
+    names(argn) <- names(args)[names(args) != ""]
+    # Add the unnamed arguments
+    argn <- c(argn, args[names(args) == ""])
+    args <- args[names(args) != ""]
+  }
+
+  if (class(what) == "character"){
+    if(is.character(what)){
+      fn <- strsplit(what, "[:]{2,3}")[[1]]
+      what <- if(length(fn)==1) {
+        get(fn[[1]], envir=envir, mode="function")
+      } else {
+        get(fn[[2]], envir=asNamespace(fn[[1]]), mode="function")
+      }
+    }
+    call <- as.call(c(list(what), argn))
+  }else if (class(what) == "function"){
+    f_name <- deparse(substitute(what))
+    call <- as.call(c(list(as.name(f_name)), argn))
+    args[[f_name]] <- what
+  }else if (class(what) == "name"){
+    call <- as.call(c(list(what, argn)))
+  }
+
+  eval(call,
+       envir = args,
+       enclos = envir)
+
+}
