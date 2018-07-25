@@ -10,10 +10,12 @@ Description: Provides functions for rolling statistics based
     on date and time windows instead of lagged observations.
 URL: https://github.com/mps9506/tbrf
 BugReports: https://github.com/mps9506/tbrf/issues
-License: GPL-3
+License: GPL-3 | file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
+Depends:
+    R (>= 2.10)
 Imports:
     boot,
     dplyr,
