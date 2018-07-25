@@ -13,13 +13,13 @@ knitr::opts_chunk$set(
 )
 ```
 
- [![Travis build status](https://travis-ci.org/mps9506/tbrf.svg?branch=master)](https://travis-ci.org/mps9506/tbrf)
-
 # tbrf
 
-The goal of tbrf is to provide time-window based rolling statistical functions. The package differs from other rolling statistic packages because the intended use is for irregular measured data.
+ [![Travis build status](https://travis-ci.org/mps9506/tbrf.svg?branch=master)](https://travis-ci.org/mps9506/tbrf)
+ 
+The goal of tbrf is to provide time-window based rolling statistical functions. The package differs from other rolling statistic packages because the intended use is for irregular measured data. Althogh tbrf can be used to apply statistical functions to regularly sampled data, [`zoo`](https://CRAN.R-project.org/package=zoo) provides a richer environment for working with time series data.
 
-An example use case is water quality data that is measured at irregular time intervals. Regulatory compliance is often based on a statistical average measure or exceedance probability applied to all samples collected in the previous 7-years.
+An appropriate example case is water quality data that is measured at irregular time intervals. Regulatory compliance is often based on a statistical average measure or exceedance probability applied to all samples collected in the previous 7-years. tbrf can be used to display regulatory status at any sample point.
 
 tbrf identifies the previous n measurements within the specified time window, applies the function, and outputs a varaible with the result of the rolling statistical measure.
 
@@ -31,11 +31,19 @@ tbrf is still under active development (do not expect stable behavior) and can b
 devtools::install.github("mps9506/tbrf")
 ```
 
+## Available Functions
+
+`tbr_binom`: Rolling binomal probability with confidence intervals.
+`tbr_gmean`: Rolling geometric mean with confidence intervals.
+`tbr_mean`: Rolling mean with confidence intervals.
+`tbr_median`: Rolling median with confidence intervals.
+`tbr_misc`: Accepts user specified function.
+`tbr_sd`: Rolling standard deviation.
+`tbr_sum`: Rolling sum.
+
 ## Examples
 
-tbrf includes built-in functions to calculate binomial probability (`tbr_binom`), geometric mean (`tbr_gmean`), mean (`tbr_mean`), median (`tbr_median`), standard deviation (`tbr_sd`), and sum (`tbr_sum`).
-
-A generic function (`tbr_misc`) is provided for users to apply other functions that accept a vector of numeric values as an argument.
+Visualize the number of samples included in a tbrf time window:
 
 ```{r tbr_misc, fig.retina=2, message=FALSE, warning=FALSE}
 library(tbrf)
@@ -53,7 +61,6 @@ df <- data_frame(date = sample(seq(as.Date('2000-01-01'),
 # Use length function in tbr_misc to calculate n samples used in the rolling function
 df <- df %>%
   tbr_misc(x = value, tcolumn = date, unit = "years", n = 5, func = length)
-df
 
 ggplot(df) +
   geom_point(aes(date, value)) +
@@ -70,13 +77,14 @@ ggplot(df) +
   
 ```
 
-```{r}
+
+A more general use case, visualize the 5 year geometric mean:
+
+```{r dissolved_oxygen, fig.retina=2, message=FALSE, warning=FALSE}
 data("Dissolved_Oxygen")
 
 df <- Dissolved_Oxygen %>%
   tbr_mean(x = Average_DO, tcolumn = Date, unit = "years", n = 5)
-
-df
 
 ggplot(df) +
   geom_point(aes(Date, Average_DO)) +
@@ -95,7 +103,7 @@ Please note that this project is released with a [Contributor Code of Conduct](C
 By participating in this project you agree to abide by its terms.
 
 
-### Test Results
+## Test Results
 
 ```{r message=FALSE, warning=FALSE, error=FALSE}
 library(tbrf)
@@ -104,3 +112,4 @@ date()
 
 devtools::test()
 ```
+
