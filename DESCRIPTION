@@ -18,5 +18,5 @@ Imports:
     boot,
     dplyr
 Suggests:
-    ggplot2
+    ggplot2,
     testthat
