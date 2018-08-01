@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
  [![Travis build status](https://travis-ci.org/mps9506/tbrf.svg?branch=master)](https://travis-ci.org/mps9506/tbrf)
  [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
  
-The goal of tbrf is to provide time-window based rolling statistical functions. The package differs from other rolling statistic packages because the intended use is for irregular measured data. Althogh tbrf can be used to apply statistical functions to regularly sampled data, [`zoo`](https://CRAN.R-project.org/package=zoo) provides a richer environment for working with time series data.
+The goal of tbrf is to provide time-window based rolling statistical functions. The package differs from other rolling statistic packages because the intended use is for irregular measured data. Althogh tbrf can be used to apply statistical functions to regularly sampled data, [`zoo`](https://CRAN.R-project.org/package=zoo), [`RcppRoll`](https://cran.r-project.org/package=RcppRoll), and other packages provide fast, efficient, and rich implementations of rolling/windowed functions.
 
 An appropriate example case is water quality data that is measured at irregular time intervals. Regulatory compliance is often based on a statistical average measure or exceedance probability applied to all samples collected in the previous 7-years. tbrf can be used to display regulatory status at any sample point.
 
@@ -34,13 +34,19 @@ devtools::install.github("mps9506/tbrf")
 
 ## Available Functions
 
-`tbr_binom`: Rolling binomal probability with confidence intervals.
-`tbr_gmean`: Rolling geometric mean with confidence intervals.
-`tbr_mean`: Rolling mean with confidence intervals.
-`tbr_median`: Rolling median with confidence intervals.
-`tbr_misc`: Accepts user specified function.
-`tbr_sd`: Rolling standard deviation.
-`tbr_sum`: Rolling sum.
+- `tbr_binom`: Rolling binomal probability with confidence intervals.
+
+- `tbr_gmean`: Rolling geometric mean with confidence intervals.
+
+- `tbr_mean`: Rolling mean with confidence intervals.
+
+- `tbr_median`: Rolling median with confidence intervals.
+
+- `tbr_misc`: Accepts user specified function.
+
+- `tbr_sd`: Rolling standard deviation.
+
+- `tbr_sum`: Rolling sum.
 
 ## Examples
 
@@ -95,6 +101,23 @@ ggplot(df) +
    labs(x = "Sample Date", y = "Concentration (mg/L)",
        title = "5-yr rolling mean",
        caption = "Line depicts the 5-yr mean\nShaded area indicates the 95% CI")
+```
+
+## Speed
+
+The statistical functions for calculating binomial probabilities, geometric mean, mean, and median include confidence intervals by default. All except the binomial probability are currently calculated using bootstrap methodology by default. You will see substantial decrease in computing times with the following argument: `method = "classic"`. Or by using base functions with `tbr_misc`.
+
+```{r}
+data("Dissolved_Oxygen")
+
+system.time(df <- Dissolved_Oxygen %>%
+              tbr_mean(x = Average_DO, tcolumn = Date, unit = "years", n = 5, method = "boot"))
+
+system.time(df <- Dissolved_Oxygen %>%
+  tbr_mean(x = Average_DO, tcolumn = Date, unit = "years", n = 5, method = "classic"))
+
+system.time(df <- Dissolved_Oxygen %>%
+  tbr_misc(x = Average_DO, tcolumn = Date, unit = "years", n = 5, func = mean))
 ```
 
 

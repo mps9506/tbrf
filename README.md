@@ -12,8 +12,10 @@ The goal of tbrf is to provide time-window based rolling statistical
 functions. The package differs from other rolling statistic packages
 because the intended use is for irregular measured data. Althogh tbrf
 can be used to apply statistical functions to regularly sampled data,
-[`zoo`](https://CRAN.R-project.org/package=zoo) provides a richer
-environment for working with time series data.
+[`zoo`](https://CRAN.R-project.org/package=zoo),
+[`RcppRoll`](https://cran.r-project.org/package=RcppRoll), and other
+packages provide fast, efficient, and rich implementations of
+rolling/windowed functions.
 
 An appropriate example case is water quality data that is measured at
 irregular time intervals. Regulatory compliance is often based on a
@@ -36,12 +38,19 @@ devtools::install.github("mps9506/tbrf")
 
 ## Available Functions
 
-`tbr_binom`: Rolling binomal probability with confidence intervals.
-`tbr_gmean`: Rolling geometric mean with confidence intervals.
-`tbr_mean`: Rolling mean with confidence intervals. `tbr_median`:
-Rolling median with confidence intervals. `tbr_misc`: Accepts user
-specified function. `tbr_sd`: Rolling standard deviation. `tbr_sum`:
-Rolling sum.
+  - `tbr_binom`: Rolling binomal probability with confidence intervals.
+
+  - `tbr_gmean`: Rolling geometric mean with confidence intervals.
+
+  - `tbr_mean`: Rolling mean with confidence intervals.
+
+  - `tbr_median`: Rolling median with confidence intervals.
+
+  - `tbr_misc`: Accepts user specified function.
+
+  - `tbr_sd`: Rolling standard deviation.
+
+  - `tbr_sum`: Rolling sum.
 
 ## Examples
 
@@ -100,6 +109,34 @@ ggplot(df) +
 
 <img src="man/figures/README-dissolved_oxygen-1.png" width="672" />
 
+## Speed
+
+The statistical functions for calculating binomial probabilities,
+geometric mean, mean, and median include confidence intervals by
+default. All except the binomial probability are currently calculated
+using bootstrap methodology by default. You will see substantial
+decrease in computing times with the following argument: `method =
+"classic"`. Or by using base functions with `tbr_misc`.
+
+``` r
+data("Dissolved_Oxygen")
+
+system.time(df <- Dissolved_Oxygen %>%
+              tbr_mean(x = Average_DO, tcolumn = Date, unit = "years", n = 5, method = "boot"))
+##    user  system elapsed 
+##   15.12    0.05   15.34
+
+system.time(df <- Dissolved_Oxygen %>%
+  tbr_mean(x = Average_DO, tcolumn = Date, unit = "years", n = 5, method = "classic"))
+##    user  system elapsed 
+##    0.48    0.00    0.49
+
+system.time(df <- Dissolved_Oxygen %>%
+  tbr_misc(x = Average_DO, tcolumn = Date, unit = "years", n = 5, func = mean))
+##    user  system elapsed 
+##    0.84    0.00    0.86
+```
+
 ## Contributing
 
 Please note that this project is released with a [Contributor Code of
@@ -123,7 +160,7 @@ licensed under GPL (\>= 2) by Andri Signorell’s
 library(tbrf)
 
 date()
-## [1] "Wed Jul 25 15:47:48 2018"
+## [1] "Wed Aug 01 17:14:26 2018"
 
 devtools::test()
 ## v | OK F W S | Context
