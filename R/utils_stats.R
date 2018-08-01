@@ -22,15 +22,17 @@
 
 #' Confidence Intervals for Binomial Probabilities
 #'
-#' Produces 1-alpha confidence intervals for binomial probabilities.
+#' An implementation of the binconf function in Frank Harrell's Hmisc package. Produces
+#' 1-alpha confidence intervals for binomial probabilities.
 #' @param x vector containing the number of "successes" for binomial variates
 #' @param n vector containing the numbers of corresponding observations
-#' @param alpha cprobability of a type I error, so confidence coefficient = 1-alpha
+#' @param alpha cprobability of a type I error, so confidence coefficient =
+#'   1-alpha
 #'
 #' @importFrom stats qf qnorm
 #' @keywords internal
 
-binconf <- function(x, n, alpha = 0.05,
+binom_ci <- function(x, n, alpha = 0.05,
                     method = c("wilson","exact","asymptotic","all"),
                     include.x = FALSE, include.n = FALSE,
                     return.df = FALSE)
@@ -140,20 +142,35 @@ binconf <- function(x, n, alpha = 0.05,
 
 #' Geometric Mean and Standard Deviation
 #'
-#' Calculates the geometric mean, its confidence interval and the geometric standard deviation of a vector x.
-#' @param x a positive numeric vector. An object which is not a vector is coerced (if possible) by as.vector.
-#' @param method a vector of character strings representing the type of intervals required. The value should be any subset of the values \code{"classic"}, \code{"boot"}.
+#' An implementation of the Gmean function in Andri Signorell's DescTools
+#' pacakage. Calculates the geometric mean, its confidence interval and the
+#' geometric standard deviation of a vector x.
+#' @param x a positive numeric vector. An object which is not a vector is
+#'   coerced (if possible) by as.vector.
+#' @param method a vector of character strings representing the type of
+#'   intervals required. The value should be any subset of the values
+#'   \code{"classic"}, \code{"boot"}.
 #' @param conf.level confidence level of the interval. Default is \code{NA}.
-#' @param sides a character string specifying the side of the confidence interval, must be one of \code{"two.sided"} (default), \code{"left"} or \code{"right"}. You can specify just the initial letter. \code{"left"} would be analogue to a hypothesis of \code{"greater"} in a \code{t.test}.
-#' @param na.rm logical, indicating whether \code{NA} values should be stripped before the computation proceeds. Defaults to \code{FALSE}.
-#' @param ... further arguments are passed to the \code{\link{boot}} function. Supported arguments are \code{type} (\code{"norm"}, \code{"basic"}, \code{"stud"}, \code{"perc"}, \code{"bca"}), \code{parallel} and the number of bootstrap replicates \code{R}. If not defined those will be set to their defaults, being \code{"basic"} for \code{type}, option \code{"boot.parallel"} (and if that is not set, \code{"no"}) for \code{parallel} and \code{999} for \code{R}.
+#' @param sides a character string specifying the side of the confidence
+#'   interval, must be one of \code{"two.sided"} (default), \code{"left"} or
+#'   \code{"right"}. You can specify just the initial letter. \code{"left"}
+#'   would be analogue to a hypothesis of \code{"greater"} in a \code{t.test}.
+#' @param na.rm logical, indicating whether \code{NA} values should be stripped
+#'   before the computation proceeds. Defaults to \code{FALSE}.
+#' @param ... further arguments are passed to the \code{\link{boot}} function.
+#'   Supported arguments are \code{type} (\code{"norm"}, \code{"basic"},
+#'   \code{"stud"}, \code{"perc"}, \code{"bca"}), \code{parallel} and the number
+#'   of bootstrap replicates \code{R}. If not defined those will be set to their
+#'   defaults, being \code{"basic"} for \code{type}, option
+#'   \code{"boot.parallel"} (and if that is not set, \code{"no"}) for
+#'   \code{parallel} and \code{999} for \code{R}.
 #'
 #' @return a numeric value.
 #' @importFrom stats na.omit
 #' @export
 #' @author Andri Signorell <andri@signorell.net>
 #' @keywords internal
-Gmean <- function(x, method = c("classic", "boot"),
+gmean_ci <- function(x, method = c("classic", "boot"),
                   conf.level = NA, sides = c("two.sided","left","right"),
                   na.rm = FALSE, ...) {
 
