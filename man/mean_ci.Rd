@@ -54,6 +54,9 @@ pacakage. Collection of several approaches to determine confidence intervals
 for the mean. Both, the classical way and bootstrap intervals are implemented
 for both, normal and trimmed means.
 }
+\seealso{
+\code{\link[DescTools]{MeanCI}}
+}
 \author{
 Andri Signorell <andri@signorell.net>
 }

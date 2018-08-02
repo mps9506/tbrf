@@ -33,8 +33,12 @@ a numeric vector with 3 elements: \item{median}{median},
   bound of the confidence interval}
 }
 \description{
-An implementation of the MedianCI function in Andri Signorell's DescTools
-pacakage. Calculates the confidence interval for the median.
+An implementation of the \code{\link[DescTools]{MedianCI}} function in Andri
+Signorell's DescTools package. Calculates the confidence interval for the
+median.
+}
+\seealso{
+\code{\link[DescTools]{MedianCI}}
 }
 \author{
 Andri Signorell <andri@signorell.net>

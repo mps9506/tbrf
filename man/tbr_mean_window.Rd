@@ -17,7 +17,7 @@ tbr_mean_window(x, tcolumn, unit = "years", n, i, ...)
 
 \item{i}{row}
 
-\item{...}{additional arguments passed to MeanCI}
+\item{...}{additional arguments passed to \code{\link{mean_ci}}}
 }
 \value{
 list

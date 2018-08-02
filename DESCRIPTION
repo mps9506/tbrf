@@ -24,6 +24,7 @@ Imports:
     rlang,
     tibble,
     tidyr
-Suggests:
+Suggests: 
     ggplot2,
-    testthat
+    testthat,
+    covr

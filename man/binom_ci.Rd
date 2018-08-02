@@ -16,7 +16,11 @@ binom_ci(x, n, alpha = 0.05, method = c("wilson", "exact", "asymptotic",
 1-alpha}
 }
 \description{
-An implementation of the binconf function in Frank Harrell's Hmisc package. Produces
-1-alpha confidence intervals for binomial probabilities.
+An implementation of the \code{\link[Hmisc]{binconf}} function in Frank
+Harrell's Hmisc package. Produces 1-alpha confidence intervals for binomial
+probabilities.
+}
+\seealso{
+\code{\link[Hmisc]{binconf}}
 }
 \keyword{internal}

@@ -17,7 +17,7 @@ tbr_median_window(x, tcolumn, unit = "years", n, i, ...)
 
 \item{i}{row}
 
-\item{...}{additional arguments passed to median_ci}
+\item{...}{additional arguments passed to \code{\link{median_ci}}}
 }
 \value{
 list
