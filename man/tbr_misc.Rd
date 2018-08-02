@@ -20,7 +20,7 @@ as date, date/time and value column.}
 
 \item{func}{specified function}
 
-\item{...}{optional additional arguments passed to function f}
+\item{...}{optional additional arguments passed to function func}
 }
 \value{
 tibble

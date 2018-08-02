@@ -17,7 +17,7 @@ tbr_median_window(x, tcolumn, unit = "years", n, i, ...)
 
 \item{i}{row}
 
-\item{...}{additional arguments passed to DescTools::MedianCI}
+\item{...}{additional arguments passed to median_ci}
 }
 \value{
 list

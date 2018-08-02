@@ -11,13 +11,14 @@ tbr_gmean_window(x, tcolumn, unit = "years", n, i, ...)
 
 \item{tcolumn}{formated time column.}
 
-\item{unit}{character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"}
+\item{unit}{character, one of "years", "months", "weeks", "days", "hours",
+"minutes", "seconds"}
 
 \item{n}{numeric, describing the length of the time window.}
 
 \item{i}{row}
 
-\item{...}{additional arguments passed to Gmean}
+\item{...}{additional arguments passed to gmean_ci}
 }
 \value{
 list

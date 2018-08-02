@@ -11,7 +11,7 @@
 #' @param unit character, one of "years", "months", "weeks", "days", "hours",
 #'   "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
-#' @param ... additional arguments passed to gmean_ci
+#' @param ... additional arguments passed to \code{\link{gmean_ci}}
 #'
 #' @import dplyr
 #' @import rlang

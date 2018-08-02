@@ -170,6 +170,7 @@ binom_ci <- function(x, n, alpha = 0.05,
 #' @export
 #' @author Andri Signorell <andri@signorell.net>
 #' @keywords internal
+#' @seealso \code{\link[DescTools]{Gmean}}
 gmean_ci <- function(x, method = c("classic", "boot"),
                   conf.level = NA, sides = c("two.sided","left","right"),
                   na.rm = FALSE, ...) {
@@ -192,7 +193,7 @@ gmean_ci <- function(x, method = c("classic", "boot"),
       exp(mean(log(x)))
 
     else
-      exp(MeanCI(x = log(x), method = method,
+      exp(mean_ci(x = log(x), method = method,
                  conf.level = conf.level, sides = sides, ...))
   }
 
