@@ -211,29 +211,52 @@ gmean_ci <- function(x, method = c("classic", "boot"),
 
 #' Confidence Interval for the Mean
 #'
-#' Collection of several approaches to determine confidence intervals for the mean. Both, the classical way and bootstrap intervals are implemented for both, normal and trimmed means.
+#' An implementation of the MeanCI function in Andri Signorell's DescTools
+#' pacakage. Collection of several approaches to determine confidence intervals
+#' for the mean. Both, the classical way and bootstrap intervals are implemented
+#' for both, normal and trimmed means.
 #' @param x a (non-empty) numeric vector of data values.
-#' @param sd the standard deviation of x. If provided it's interpreted as sd of the population and the normal quantiles will be used for constructing the confidence intervals. If left to \code{NULL} (default) the sample \code{sd(x)} will be calculated and used in combination with the t-distribution.
-#' @param trim the fraction (0 to 0.5) of observations to be trimmed from each end of \code{x} before the mean is computed. Values of \code{trim} outside that range are taken as the nearest endpoint.
-#' @param method A vector of character strings representing the type of intervals required. The value should be any subset of the values \code{"classic"}, \code{"boot"}.
+#' @param sd the standard deviation of x. If provided it's interpreted as sd of
+#'   the population and the normal quantiles will be used for constructing the
+#'   confidence intervals. If left to \code{NULL} (default) the sample
+#'   \code{sd(x)} will be calculated and used in combination with the
+#'   t-distribution.
+#' @param trim the fraction (0 to 0.5) of observations to be trimmed from each
+#'   end of \code{x} before the mean is computed. Values of \code{trim} outside
+#'   that range are taken as the nearest endpoint.
+#' @param method A vector of character strings representing the type of
+#'   intervals required. The value should be any subset of the values
+#'   \code{"classic"}, \code{"boot"}.
 #' @param conf.level confidence level of the interval.
-#' @param sides a character string specifying the side of the confidence interval, must be one of \code{"two.sided"} (default), \code{"left"} or \code{"right"}. You can specify just the initial letter. \code{"left"} would be analogue to a hypothesis of \code{"greater"} in a \code{t.test}.
-#' @param na.rm a logical value indicating whether \code{NA} values should be stripped before the computation proceeds. Defaults to FALSE.
-#' @param ... further arguments are passed to the \code{\link{boot}} function. Supported arguments are \code{type} (\code{"norm"}, \code{"basic"}, \code{"stud"}, \code{"perc"}, \code{"bca"}), \code{parallel} and the number of bootstrap replicates \code{R}. If not defined those will be set to their defaults, being \code{"basic"} for \code{type},  option \code{"boot.parallel"} (and if that is not set, \code{"no"}) for \code{parallel}
+#' @param sides a character string specifying the side of the confidence
+#'   interval, must be one of \code{"two.sided"} (default), \code{"left"} or
+#'   \code{"right"}. You can specify just the initial letter. \code{"left"}
+#'   would be analogue to a hypothesis of \code{"greater"} in a \code{t.test}.
+#' @param na.rm a logical value indicating whether \code{NA} values should be
+#'   stripped before the computation proceeds. Defaults to FALSE.
+#' @param ... further arguments are passed to the \code{\link{boot}} function.
+#'   Supported arguments are \code{type} (\code{"norm"}, \code{"basic"},
+#'   \code{"stud"}, \code{"perc"}, \code{"bca"}), \code{parallel} and the number
+#'   of bootstrap replicates \code{R}. If not defined those will be set to their
+#'   defaults, being \code{"basic"} for \code{type},  option
+#'   \code{"boot.parallel"} (and if that is not set, \code{"no"}) for
+#'   \code{parallel}
 #'
-#' @return a numeric vector with 3 elements: \item{mean}{mean}, \item{lwr.ci}{lower bound of the confidence interval}, \item{upr.ci}{upper bound of the confidence interval}
+#' @return a numeric vector with 3 elements: \item{mean}{mean},
+#'   \item{lwr.ci}{lower bound of the confidence interval}, \item{upr.ci}{upper
+#'   bound of the confidence interval}
 #' @importFrom stats qt qnorm var
 #' @export
 #' @author Andri Signorell <andri@signorell.net>
 #' @keywords internal
-MeanCI <- function (x, sd = NULL, trim = 0, method = c("classic", "boot"),
+mean_ci <- function(x, sd = NULL, trim = 0, method = c("classic", "boot"),
                     conf.level = 0.95, sides = c("two.sided","left","right"), na.rm = FALSE, ...) {
 
   if (na.rm) x <- na.omit(x)
 
   sides <- match.arg(sides, choices = c("two.sided","left","right"), several.ok = FALSE)
-  if(sides!="two.sided")
-    conf.level <- 1 - 2*(1-conf.level)
+  if (sides != "two.sided")
+    conf.level <- 1 - 2*(1 - conf.level)
 
   winvar <- function(x, trim) {
     n <- length(x)
@@ -249,13 +272,13 @@ MeanCI <- function (x, sd = NULL, trim = 0, method = c("classic", "boot"),
     # winvar <- var(Winsorize(x, minval=max(Small(x, trn)), maxval=min(Large(x, trn))))
     #
     # degrees of freedom
-    DF <- n - 2*(trn-1) - 1
-    return(c(var=winvar, DF=DF))
+    DF <- n - 2*(trn - 1) - 1
+    return(c(var = winvar, DF = DF))
   }
 
   method <- match.arg(method, c("classic", "boot"))
-  if(method == "classic"){
-    if(trim != 0) {
+  if (method == "classic") {
+    if (trim != 0) {
       # see: http://dornsife.usc.edu/assets/sites/239/docs/Rallfun-v27.txt
       #      http://www.psychology.mcmaster.ca/bennett/boot09/rt2.pdf
 
@@ -263,11 +286,11 @@ MeanCI <- function (x, sd = NULL, trim = 0, method = c("classic", "boot"),
       # the standard error
       se <- sqrt(wvar["var"]) / ((1 - 2*trim) * sqrt(length(x)))
 
-      res <- mean(x, trim = trim) + c(0, -1, 1) * qt(1-(1-conf.level)/2, wvar["DF"]) * se
+      res <- mean(x, trim = trim) + c(0, -1, 1) * qt(1 - (1 - conf.level)/2, wvar["DF"]) * se
       names(res) <- c("mean", "lwr.ci", "upr.ci")
 
     } else {
-      if(is.null(sd)) {
+      if (is.null(sd)) {
         a <- qt(p = (1 - conf.level)/2, df = length(x) - 1) * sd(x)/sqrt(length(x))
       } else {
         a <- qnorm(p = (1 - conf.level)/2) * sd/sqrt(length(x))
@@ -280,20 +303,20 @@ MeanCI <- function (x, sd = NULL, trim = 0, method = c("classic", "boot"),
     # see: http://www.psychology.mcmaster.ca/bennett/boot09/percentileT.pdf
     # this might contain an erroneuous calculation of boot variance...
 
-    btype <- InDots(..., arg="type", default="basic")
+    btype <- InDots(..., arg = "type", default = "basic")
 
     # we need separate functions for trimmed means and normal means
-    if(trim != 0) {
+    if (trim != 0) {
       boot.fun <- boot::boot(x,
                        function(x, i){
                          # this is according to the example in boot.ci
                          m <- mean(x[i], na.rm = FALSE, trim = trim)
                          n <- length(i)
-                         v <- winvar(x, trim)/((1-2*trim)*sqrt(length(x)))^2
+                         v <- winvar(x, trim)/((1 - 2*trim)*sqrt(length(x)))^2
                          c(m, v)
                        },
-                       R=InDots(..., arg="R", default=999),
-                       parallel=InDots(..., arg="parallel", default="no"))
+                       R = InDots(..., arg = "R", default = 999),
+                       parallel = InDots(..., arg = "parallel", default = "no"))
 
     } else {
       boot.fun <- boot::boot(x,
@@ -301,27 +324,27 @@ MeanCI <- function (x, sd = NULL, trim = 0, method = c("classic", "boot"),
                          # this is according to the example in boot.ci
                          m <- mean(x[i], na.rm = FALSE)
                          n <- length(i)
-                         v <- (n-1) * var(x[i]) / n^2
+                         v <- (n - 1) * var(x[i]) / n^2
                          # v <- (sd(x[i]) / sqrt(n))^2  # following Bennet
                          c(m, v)
                          # IMPORTANT: boot.ci requires the estimated VARIANCE of the statistic
                          # pop sd estimated from bootstrapped sample
                        },
-                       R=InDots(..., arg="R", default=999),
-                       parallel=InDots(..., arg="parallel", default="no"))
+                       R = InDots(..., arg = "R", default = 999),
+                       parallel = InDots(..., arg = "parallel", default = "no"))
     }
-    ci <- boot::boot.ci(boot.fun, conf=conf.level, type=btype)
+    ci <- boot::boot.ci(boot.fun, conf = conf.level, type = btype)
 
-    if(btype == "norm"){
-      res <- c(mean=boot.fun$t0[1], lwr.ci=ci[[4]][2], upr.ci=ci[[4]][3])
+    if (btype == "norm") {
+      res <- c(mean = boot.fun$t0[1], lwr.ci = ci[[4]][2], upr.ci = ci[[4]][3])
     } else {
-      res <- c(mean=boot.fun$t0[1], lwr.ci=ci[[4]][4], upr.ci=ci[[4]][5])
+      res <- c(mean = boot.fun$t0[1], lwr.ci = ci[[4]][4], upr.ci = ci[[4]][5])
     }
   }
 
-  if(sides=="left")
+  if (sides == "left")
     res[3] <- Inf
-  else if(sides=="right")
+  else if (sides == "right")
     res[2] <- -Inf
 
   return(res)
