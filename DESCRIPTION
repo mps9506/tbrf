@@ -29,6 +29,8 @@ Imports:
     tibble,
     tidyr
 Suggests: 
+    covr,
+    DescTools,
     ggplot2,
-    testthat,
-    covr
+    Hmisc,
+    testthat
