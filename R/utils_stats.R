@@ -359,25 +359,35 @@ mean_ci <- function(x, sd = NULL, trim = 0, method = c("classic", "boot"),
 
 #' Confidence Interval for the Median
 #'
-#' Calculates the confidence interval for the median.
+#' An implementation of the MedianCI function in Andri Signorell's DescTools
+#' pacakage. Calculates the confidence interval for the median.
 #' @param x a (non-empty) numeric vector of data values.
 #' @param conf.level confidence level of the interval.
-#' @param sides a character string specifying the side of the confidence interval, must be one of \code{"two.sided"} (default), \code{"left"} or \code{"right"}. You can specify just the initial letter. \code{"left"} would be analogue to a hypothesis of \code{"greater"} in a \code{t.test}.
-#' @param na.rm logical. Should missing values be removed? Defaults to \code{FALSE}.
-#' @param method defining the type of interval that should be calculated (one out of \code{"exact"}, \code{"boot"}). Default is \code{"exact"}. See Details.
-#' @param R The number of bootstrap replicates. Usually this will be a single positive integer. See \code{\link{boot.ci}} for details.
+#' @param sides a character string specifying the side of the confidence
+#'   interval, must be one of \code{"two.sided"} (default), \code{"left"} or
+#'   \code{"right"}. You can specify just the initial letter. \code{"left"}
+#'   would be analogue to a hypothesis of \code{"greater"} in a \code{t.test}.
+#' @param na.rm logical. Should missing values be removed? Defaults to
+#'   \code{FALSE}.
+#' @param method defining the type of interval that should be calculated (one
+#'   out of \code{"exact"}, \code{"boot"}). Default is \code{"exact"}. See
+#'   Details.
+#' @param R The number of bootstrap replicates. Usually this will be a single
+#'   positive integer. See \code{\link{boot.ci}} for details.
 #'
-#' @return a numeric vector with 3 elements: \item{median}{median}, \item{lwr.ci}{lower bound of the confidence interval}, \item{upr.ci}{upper bound of the confidence interval}
+#' @return a numeric vector with 3 elements: \item{median}{median},
+#'   \item{lwr.ci}{lower bound of the confidence interval}, \item{upr.ci}{upper
+#'   bound of the confidence interval}
 #' @importFrom stats median na.omit
 #' @export
 #' @author Andri Signorell <andri@signorell.net>
 #' @keywords internal
-MedianCI <- function(x, conf.level=0.95, sides = c("two.sided","left","right"), na.rm=FALSE, method=c("exact","boot"), R=999) {
-  if(na.rm) x <- na.omit(x)
+median_ci <- function(x, conf.level=0.95, sides = c("two.sided","left","right"), na.rm=FALSE, method=c("exact","boot"), R=999) {
+  if (na.rm) x <- na.omit(x)
 
   sides <- match.arg(sides, choices = c("two.sided","left","right"), several.ok = FALSE)
-  if(sides!="two.sided")
-    conf.level <- 1 - 2*(1-conf.level)
+  if (sides != "two.sided")
+    conf.level <- 1 - 2*(1 - conf.level)
 
   # alte Version, ziemlich grosse Unterschiede zu wilcox.test:
   # Bosch: Formelsammlung Statistik (bei Markus Naepflin), S. 95
@@ -387,27 +397,27 @@ MedianCI <- function(x, conf.level=0.95, sides = c("two.sided","left","right"), 
   # x[ qbinom(1-alpha/2,length(x),0.5) ] ### upper limit
   # ) )
 
-  switch( match.arg(arg=method, choices=c("exact","boot"))
-          , "exact" = { # this is the SAS-way to do it
+  switch( match.arg(arg = method, choices = c("exact","boot"))
+          , "exact" = {# this is the SAS-way to do it
             # https://stat.ethz.ch/pipermail/r-help/2003-September/039636.html
             r <- SignTest(x)$conf.int
           }
           , "boot" = {
-            boot.med <- boot::boot(x, function(x, d) median(x[d], na.rm=na.rm), R=R)
-            r <- boot::boot.ci(boot.med, conf=conf.level, type="basic")[[4]][4:5]
+            boot.med <- boot::boot(x, function(x, d) median(x[d], na.rm = na.rm), R = R)
+            r <- boot::boot.ci(boot.med, conf = conf.level, type = "basic")[[4]][4:5]
           } )
 
-  med <- median(x, na.rm=na.rm)
-  if(is.na(med)) {   # do not report a CI if the median is not defined...
+  med <- median(x, na.rm = na.rm)
+  if (is.na(med)) {   # do not report a CI if the median is not defined...
     r <- rep(NA, 3)
   } else {
-    r <- c(median=med, r)
+    r <- c(median = med, r)
   }
   names(r) <- c("median","lwr.ci","upr.ci")
 
-  if(sides=="left")
+  if (sides == "left")
     r[3] <- Inf
-  else if(sides=="right")
+  else if (sides == "right")
     r[2] <- -Inf
 
   return( r )
