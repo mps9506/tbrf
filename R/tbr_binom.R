@@ -15,6 +15,7 @@
 #' @importFrom tidyr unnest
 #' @return tibble with columns for the rolling binomial probability and upper and lower confidence intervals.
 #' @export
+#' @seealso \code{\link{binom_ci}}
 #' @examples
 #' ## Generate Sample Data
 #' df <- tibble::data_frame(

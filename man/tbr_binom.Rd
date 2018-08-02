@@ -37,3 +37,6 @@ df <- tbr_binom(df, x = value,
 tcolumn = date, unit = "years", n = 5,
 alpha = 0.1)
 }
+\seealso{
+\code{\link{binom_ci}}
+}

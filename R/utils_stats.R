@@ -31,6 +31,7 @@
 #'   1-alpha
 #'
 #' @importFrom stats qf qnorm
+#' @export
 #' @keywords internal
 #' @seealso \code{\link[Hmisc]{binconf}}
 

@@ -67,14 +67,14 @@ tbr_median_window <- function(x, tcolumn, unit = "years", n, i, ...) {
     stop("unit must be one of ", paste(u, collapse = ", "))
   }
 
-  resultsColumns <- c("mean", "lwr.ci", "upr.ci")
+  resultsColumns <- c("median", "lwr.ci", "upr.ci")
 
   # do not calculate the first row, always returns NA
   # note that MedianCI always returns confidence intervals
   # unlike other DescTools stats
   if (i == 1) {
     results <- list(NA, NA, NA)
-    names(results) <- c("mean", "lwr.ci", "upr.ci")
+    names(results) <- c("median", "lwr.ci", "upr.ci")
     return(tibble::as_tibble(results))
   }
 
