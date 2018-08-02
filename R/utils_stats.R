@@ -22,8 +22,9 @@
 
 #' Confidence Intervals for Binomial Probabilities
 #'
-#' An implementation of the binconf function in Frank Harrell's Hmisc package. Produces
-#' 1-alpha confidence intervals for binomial probabilities.
+#' An implementation of the \code{\link[Hmisc]{binconf}} function in Frank
+#' Harrell's Hmisc package. Produces 1-alpha confidence intervals for binomial
+#' probabilities.
 #' @param x vector containing the number of "successes" for binomial variates
 #' @param n vector containing the numbers of corresponding observations
 #' @param alpha cprobability of a type I error, so confidence coefficient =
@@ -31,6 +32,7 @@
 #'
 #' @importFrom stats qf qnorm
 #' @keywords internal
+#' @seealso \code{\link[Hmisc]{binconf}}
 
 binom_ci <- function(x, n, alpha = 0.05,
                     method = c("wilson","exact","asymptotic","all"),
@@ -47,29 +49,29 @@ binom_ci <- function(x, n, alpha = 0.05,
   {
     nu1 <- 2 * (n - x + 1)
     nu2 <- 2 * x
-    ll <- if(x > 0)
+    ll <- if (x > 0)
       x/(x + qf(1 - alpha/2, nu1, nu2) * (n - x + 1))
     else
       0
 
     nu1p <- nu2 + 2
     nu2p <- nu1 - 2
-    pp <- if(x < n)
+    pp <- if (x < n)
       qf(1 - alpha/2, nu1p, nu2p)
     else
       1
 
     ul <- ((x + 1) * pp)/(n - x + (x + 1) * pp)
-    zcrit <-  - qnorm(alpha/2)
+    zcrit <-  -qnorm(alpha/2)
     z2 <- zcrit * zcrit
     p <- x/n
     cl <- (p + z2/2/n + c(-1, 1) * zcrit *
              sqrt((p * (1 - p) + z2/4/n)/n))/(1 + z2/n)
 
-    if(x == 1)
-      cl[1] <-  - log(1 - alpha)/n
+    if (x == 1)
+      cl[1] <-  -log(1 - alpha)/n
 
-    if(x == (n - 1))
+    if (x == (n - 1))
       cl[2] <- 1 + log(1 - alpha)/n
 
     asymp.lcl <- x/n - qnorm(1 - alpha/2) *
@@ -90,44 +92,44 @@ binom_ci <- function(x, n, alpha = 0.05,
            res)
   }
 
-  if((length(x) != length(n)) & length(x) == 1)
+  if ((length(x) != length(n)) & length(x) == 1)
     x <- rep(x, length(n))
-  if((length(x) != length(n)) & length(n) == 1)
+  if ((length(x) != length(n)) & length(n) == 1)
     n <- rep(n, length(x))
-  if((length(x) > 1 | length(n) > 1) & method == "all") {
+  if ((length(x) > 1 | length(n) > 1) & method == "all") {
     method <- "wilson"
     warning("method=all will not work with vectors...setting method to wilson")
   }
-  if(method == "all" & length(x) == 1 & length(n) == 1) {
+  if (method == "all" & length(x) == 1 & length(n) == 1) {
     mat <- bc(x, n, alpha, method)
     dimnames(mat) <- list(c("Exact", "Wilson", "Asymptotic"),
                           c("PointEst", "Lower", "Upper"))
-    if(include.n)
+    if (include.n)
       mat <- cbind(N = n, mat)
 
-    if(include.x)
+    if (include.x)
       mat <- cbind(X = x, mat)
 
-    if(return.df)
+    if (return.df)
       mat <- as.data.frame(mat)
 
     return(mat)
   }
 
   mat <- matrix(ncol = 3, nrow = length(x))
-  for(i in 1:length(x))
+  for (i in 1:length(x))
     mat[i,  ] <- bc(x[i], n[i], alpha = alpha, method = method)
 
   dimnames(mat) <- list(rep("", dim(mat)[1]),
                         c("PointEst", "Lower", "Upper"))
-  if(include.n)
+  if (include.n)
     mat <- cbind(N = n, mat)
 
-  if(include.x)
+  if (include.x)
     mat <- cbind(X = x, mat)
 
-  if(return.df)
-    mat <- as.data.frame(mat, row.names=NULL)
+  if (return.df)
+    mat <- as.data.frame(mat, row.names = NULL)
 
   mat
 }
@@ -250,6 +252,7 @@ gmean_ci <- function(x, method = c("classic", "boot"),
 #' @export
 #' @author Andri Signorell <andri@signorell.net>
 #' @keywords internal
+#' @seealso \code{\link[DescTools]{MeanCI}}
 mean_ci <- function(x, sd = NULL, trim = 0, method = c("classic", "boot"),
                     conf.level = 0.95, sides = c("two.sided","left","right"), na.rm = FALSE, ...) {
 
@@ -360,8 +363,9 @@ mean_ci <- function(x, sd = NULL, trim = 0, method = c("classic", "boot"),
 
 #' Confidence Interval for the Median
 #'
-#' An implementation of the MedianCI function in Andri Signorell's DescTools
-#' pacakage. Calculates the confidence interval for the median.
+#' An implementation of the \code{\link[DescTools]{MedianCI}} function in Andri
+#' Signorell's DescTools package. Calculates the confidence interval for the
+#' median.
 #' @param x a (non-empty) numeric vector of data values.
 #' @param conf.level confidence level of the interval.
 #' @param sides a character string specifying the side of the confidence
@@ -383,6 +387,7 @@ mean_ci <- function(x, sd = NULL, trim = 0, method = c("classic", "boot"),
 #' @export
 #' @author Andri Signorell <andri@signorell.net>
 #' @keywords internal
+#' @seealso \code{\link[DescTools]{MedianCI}}
 median_ci <- function(x, conf.level=0.95, sides = c("two.sided","left","right"), na.rm=FALSE, method=c("exact","boot"), R=999) {
   if (na.rm) x <- na.omit(x)
 

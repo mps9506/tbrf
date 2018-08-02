@@ -7,7 +7,7 @@
 #' @param tcolumn formated time column.
 #' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
-#' @param ... additional arguments passed to median_ci
+#' @param ... additional arguments passed to \code{\link{median_ci}}
 #'
 #' @import rlang
 #' @importFrom purrr map
@@ -52,7 +52,7 @@ tbr_median <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
 #' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
 #' @param i row
-#' @param ... additional arguments passed to median_ci
+#' @param ... additional arguments passed to \code{\link{median_ci}}
 #'
 #' @importFrom lubridate as.duration duration
 #' @importFrom tibble as.tibble

@@ -7,7 +7,7 @@
 #' @param tcolumn formated time column.
 #' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
-#' @param ... additional arguments passed to mean_ci
+#' @param ... additional arguments passed to \code{\link{mean_ci}}.
 #'
 #' @import dplyr
 #' @import rlang
@@ -57,7 +57,7 @@ tbr_mean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
 #' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
 #' @param i row
-#' @param ... additional arguments passed to MeanCI
+#' @param ... additional arguments passed to \code{\link{mean_ci}}
 #'
 #' @importFrom lubridate as.duration duration
 #' @importFrom tibble as.tibble
