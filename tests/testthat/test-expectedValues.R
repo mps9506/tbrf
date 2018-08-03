@@ -60,3 +60,33 @@ test_that("tbr_sum provides expected values", {
 
   expect_equal(sum(x1$sum), 40)
 })
+
+randomTimes <- function(n, st = "2012/01/01", et = "2012/01/02") {
+  st <- as.POSIXct(as.Date(st))
+  et <- as.POSIXct(as.Date(et))
+  dt <- as.numeric(difftime(et,st,unit = "sec"))
+  ev <- sort(runif(n, 0, dt))
+  rt <- st + ev
+  rt
+}
+
+test_that("core functions work with different time units", {
+  df <- data.frame(
+    date = randomTimes(100),
+    value = rexp(100, 1/100)
+  )
+
+  expect_s3_class(df %>% tbr_mean(x = value,
+                                  tcolumn = date,
+                                  unit = "minutes",
+                                  n = 60,
+                                  method = "classic"),
+                  "tbl_df")
+
+  expect_s3_class(df %>% tbr_misc(x = value,
+                                  tcolumn = date,
+                                  unit = "minutes",
+                                  n = 60,
+                                  func = mean),
+                  "tbl_df")
+})
