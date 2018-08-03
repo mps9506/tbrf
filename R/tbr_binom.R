@@ -15,6 +15,7 @@
 #' @importFrom tidyr unnest
 #' @return tibble with columns for the rolling binomial probability and upper and lower confidence intervals.
 #' @export
+#' @seealso \code{\link{binom_ci}}
 #' @examples
 #' ## Generate Sample Data
 #' df <- tibble::data_frame(
@@ -69,7 +70,7 @@ tbr_binom_window <- function(x, tcolumn, unit = "years", n, i, alpha) {
     summarise(n = n(), successes = as.integer(sum(temp)))
 
   # calculates the binomial test with confidence intervals
-  results <- binconf(x = df$successes, n = df$n, alpha = alpha, return.df = TRUE)
+  results <- binom_ci(x = df$successes, n = df$n, alpha = alpha, return.df = TRUE)
 
   return(results)
 }

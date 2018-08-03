@@ -2,12 +2,16 @@ Package: tbrf
 Type: Package
 Title: Time-Based Rolling Functions
 Version: 0.1.0
-Authors@R: person("Michael", "Schramm", role=c("aut", "cre"),
-    email = "michael.schramm@ag.tamu.edu",
-    comment = c(ORCID = "0000-0003-1876-6592"))
+Authors@R: c(
+    person("Michael", "Schramm", role=c("aut", "cre"),
+      email = "michael.schramm@ag.tamu.edu",
+      comment = c(ORCID = "0000-0003-1876-6592")),
+    person("Frank", "Harrell", role=c("ctb")),
+    person("Andri", "Signorell", role=c("ctb"))
+    )
 Maintainer: Michael Schramm <michael.schramm@ag.tamu.edu>
-Description: Provides functions for rolling statistics based
-    on date and time windows instead of lagged observations.
+Description: Provides rolling statistics functions based
+    on date and time windows instead of n-lagged observations.
 URL: https://github.com/mps9506/tbrf
 BugReports: https://github.com/mps9506/tbrf/issues
 License: GPL-3 | file LICENSE
@@ -24,6 +28,9 @@ Imports:
     rlang,
     tibble,
     tidyr
-Suggests:
+Suggests: 
+    covr,
+    DescTools,
     ggplot2,
+    Hmisc,
     testthat

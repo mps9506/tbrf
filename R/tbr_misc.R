@@ -7,7 +7,7 @@
 #' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
 #' @param func specified function
-#' @param ... optional additional arguments passed to function f
+#' @param ... optional additional arguments passed to function func
 #'
 #' @import rlang
 #' @import dplyr
@@ -34,7 +34,7 @@ tbr_misc <- function(.tbl, x, tcolumn, unit = "years", n, func, ...) {
 }
 
 
-func_window <- function(x, tcolumn, unit = "years", n, i, func) {
+func_window <- function(x, tcolumn, unit = "years", n, i, func, ...) {
 
   # checks for valid unit values
   u <- (c("years", "months", "weeks", "days", "hours", "minutes", "seconds"))
@@ -48,6 +48,6 @@ func_window <- function(x, tcolumn, unit = "years", n, i, func) {
   date_window <-
     tcolumn[lubridate::as.duration(tcolumn[i] - tcolumn) / lubridate::duration(num = 1, units = unit) <= n &
                         lubridate::as.duration(tcolumn[i] - tcolumn) / lubridate::duration(num = 1, units = unit) >= 0]
-  results <- tibble::tibble(results = func(window), min_date = min(date_window), max_date = max(date_window))
+  results <- tibble::tibble(results = func(window, ...), min_date = min(date_window), max_date = max(date_window))
   return(results)
 }

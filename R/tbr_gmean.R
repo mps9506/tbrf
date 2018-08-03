@@ -1,21 +1,25 @@
 
 #' Time-Based Rolling Geometric Mean
 #'
-#' Produces a a rolling time-window based vector of geometric means and confidence intervals.
+#' Produces a a rolling time-window based vector of geometric means and
+#' confidence intervals.
 #'
-#' @param .tbl a data frame with at least two variables; time column formatted as date, date/time and value column.
+#' @param .tbl a data frame with at least two variables; time column formatted
+#'   as date, date/time and value column.
 #' @param x column containing the values to calculate the geometric mean.
 #' @param tcolumn formated time column.
-#' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
+#' @param unit character, one of "years", "months", "weeks", "days", "hours",
+#'   "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
-#' @param ... additional arguments passed to DescTools::Gmean
+#' @param ... additional arguments passed to \code{\link{gmean_ci}}
 #'
 #' @import dplyr
 #' @import rlang
 #' @importFrom purrr map
 #' @importFrom tibble as_tibble
 #' @importFrom tidyr unnest
-#' @return tibble with columns for the rolling geometric mean and upper and lower confidence levels.
+#' @return tibble with columns for the rolling geometric mean and upper and
+#'   lower confidence levels.
 #' @export
 tbr_gmean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
 
@@ -53,10 +57,11 @@ tbr_gmean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
 #'
 #' @param x column containing the values to calculate the geometric mean.
 #' @param tcolumn formated time column.
-#' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
+#' @param unit character, one of "years", "months", "weeks", "days", "hours",
+#'   "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
 #' @param i row
-#' @param ... additional arguments passed to Gmean
+#' @param ... additional arguments passed to gmean_ci
 #'
 #' @importFrom lubridate as.duration duration
 #' @importFrom tibble as.tibble
@@ -104,11 +109,11 @@ tbr_gmean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
     else{
 
       if (is.na(dots$conf.level)) {
-        results <- tibble::as.tibble(list(mean = Gmean(x = window, ...)))
+        results <- tibble::as.tibble(list(mean = gmean_ci(x = window, ...)))
       }
 
       else {
-        results <- tibble::as_tibble(as.list(Gmean(x = window, ...)))
+        results <- tibble::as_tibble(as.list(gmean_ci(x = window, ...)))
       }
 
       return(results)

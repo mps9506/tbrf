@@ -17,7 +17,7 @@ tbr_median(.tbl, x, tcolumn, unit = "years", n, ...)
 
 \item{n}{numeric, describing the length of the time window.}
 
-\item{...}{additional arguments passed to DescTools::MedianCI}
+\item{...}{additional arguments passed to \code{\link{median_ci}}}
 }
 \value{
 tibble with columns for the rolling median and upper and lower confidence intervals.

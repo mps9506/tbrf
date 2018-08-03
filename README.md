@@ -5,6 +5,11 @@
 
 [![Travis build
 status](https://travis-ci.org/mps9506/tbrf.svg?branch=master)](https://travis-ci.org/mps9506/tbrf)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/mps9506/tbrf?branch=master&svg=true)](https://ci.appveyor.com/project/mps9506/tbrf)
+[![Coverage
+status](https://codecov.io/gh/mps9506/tbrf/branch/master/graph/badge.svg)](https://codecov.io/github/mps9506/tbrf?branch=master)
+
 [![License: GPL
 v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
@@ -12,8 +17,10 @@ The goal of tbrf is to provide time-window based rolling statistical
 functions. The package differs from other rolling statistic packages
 because the intended use is for irregular measured data. Althogh tbrf
 can be used to apply statistical functions to regularly sampled data,
-[`zoo`](https://CRAN.R-project.org/package=zoo) provides a richer
-environment for working with time series data.
+[`zoo`](https://CRAN.R-project.org/package=zoo),
+[`RcppRoll`](https://cran.r-project.org/package=RcppRoll), and other
+packages provide fast, efficient, and rich implementations of
+rolling/windowed functions.
 
 An appropriate example case is water quality data that is measured at
 irregular time intervals. Regulatory compliance is often based on a
@@ -36,12 +43,19 @@ devtools::install.github("mps9506/tbrf")
 
 ## Available Functions
 
-`tbr_binom`: Rolling binomal probability with confidence intervals.
-`tbr_gmean`: Rolling geometric mean with confidence intervals.
-`tbr_mean`: Rolling mean with confidence intervals. `tbr_median`:
-Rolling median with confidence intervals. `tbr_misc`: Accepts user
-specified function. `tbr_sd`: Rolling standard deviation. `tbr_sum`:
-Rolling sum.
+  - `tbr_binom`: Rolling binomal probability with confidence intervals.
+
+  - `tbr_gmean`: Rolling geometric mean with confidence intervals.
+
+  - `tbr_mean`: Rolling mean with confidence intervals.
+
+  - `tbr_median`: Rolling median with confidence intervals.
+
+  - `tbr_misc`: Accepts user specified function.
+
+  - `tbr_sd`: Rolling standard deviation.
+
+  - `tbr_sum`: Rolling sum.
 
 ## Examples
 
@@ -100,6 +114,34 @@ ggplot(df) +
 
 <img src="man/figures/README-dissolved_oxygen-1.png" width="672" />
 
+## Speed
+
+The statistical functions for calculating binomial probabilities,
+geometric mean, mean, and median include confidence intervals by
+default. All except the binomial probability are currently calculated
+using bootstrap methodology by default. You will see substantial
+decrease in computing times with the following argument: `method =
+"classic"`. Or by using base functions with `tbr_misc`.
+
+``` r
+data("Dissolved_Oxygen")
+
+system.time(df <- Dissolved_Oxygen %>%
+              tbr_mean(x = Average_DO, tcolumn = Date, unit = "years", n = 5, method = "boot"))
+##    user  system elapsed 
+##   15.17    0.03   15.27
+
+system.time(df <- Dissolved_Oxygen %>%
+  tbr_mean(x = Average_DO, tcolumn = Date, unit = "years", n = 5, method = "classic"))
+##    user  system elapsed 
+##    0.49    0.00    0.48
+
+system.time(df <- Dissolved_Oxygen %>%
+  tbr_misc(x = Average_DO, tcolumn = Date, unit = "years", n = 5, func = mean))
+##    user  system elapsed 
+##    0.84    0.00    0.85
+```
+
 ## Contributing
 
 Please note that this project is released with a [Contributor Code of
@@ -110,12 +152,13 @@ to abide by its terms.
 
 tbrf code is released under GPL-3 | LICENSE.md
 
-`binconf()` is licensed under GPL (\>=2) by Frank Harrell’s
-[`Hmisc`](https://github.com/harrelfe/Hmisc) package.
+`binom_ci()` is an implementation of code licensed under GPL (\>=2) by
+Frank Harrell’s [`Hmisc`](https://github.com/harrelfe/Hmisc) package.
 
-`Gmean()`, `MeanCI()`, `MedianCI()`,`SignTest()`, and `Winsorize()` are
-licensed under GPL (\>= 2) by Andri Signorell’s
-[DescTools](https://cran.r-project.org/package=DescTools) package.
+`gmean_ci()`, `mean_ci()`, `median_ci()`,`SignTest()`, and `Winsorize()`
+are implementations of code licensed under GPL (\>= 2) by Andri
+Signorell’s [DescTools](https://cran.r-project.org/package=DescTools)
+package.
 
 ## Test Results
 
@@ -123,7 +166,7 @@ licensed under GPL (\>= 2) by Andri Signorell’s
 library(tbrf)
 
 date()
-## [1] "Wed Jul 25 15:47:48 2018"
+## [1] "Thu Aug 02 12:26:27 2018"
 
 devtools::test()
 ## v | OK F W S | Context
@@ -136,7 +179,7 @@ devtools::test()
 - |  5       | core functions return expected structures
 \ |  6       | core functions return expected structures
 | |  7       | core functions return expected structures
-v |  7       | core functions return expected structures [3.7 s]
+v |  7       | core functions return expected structures [3.8 s]
 ## 
 / |  0       | core functions return expected errors and messages
 - |  1       | core functions return expected errors and messages
@@ -149,7 +192,7 @@ v |  7       | core functions return expected structures [3.7 s]
 v |  7       | core functions return expected errors and messages
 ## 
 ## == Results ==========================================================================================
-## Duration: 3.8 s
+## Duration: 3.9 s
 ## 
 ## OK:       14
 ## Failed:   0

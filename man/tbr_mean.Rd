@@ -17,7 +17,7 @@ tbr_mean(.tbl, x, tcolumn, unit = "years", n, ...)
 
 \item{n}{numeric, describing the length of the time window.}
 
-\item{...}{additional arguments passed to DescTools::MeanCI}
+\item{...}{additional arguments passed to \code{\link{mean_ci}}.}
 }
 \value{
 tibble with columns for the rolling mean and upper and lower confidence intervals.

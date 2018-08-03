@@ -7,7 +7,7 @@
 #' @param tcolumn formated time column.
 #' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
-#' @param ... additional arguments passed to DescTools::MeanCI
+#' @param ... additional arguments passed to \code{\link{mean_ci}}.
 #'
 #' @import dplyr
 #' @import rlang
@@ -57,7 +57,7 @@ tbr_mean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
 #' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
 #' @param i row
-#' @param ... additional arguments passed to MeanCI
+#' @param ... additional arguments passed to \code{\link{mean_ci}}
 #'
 #' @importFrom lubridate as.duration duration
 #' @importFrom tibble as.tibble
@@ -105,11 +105,11 @@ tbr_mean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
     else{
 
       if (is.na(dots$conf.level)) {
-        results <- tibble::as.tibble(list(mean = MeanCI(x = window, ...)))
+        results <- tibble::as.tibble(list(mean = mean_ci(x = window, ...)))
       }
 
       else {
-        results <- tibble::as_tibble(as.list(MeanCI(x = window, ...)))
+        results <- tibble::as_tibble(as.list(mean_ci(x = window, ...)))
       }
 
       return(results)

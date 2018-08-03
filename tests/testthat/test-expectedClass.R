@@ -1,4 +1,4 @@
-context("core functions return expected structures")
+context("core functions work in piped workflow")
 library(tbrf)
 
 test_that("tbr_binom returns tbl_df in tidy chain", {
@@ -26,27 +26,20 @@ test_that("tbr_gmean returns tbl_df in tidy chain", {
                                    tcolumn = date,
                                    unit = "years",
                                    n = 5,
-                                   conf.level = 0.95),
+                                   method = "classic"),
                   "tbl_df")
 })
 
 test_that("tbr_mean returns tbl_df in tidy chain", {
 
   expect_s3_class(df %>% tbr_mean(x = value,
-                                   tcolumn = date,
-                                   unit = "years",
-                                   n = 5),
+                                  tcolumn = date,
+                                  unit = "years",
+                                  n = 5,
+                                  method = "classic"),
                   "tbl_df")
 })
 
-test_that("tbr_median returns tbl_df in tidy chain", {
-
-  expect_s3_class(df %>% tbr_median(x = value,
-                                   tcolumn = date,
-                                   unit = "years",
-                                   n = 5),
-                  "tbl_df")
-})
 
 test_that("tbr_sd returns tbl_df in tidy chain", {
 
