@@ -4,23 +4,50 @@
 \alias{binom_ci}
 \title{Confidence Intervals for Binomial Probabilities}
 \usage{
-binom_ci(x, n, alpha = 0.05, method = c("wilson", "exact", "asymptotic",
-  "all"), include.x = FALSE, include.n = FALSE, return.df = FALSE)
+binom_ci(x, n, alpha = 0.05, method = c("wilson", "exact", "asymptotic"),
+  return.df = FALSE)
 }
 \arguments{
-\item{x}{vector containing the number of "successes" for binomial variates}
+\item{x}{vector containing the number of "successes" for binomial variates.}
 
-\item{n}{vector containing the numbers of corresponding observations}
+\item{n}{vector containing the numbers of corresponding observations.}
 
 \item{alpha}{cprobability of a type I error, so confidence coefficient =
-1-alpha}
+1-alpha.}
+
+\item{method}{character string specifing which method to use. The "exact"
+method uses the F distribution to compute exact (based on the binomial cdf)
+intervals; the "wilson" interval is score-test-based; and the "asymptotic"
+is the text-book, asymptotic normal interval. Following Agresti and Coull,
+the Wilson interval is to be preferred and so is the default.}
+
+\item{return.df}{logical flag to indicate that a data frame rather than a
+matrix be returned.}
 }
 \description{
 An implementation of the \code{\link[Hmisc]{binconf}} function in Frank
 Harrell's Hmisc package. Produces 1-alpha confidence intervals for binomial
 probabilities.
 }
+\examples{
+binom_ci(46,50,method="wilson")
+}
+\references{
+A. Agresti and B.A. Coull, Approximate is better than "exact" for
+  interval estimation of binomial proportions, \emph{American Statistician,}
+  \bold{52}:119--126, 1998.
+
+  R.G. Newcombe, Logit confidence intervals and the inverse sinh
+  transformation, \emph{American Statistician,} \bold{55}:200--202, 2001.
+
+  L.D. Brown, T.T. Cai and A. DasGupta, Interval estimation for a binomial
+  proportion (with discussion), \emph{Statistical Science,}
+  \bold{16}:101--133, 2001.
+}
 \seealso{
 \code{\link[Hmisc]{binconf}}
+}
+\author{
+Frank Harrell, modified by Michael Schramm
 }
 \keyword{internal}

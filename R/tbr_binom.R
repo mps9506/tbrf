@@ -1,19 +1,24 @@
 
 #' Time-Based Rolling Binomial Probability
 #'
-#' Produces a a rolling time-window based vector of binomial probability and confidence intervals.
-#' @param .tbl a data frame with at least two variables; time column formatted as date, date/time and value column.
+#' Produces a a rolling time-window based vector of binomial probability and
+#' confidence intervals.
+#' @param .tbl a data frame with at least two variables; time column formatted
+#'   as date, date/time and value column.
 #' @param x column containing "success" and "failure" observations as 0 or 1
 #' @param tcolumn formated time column
-#' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
+#' @param unit character, one of "years", "months", "weeks", "days", "hours",
+#'   "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
-#' @param alpha numeric, probability of a type 1 error, so confidence coefficient = 1-alpha
+#' @param alpha numeric, probability of a type 1 error, so confidence
+#'   coefficient = 1-alpha
 #'
 #' @import dplyr
 #' @import rlang
 #' @importFrom purrr map
 #' @importFrom tidyr unnest
-#' @return tibble with columns for the rolling binomial probability and upper and lower confidence intervals.
+#' @return tibble with columns for the rolling binomial probability and upper
+#'   and lower confidence intervals.
 #' @export
 #' @seealso \code{\link{binom_ci}}
 #' @examples
@@ -48,10 +53,12 @@ tbr_binom <- function(.tbl, x, tcolumn, unit = "years", n, alpha = 0.05) {
 #'
 #' @param x column containing "success" and "failure" observations as 0 or 1
 #' @param tcolumn formated time column
-#' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
+#' @param unit character, one of "years", "months", "weeks", "days", "hours",
+#'   "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
 #' @param i rows
-#' @param alpha numeric, probability of a type 1 error, so confidence coefficient = 1-alpha
+#' @param alpha numeric, probability of a type 1 error, so confidence
+#'   coefficient = 1-alpha
 #'
 #' @return list
 #' @keywords internal

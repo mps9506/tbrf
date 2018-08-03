@@ -7,23 +7,28 @@
 tbr_binom(.tbl, x, tcolumn, unit = "years", n, alpha = 0.05)
 }
 \arguments{
-\item{.tbl}{a data frame with at least two variables; time column formatted as date, date/time and value column.}
+\item{.tbl}{a data frame with at least two variables; time column formatted
+as date, date/time and value column.}
 
 \item{x}{column containing "success" and "failure" observations as 0 or 1}
 
 \item{tcolumn}{formated time column}
 
-\item{unit}{character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"}
+\item{unit}{character, one of "years", "months", "weeks", "days", "hours",
+"minutes", "seconds"}
 
 \item{n}{numeric, describing the length of the time window.}
 
-\item{alpha}{numeric, probability of a type 1 error, so confidence coefficient = 1-alpha}
+\item{alpha}{numeric, probability of a type 1 error, so confidence
+coefficient = 1-alpha}
 }
 \value{
-tibble with columns for the rolling binomial probability and upper and lower confidence intervals.
+tibble with columns for the rolling binomial probability and upper
+  and lower confidence intervals.
 }
 \description{
-Produces a a rolling time-window based vector of binomial probability and confidence intervals.
+Produces a a rolling time-window based vector of binomial probability and
+confidence intervals.
 }
 \examples{
 ## Generate Sample Data

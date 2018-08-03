@@ -11,13 +11,15 @@ tbr_binom_window(x, tcolumn, unit = "years", n, i, alpha)
 
 \item{tcolumn}{formated time column}
 
-\item{unit}{character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"}
+\item{unit}{character, one of "years", "months", "weeks", "days", "hours",
+"minutes", "seconds"}
 
 \item{n}{numeric, describing the length of the time window.}
 
 \item{i}{rows}
 
-\item{alpha}{numeric, probability of a type 1 error, so confidence coefficient = 1-alpha}
+\item{alpha}{numeric, probability of a type 1 error, so confidence
+coefficient = 1-alpha}
 }
 \value{
 list
