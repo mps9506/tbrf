@@ -3,13 +3,15 @@
 #'
 #' Produces a a rolling time-window based vector of binomial probability and
 #' confidence intervals.
-#' @param .tbl a data frame with at least two variables; time column formatted
-#'   as date, date/time and value column.
-#' @param x column containing "success" and "failure" observations as 0 or 1
-#' @param tcolumn formated time column
+#' @param .tbl dataframe with two variables.
+#' @param x indicates the variable column containing "success" and "failure"
+#'   observations coded as 1 or 0.
+#' @param tcolumn indicates the variable column containing Date or Date-Time
+#'   values.
 #' @param unit character, one of "years", "months", "weeks", "days", "hours",
 #'   "minutes", "seconds"
-#' @param n numeric, describing the length of the time window.
+#' @param n numeric, describing the length of the time window in the selected
+#'   units.
 #' @param alpha numeric, probability of a type 1 error, so confidence
 #'   coefficient = 1-alpha
 #'
@@ -17,8 +19,7 @@
 #' @import rlang
 #' @importFrom purrr map
 #' @importFrom tidyr unnest
-#' @return tibble with columns for the rolling binomial probability and upper
-#'   and lower confidence intervals.
+#' @return tibble with binomial point estimate and confidence intervals.
 #' @export
 #' @seealso \code{\link{binom_ci}}
 #' @examples
