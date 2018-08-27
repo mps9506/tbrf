@@ -25,19 +25,37 @@
 #' An implementation of the \code{\link[Hmisc]{binconf}} function in Frank
 #' Harrell's Hmisc package. Produces 1-alpha confidence intervals for binomial
 #' probabilities.
-#' @param x vector containing the number of "successes" for binomial variates
-#' @param n vector containing the numbers of corresponding observations
+#' @param x vector containing the number of "successes" for binomial variates.
+#' @param n vector containing the numbers of corresponding observations.
 #' @param alpha cprobability of a type I error, so confidence coefficient =
-#'   1-alpha
+#'   1-alpha.
+#' @param method character string specifing which method to use. The "exact"
+#'   method uses the F distribution to compute exact (based on the binomial cdf)
+#'   intervals; the "wilson" interval is score-test-based; and the "asymptotic"
+#'   is the text-book, asymptotic normal interval. Following Agresti and Coull,
+#'   the Wilson interval is to be preferred and so is the default.
+#' @param return.df logical flag to indicate that a data frame rather than a
+#'   matrix be returned.
 #'
 #' @importFrom stats qf qnorm
 #' @export
+#' @author Frank Harrell, modified by Michael Schramm
 #' @keywords internal
 #' @seealso \code{\link[Hmisc]{binconf}}
+#' @references A. Agresti and B.A. Coull, Approximate is better than "exact" for
+#'   interval estimation of binomial proportions, \emph{American Statistician,}
+#'   \bold{52}:119--126, 1998.
+#'
+#'   R.G. Newcombe, Logit confidence intervals and the inverse sinh
+#'   transformation, \emph{American Statistician,} \bold{55}:200--202, 2001.
+#'
+#'   L.D. Brown, T.T. Cai and A. DasGupta, Interval estimation for a binomial
+#'   proportion (with discussion), \emph{Statistical Science,}
+#'   \bold{16}:101--133, 2001.
+#' @examples binom_ci(46,50,method="wilson")
 
 binom_ci <- function(x, n, alpha = 0.05,
-                    method = c("wilson","exact","asymptotic","all"),
-                    include.x = FALSE, include.n = FALSE,
+                    method = c("wilson","exact","asymptotic"),
                     return.df = FALSE)
 {
   ## ..modifications for printing and the addition of a
@@ -88,34 +106,13 @@ binom_ci <- function(x, n, alpha = 0.05,
     switch(method,
            wilson =     res[2,  ],
            exact =      res[1,  ],
-           asymptotic = res[3,  ],
-           all =        res,
-           res)
+           asymptotic = res[3,  ])
   }
 
   if ((length(x) != length(n)) & length(x) == 1)
     x <- rep(x, length(n))
   if ((length(x) != length(n)) & length(n) == 1)
     n <- rep(n, length(x))
-  if ((length(x) > 1 | length(n) > 1) & method == "all") {
-    method <- "wilson"
-    warning("method=all will not work with vectors...setting method to wilson")
-  }
-  if (method == "all" & length(x) == 1 & length(n) == 1) {
-    mat <- bc(x, n, alpha, method)
-    dimnames(mat) <- list(c("Exact", "Wilson", "Asymptotic"),
-                          c("PointEst", "Lower", "Upper"))
-    if (include.n)
-      mat <- cbind(N = n, mat)
-
-    if (include.x)
-      mat <- cbind(X = x, mat)
-
-    if (return.df)
-      mat <- as.data.frame(mat)
-
-    return(mat)
-  }
 
   mat <- matrix(ncol = 3, nrow = length(x))
   for (i in 1:length(x))
@@ -123,11 +120,6 @@ binom_ci <- function(x, n, alpha = 0.05,
 
   dimnames(mat) <- list(rep("", dim(mat)[1]),
                         c("PointEst", "Lower", "Upper"))
-  if (include.n)
-    mat <- cbind(N = n, mat)
-
-  if (include.x)
-    mat <- cbind(X = x, mat)
 
   if (return.df)
     mat <- as.data.frame(mat, row.names = NULL)

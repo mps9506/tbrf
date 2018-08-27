@@ -51,64 +51,40 @@ devtools::install.github("mps9506/tbrf")
 
 - `tbr_sum`: Rolling sum.
 
+## Usage
+
+link
+
 ## Examples
 
-Visualize the number of samples included in a tbrf time window:
+Plot a rolling 6-hour geometric mean
 
 ```{r tbr_misc, fig.retina=2, message=FALSE, warning=FALSE}
 library(tbrf)
 library(dplyr)
 library(ggplot2)
+library(ggalt)
 
-# Some sample data
-df <- data_frame(date = sample(seq(as.Date('2000-01-01'),
-                                   as.Date('2005-12-30'), by = "day"), 25)) %>%
-  bind_rows(data.frame(date = sample(seq(as.Date('2009-01-01'),
-                                         as.Date('2011-12-30'), by = "day"), 25))) %>%
-  arrange(date) %>%
-  mutate(value = 1:50)
+y <- -100*log(runif(50))
+time = sample(seq(as.POSIXct(strptime("2017-01-01 00:01:00", "%Y-%m-%d %H:%M:%S")),
+                  as.POSIXct(strptime("2017-01-03 23:00:00", "%Y-%m-%d %H:%M:%S")),
+                  by = "min"), 50)
 
-# Use length function in tbr_misc to calculate n samples used in the rolling function
-df <- df %>%
-  tbr_misc(x = value, tcolumn = date, unit = "years", n = 5, func = length)
+df <- data_frame(time, y)
 
-ggplot(df) +
-  geom_point(aes(date, value)) +
-  geom_errorbarh(aes(xmin = min_date, xmax = max_date, 
-                     y = value, color = results)) +
-  scale_color_distiller(type = "seq", palette = "OrRd", 
-                        direction = 1) +
-  guides(color = guide_colorbar(title = "Number of samples")) +
-  theme_minimal() +
-  theme(legend.position = "bottom") +
-  labs(x = "Sample Date", y = "Sample Value",
-       title = "Window length and n used by tbrf",
-       caption = "Lines depict time window used in the function\nColors indicate number of samples in the time window")
+df %>% 
+  tbr_gmean(y, time, unit = "hours", n = 6) %>%
+  ggplot() +
+  geom_point(aes(time, y)) +
+  geom_step(aes(time, mean)) +
+  geom_ribbon(aes(time, ymin = lwr.ci, ymax = upr.ci), alpha = 0.5, stat = "stepribbon")
   
 ```
 
 
-A more general use case, visualize the 5 year geometric mean:
-
-```{r dissolved_oxygen, fig.retina=2, message=FALSE, warning=FALSE}
-data("Dissolved_Oxygen")
-
-df <- Dissolved_Oxygen %>%
-  tbr_mean(x = Average_DO, tcolumn = Date, unit = "years", n = 5)
-
-ggplot(df) +
-  geom_point(aes(Date, Average_DO)) +
-  geom_line(aes(Date, mean)) +
-  geom_ribbon(aes(Date, ymin = lwr.ci, ymax = upr.ci), alpha = 0.5) +
-  theme_minimal() +
-   labs(x = "Sample Date", y = "Concentration (mg/L)",
-       title = "5-yr rolling mean",
-       caption = "Line depicts the 5-yr mean\nShaded area indicates the 95% CI")
-```
-
 ## Speed
 
-The statistical functions for calculating binomial probabilities, geometric mean, mean, and median include confidence intervals by default. All except the binomial probability are currently calculated using bootstrap methodology by default. You will see substantial decrease in computing times with the following argument: `method = "classic"`. Or by using base functions with `tbr_misc`.
+`tbr_mean` and `tbr_gmean` use a bootstrap approach to calculate confidence intervals by default. Computations are substantially decreased by using `method = "classic"`
 
 ```{r}
 data("Dissolved_Oxygen")

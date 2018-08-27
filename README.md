@@ -57,71 +57,42 @@ devtools::install.github("mps9506/tbrf")
 
   - `tbr_sum`: Rolling sum.
 
+## Usage
+
+link
+
 ## Examples
 
-Visualize the number of samples included in a tbrf time window:
+Plot a rolling 6-hour geometric mean
 
 ``` r
 library(tbrf)
 library(dplyr)
 library(ggplot2)
+library(ggalt)
 
-# Some sample data
-df <- data_frame(date = sample(seq(as.Date('2000-01-01'),
-                                   as.Date('2005-12-30'), by = "day"), 25)) %>%
-  bind_rows(data.frame(date = sample(seq(as.Date('2009-01-01'),
-                                         as.Date('2011-12-30'), by = "day"), 25))) %>%
-  arrange(date) %>%
-  mutate(value = 1:50)
+y <- -100*log(runif(50))
+time = sample(seq(as.POSIXct(strptime("2017-01-01 00:01:00", "%Y-%m-%d %H:%M:%S")),
+                  as.POSIXct(strptime("2017-01-03 23:00:00", "%Y-%m-%d %H:%M:%S")),
+                  by = "min"), 50)
 
-# Use length function in tbr_misc to calculate n samples used in the rolling function
-df <- df %>%
-  tbr_misc(x = value, tcolumn = date, unit = "years", n = 5, func = length)
+df <- data_frame(time, y)
 
-ggplot(df) +
-  geom_point(aes(date, value)) +
-  geom_errorbarh(aes(xmin = min_date, xmax = max_date, 
-                     y = value, color = results)) +
-  scale_color_distiller(type = "seq", palette = "OrRd", 
-                        direction = 1) +
-  guides(color = guide_colorbar(title = "Number of samples")) +
-  theme_minimal() +
-  theme(legend.position = "bottom") +
-  labs(x = "Sample Date", y = "Sample Value",
-       title = "Window length and n used by tbrf",
-       caption = "Lines depict time window used in the function\nColors indicate number of samples in the time window")
+df %>% 
+  tbr_gmean(y, time, unit = "hours", n = 6) %>%
+  ggplot() +
+  geom_point(aes(time, y)) +
+  geom_step(aes(time, mean)) +
+  geom_ribbon(aes(time, ymin = lwr.ci, ymax = upr.ci), alpha = 0.5, stat = "stepribbon")
 ```
 
 <img src="man/figures/README-tbr_misc-1.png" width="672" />
 
-A more general use case, visualize the 5 year geometric mean:
-
-``` r
-data("Dissolved_Oxygen")
-
-df <- Dissolved_Oxygen %>%
-  tbr_mean(x = Average_DO, tcolumn = Date, unit = "years", n = 5)
-
-ggplot(df) +
-  geom_point(aes(Date, Average_DO)) +
-  geom_line(aes(Date, mean)) +
-  geom_ribbon(aes(Date, ymin = lwr.ci, ymax = upr.ci), alpha = 0.5) +
-  theme_minimal() +
-   labs(x = "Sample Date", y = "Concentration (mg/L)",
-       title = "5-yr rolling mean",
-       caption = "Line depicts the 5-yr mean\nShaded area indicates the 95% CI")
-```
-
-<img src="man/figures/README-dissolved_oxygen-1.png" width="672" />
-
 ## Speed
 
-The statistical functions for calculating binomial probabilities,
-geometric mean, mean, and median include confidence intervals by
-default. All except the binomial probability are currently calculated
-using bootstrap methodology by default. You will see substantial
-decrease in computing times with the following argument: `method =
-"classic"`. Or by using base functions with `tbr_misc`.
+`tbr_mean` and `tbr_gmean` use a bootstrap approach to calculate
+confidence intervals by default. Computations are substantially
+decreased by using `method = "classic"`
 
 ``` r
 data("Dissolved_Oxygen")
@@ -129,17 +100,17 @@ data("Dissolved_Oxygen")
 system.time(df <- Dissolved_Oxygen %>%
               tbr_mean(x = Average_DO, tcolumn = Date, unit = "years", n = 5, method = "boot"))
 ##    user  system elapsed 
-##   15.17    0.03   15.27
+##   15.39    0.03   15.45
 
 system.time(df <- Dissolved_Oxygen %>%
   tbr_mean(x = Average_DO, tcolumn = Date, unit = "years", n = 5, method = "classic"))
 ##    user  system elapsed 
-##    0.49    0.00    0.48
+##    0.46    0.00    0.46
 
 system.time(df <- Dissolved_Oxygen %>%
   tbr_misc(x = Average_DO, tcolumn = Date, unit = "years", n = 5, func = mean))
 ##    user  system elapsed 
-##    0.84    0.00    0.85
+##    0.86    0.00    0.86
 ```
 
 ## Contributing
@@ -166,20 +137,19 @@ package.
 library(tbrf)
 
 date()
-## [1] "Thu Aug 02 12:26:27 2018"
+## [1] "Mon Aug 27 16:37:19 2018"
 
 devtools::test()
 ## v | OK F W S | Context
 ## 
-/ |  0       | core functions return expected structures
-- |  1       | core functions return expected structures
-\ |  2       | core functions return expected structures
-| |  3       | core functions return expected structures
-/ |  4       | core functions return expected structures
-- |  5       | core functions return expected structures
-\ |  6       | core functions return expected structures
-| |  7       | core functions return expected structures
-v |  7       | core functions return expected structures [3.8 s]
+/ |  0       | core functions work in piped workflow
+- |  1       | core functions work in piped workflow
+\ |  2       | core functions work in piped workflow
+| |  3       | core functions work in piped workflow
+/ |  4       | core functions work in piped workflow
+- |  5       | core functions work in piped workflow
+\ |  6       | core functions work in piped workflow
+v |  6       | core functions work in piped workflow [0.6 s]
 ## 
 / |  0       | core functions return expected errors and messages
 - |  1       | core functions return expected errors and messages
@@ -191,10 +161,36 @@ v |  7       | core functions return expected structures [3.8 s]
 | |  7       | core functions return expected errors and messages
 v |  7       | core functions return expected errors and messages
 ## 
-## == Results ==========================================================================================
-## Duration: 3.9 s
+/ |  0       | core functions return expected structures and values
+- |  1       | core functions return expected structures and values
+\ |  2       | core functions return expected structures and values
+| |  3       | core functions return expected structures and values
+/ |  4       | core functions return expected structures and values
+- |  5       | core functions return expected structures and values
+\ |  6       | core functions return expected structures and values
+| |  7       | core functions return expected structures and values
+/ |  8       | core functions return expected structures and values
+v |  8       | core functions return expected structures and values [2.5 s]
 ## 
-## OK:       14
+/ |  0       | internal statistical functions return expected values
+- |  1       | internal statistical functions return expected values
+\ |  2       | internal statistical functions return expected values
+| |  3       | internal statistical functions return expected values
+/ |  4       | internal statistical functions return expected values
+- |  5       | internal statistical functions return expected values
+\ |  6       | internal statistical functions return expected values
+| |  7       | internal statistical functions return expected values
+/ |  8       | internal statistical functions return expected values
+- |  9       | internal statistical functions return expected values
+\ | 10       | internal statistical functions return expected values
+| | 11       | internal statistical functions return expected values
+/ | 12       | internal statistical functions return expected values
+v | 12       | internal statistical functions return expected values [0.1 s]
+## 
+## == Results ==========================================================================================
+## Duration: 3.3 s
+## 
+## OK:       33
 ## Failed:   0
 ## Warnings: 0
 ## Skipped:  0

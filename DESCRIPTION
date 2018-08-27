@@ -33,4 +33,7 @@ Suggests:
     DescTools,
     ggplot2,
     Hmisc,
-    testthat
+    testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
