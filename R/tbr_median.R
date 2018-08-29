@@ -14,6 +14,10 @@
 #' @importFrom tidyr unnest
 #' @return tibble with columns for the rolling median and upper and lower confidence intervals.
 #' @export
+#' @seealso \code{\link{median_ci}}
+#' @examples
+#' tbr_median(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years",
+#' n = 5)
 tbr_median <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
 
   #Match dots args: method = "boot", conf.level = 0.95,

@@ -29,3 +29,9 @@ tibble with columns for the rolling geometric mean and upper and
 Produces a a rolling time-window based vector of geometric means and
 confidence intervals.
 }
+\examples{
+tbr_gmean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5, method = "classic")
+}
+\seealso{
+\code{\link{gmean_ci}}
+}

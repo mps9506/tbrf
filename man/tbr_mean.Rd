@@ -25,3 +25,9 @@ tibble with columns for the rolling mean and upper and lower confidence interval
 \description{
 Produces a a rolling time-window based vector of means and confidence intervals.
 }
+\examples{
+tbr_mean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5, method = "classic")
+}
+\seealso{
+\code{\link{mean_ci}}
+}

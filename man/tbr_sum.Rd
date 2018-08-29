@@ -25,3 +25,9 @@ dataframe with column for the rolling sum.
 \description{
 Time-Based Rolling Sum
 }
+\examples{
+tbr_sum(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5)
+}
+\seealso{
+\code{\link{sum}}
+}

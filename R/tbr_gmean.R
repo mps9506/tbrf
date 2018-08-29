@@ -21,6 +21,9 @@
 #' @return tibble with columns for the rolling geometric mean and upper and
 #'   lower confidence levels.
 #' @export
+#' @seealso \code{\link{gmean_ci}}
+#' @examples
+#' tbr_gmean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5, method = "classic")
 tbr_gmean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
 
   #Match dots args: method = "boot", conf.level = 0.95, sides = "two.sided",

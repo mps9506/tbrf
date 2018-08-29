@@ -20,11 +20,14 @@ as date, date/time and value column.}
 
 \item{func}{specified function}
 
-\item{...}{optional additional arguments passed to function func}
+\item{...}{optional additional arguments passed to function \code{func}}
 }
 \value{
 tibble
 }
 \description{
 Use Generic Functions with Time Windows
+}
+\examples{
+tbr_misc(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5, func = mean)
 }

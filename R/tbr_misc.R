@@ -7,13 +7,15 @@
 #' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
 #' @param func specified function
-#' @param ... optional additional arguments passed to function func
+#' @param ... optional additional arguments passed to function \code{func}
 #'
 #' @import rlang
 #' @import dplyr
 #' @importFrom tidyr unnest
 #' @return tibble
 #' @export
+#' @examples
+#' tbr_misc(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5, func = mean)
 tbr_misc <- function(.tbl, x, tcolumn, unit = "years", n, func, ...) {
 
   col_name <- as.character(substitute(func))

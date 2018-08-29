@@ -15,6 +15,9 @@
 #' @importFrom tidyr unnest
 #' @return tibble with columns for the rolling mean and upper and lower confidence intervals.
 #' @export
+#' @seealso \code{\link{mean_ci}}
+#' @examples
+#' tbr_mean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5, method = "classic")
 tbr_mean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
 
   #Match dots args: sd = NULL, trim = 0, method = "boot", conf.level = 0.95,

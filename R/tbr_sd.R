@@ -12,6 +12,9 @@
 #' @importFrom purrr map
 #' @return tibble with column for the rolling sd.
 #' @export
+#' @seealso \code{\link{sd}}
+#' @examples
+#' tbr_sd(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5)
 tbr_sd <- function(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE) {
 
   # apply the window function to each row

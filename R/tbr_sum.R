@@ -1,10 +1,12 @@
 
 #' Time-Based Rolling Sum
 #'
-#' @param .tbl a data frame with at least two variables; time column formatted as date, date/time and value column.
+#' @param .tbl a data frame with at least two variables; time column formatted
+#'   as date, date/time and value column.
 #' @param x column containing the values to calculate the sum.
 #' @param tcolumn formated time column.
-#' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
+#' @param unit character, one of "years", "months", "weeks", "days", "hours",
+#'   "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
 #' @param na.rm logical. Should missing values be removed?
 #'
@@ -13,6 +15,10 @@
 #' @importFrom purrr map
 #' @return dataframe with column for the rolling sum.
 #' @export
+#' @seealso \code{\link{sum}}
+#' @examples
+#' tbr_sum(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n =
+#' 5)
 tbr_sum <- function(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE) {
 
   # apply the window function to each row
