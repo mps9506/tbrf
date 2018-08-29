@@ -1,0 +1,159 @@
+---
+title: "tbrf"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "##",
+  fig.path = "man/figures/README-",
+  fig.retina = 2
+)
+
+library(tbrf)
+library(dplyr)
+library(ggplot2)
+```
+
+[![Travis build status](https://travis-ci.org/mps9506/tbrf.svg?branch=master)](https://travis-ci.org/mps9506/tbrf)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/mps9506/tbrf?branch=master&svg=true)](https://ci.appveyor.com/project/mps9506/tbrf)
+[![Coverage status](https://codecov.io/gh/mps9506/tbrf/branch/master/graph/badge.svg)](https://codecov.io/github/mps9506/tbrf?branch=master)
+ 
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+ 
+The goal of tbrf is to provide time-window based rolling statistical functions. The package differs from other rolling statistic packages because the intended use is for irregular measured data. Althogh tbrf can be used to apply statistical functions to regularly sampled data, [`zoo`](https://CRAN.R-project.org/package=zoo), [`RcppRoll`](https://cran.r-project.org/package=RcppRoll), and other packages provide fast, efficient, and rich implementations of rolling/windowed functions.
+
+An appropriate example case is water quality data that is measured at irregular time intervals. Regulatory compliance is often based on a statistical average measure or exceedance probability applied to all samples collected in the previous $n$-years. For each row of data, tbrf functions select previous observations in the time windows specified by the user and applies the statistical function.
+
+## Installation
+
+tbrf is still under active development (do not expect stable behavior) and can be installed from github with:
+
+``` r
+devtools::install.github("mps9506/tbrf")
+```
+
+## Available Functions
+
+- `tbr_binom`: Rolling binomal probability with confidence intervals.
+
+- `tbr_gmean`: Rolling geometric mean with confidence intervals.
+
+- `tbr_mean`: Rolling mean with confidence intervals.
+
+- `tbr_median`: Rolling median with confidence intervals.
+
+- `tbr_misc`: Accepts user specified function.
+
+- `tbr_sd`: Rolling standard deviation.
+
+- `tbr_sum`: Rolling sum.
+
+## Usage
+
+Core functions include five arguments:
+
+```
+.tbl = dataframe used by the function
+
+x = column containing the values to calculate the statistic on
+
+tcolumn = formatted date-time or date column
+
+unit = character indicating the time unit used, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
+
+n = numeric, indicating the window length
+```
+
+### Basic Example
+
+For example, get the 5-year rolling mean:
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+tbr_mean(Dissolved_Oxygen, x = Average_DO,
+         tcolumn = Date, unit = "years", n = 5)
+```
+
+This works in a tidy-workflow as:
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+library(ggalt) #for step_ribbon
+
+Dissolved_Oxygen %>%
+  mutate(Station_ID = as.factor(Station_ID)) %>%
+  group_by(Station_ID) %>%
+  tbr_mean(Average_DO, Date, "years", 5) %>%
+  ggplot() +
+  geom_step(aes(Date, mean, color = Station_ID)) +
+  geom_ribbon(aes(Date, ymin = lwr.ci, ymax = upr.ci, fill = Station_ID), alpha = 0.5)
+```
+
+### Different Time Units
+
+tbrf works with times or dates.
+
+```{r}
+## Some sample data
+y <- -1000*log(runif(1000))
+time = sample(seq(as.POSIXct(strptime("2017-01-01 00:01:00", "%Y-%m-%d %H:%M:%S")),
+                  as.POSIXct(strptime("2017-01-05 23:00:00", "%Y-%m-%d %H:%M:%S")),
+                  by = "min"), 1000)
+
+df <- data_frame(time, y)
+
+```
+
+Plot 120-minute geometric means:
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+df %>% 
+  tbr_gmean(y, time, unit = "minutes", n = 120, method = "classic") %>%
+  ggplot() +
+  geom_point(aes(time, y), alpha = 0.25) +
+  geom_step(aes(time, mean)) +
+  geom_ribbon(aes(time, ymin = lwr.ci, ymax = upr.ci), alpha = 0.5, stat = "stepribbon") +
+  scale_y_log10()
+```
+
+Plot 12-hour minute geometric means:
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+df %>% 
+  tbr_gmean(y, time, unit = "hours", n = 12, method = "classic") %>%
+  ggplot() +
+  geom_point(aes(time, y), alpha = 0.25) +
+  geom_step(aes(time, mean)) +
+  geom_ribbon(aes(time, ymin = lwr.ci, ymax = upr.ci), alpha = 0.5, stat = "stepribbon") +
+  scale_y_log10()
+```
+
+Plot 1-day geometric means:
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+df %>% 
+  tbr_gmean(y, time, unit = "days", n = 1, method = "classic") %>%
+  ggplot() +
+  geom_point(aes(time, y), alpha = 0.25) +
+  geom_step(aes(time, mean)) +
+  geom_ribbon(aes(time, ymin = lwr.ci, ymax = upr.ci), alpha = 0.5, stat = "stepribbon") +
+  scale_y_log10()
+```
+
+### Confidence Intervals
+
+`tbr_mean` and `tbr_gmean` default to a bootstrap approach for calculating confidence intervals. Computations can be substantially decreased by using `method = "classic"`. 
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+
+data("Dissolved_Oxygen")
+
+system.time(df <- Dissolved_Oxygen %>%
+              tbr_mean(x = Average_DO, tcolumn = Date, unit = "years", n = 5, method = "boot"))
+
+system.time(df <- Dissolved_Oxygen %>%
+  tbr_mean(x = Average_DO, tcolumn = Date, unit = "years", n = 5, method = "classic"))
+
+system.time(df <- Dissolved_Oxygen %>%
+  tbr_misc(x = Average_DO, tcolumn = Date, unit = "years", n = 5, func = mean))
+
+```
+

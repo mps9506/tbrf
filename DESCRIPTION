@@ -30,9 +30,8 @@ Imports:
     tidyr
 Suggests: 
     covr,
-    DescTools,
+    ggalt,
     ggplot2,
-    Hmisc,
     testthat,
     knitr,
     rmarkdown
