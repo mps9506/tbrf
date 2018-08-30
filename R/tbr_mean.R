@@ -17,16 +17,24 @@
 #' @export
 #' @seealso \code{\link{mean_ci}}
 #' @examples
-#' tbr_mean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5, method = "classic")
+#' ## Return a tibble with new rolling mean column
+#' tbr_mean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5)
+#' 
+#' ## Return a tibble with rolling mean and 95% CI
+#' \dontrun{
+#' ## This example 
+#' tbr_mean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5, conf = .95)}
 tbr_mean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
 
   dots <- list(...)
 
-  default_dots <- list(conf = 0.95,
+  default_dots <- list(conf = NA,
                        na.rm = FALSE,
                        type = "basic",
                        R = 1000,
-                       parallel = "no")
+                       parallel = "no",
+                       ncpus = getOption("boot.ncpus", 1L),
+                       cl = NULL)
 
 
   default_dots[names(dots)] <- dots
@@ -45,8 +53,8 @@ tbr_mean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
                                         type = default_dots$type,
                                         R = default_dots$R,
                                         parallel = default_dots$parallel,
-                                        ncpus = getOption("boot.ncpus", 1L),
-                                        cl = NULL))) %>%
+                                        ncpus = default_dots$ncpus,
+                                        cl = default_dots$cl))) %>%
     tidyr::unnest()
   .tbl <- tibble::as_tibble(.tbl)
   return(.tbl)
@@ -79,7 +87,7 @@ tbr_mean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
   # else three columns
   dots <- list(...)
 
-  if (is.na(dots$conf.level)) {
+  if (is.na(dots$conf)) {
     resultsColumns <- c("mean")
   }
 
@@ -107,7 +115,7 @@ tbr_mean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
     }
     else{
 
-      if (is.na(dots$conf.level)) {
+      if (is.na(dots$conf)) {
         results <- tibble::as.tibble(list(mean = mean_ci(window = window, ...)))
       }
 
@@ -142,6 +150,7 @@ tbr_mean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
 #' @return named list with mean and (optionally) specified confidence
 #'   interval
 #' @import boot
+#' @importFrom stats var
 #' @export
 #'
 #' @keywords internal
@@ -161,7 +170,7 @@ mean_ci <- function(window, conf = 0.95, na.rm = TRUE, type = "basic",
     boot <- boot::boot(window, function(x,i) {
       gm <- mean(x[i], na.rm = na.rm)
       n <- length(i)
-      v <- (n - 1) * var(x[i]) / n^2
+      v <- (n - 1) * stats::var(x[i]) / n^2
       c(gm, v)
     },
     R = R,

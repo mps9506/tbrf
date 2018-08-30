@@ -7,7 +7,7 @@ output: github_document
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "##",
-  fig.path = "man/figures/README-",
+  fig.path = "docs/figures/index-",
   fig.retina = 2
 )
 
@@ -65,6 +65,8 @@ unit = character indicating the time unit used, one of "years", "months", "weeks
 
 n = numeric, indicating the window length
 ```
+Additional arguments for calculating confidence intervals in `tbr_gmean`, `tbr_mean`, and `tbr_median` are passed to `boot` and `boot.ci`.
+
 
 ### Basic Example
 
@@ -83,10 +85,10 @@ library(ggalt) #for step_ribbon
 Dissolved_Oxygen %>%
   mutate(Station_ID = as.factor(Station_ID)) %>%
   group_by(Station_ID) %>%
-  tbr_mean(Average_DO, Date, "years", 5) %>%
+  tbr_mean(Average_DO, Date, "years", 5, conf = 0.95) %>%
   ggplot() +
   geom_step(aes(Date, mean, color = Station_ID)) +
-  geom_ribbon(aes(Date, ymin = lwr.ci, ymax = upr.ci, fill = Station_ID), alpha = 0.5)
+  geom_ribbon(aes(Date, ymin = lwr_ci, ymax = upr_ci, fill = Station_ID), alpha = 0.5)
 ```
 
 ### Different Time Units
@@ -108,52 +110,34 @@ Plot 120-minute geometric means:
 
 ```{r message=FALSE, warning=FALSE, paged.print=FALSE}
 df %>% 
-  tbr_gmean(y, time, unit = "minutes", n = 120, method = "classic") %>%
+  tbr_gmean(y, time, unit = "minutes", n = 120, conf = 0.95) %>%
   ggplot() +
   geom_point(aes(time, y), alpha = 0.25) +
   geom_step(aes(time, mean)) +
-  geom_ribbon(aes(time, ymin = lwr.ci, ymax = upr.ci), alpha = 0.5, stat = "stepribbon") +
+  geom_ribbon(aes(time, ymin = lwr_ci, ymax = upr_ci), alpha = 0.5, stat = "stepribbon") +
   scale_y_log10()
 ```
 
 Plot 12-hour minute geometric means:
 ```{r message=FALSE, warning=FALSE, paged.print=FALSE}
 df %>% 
-  tbr_gmean(y, time, unit = "hours", n = 12, method = "classic") %>%
+  tbr_gmean(y, time, unit = "hours", n = 12, conf = 0.95) %>%
   ggplot() +
   geom_point(aes(time, y), alpha = 0.25) +
   geom_step(aes(time, mean)) +
-  geom_ribbon(aes(time, ymin = lwr.ci, ymax = upr.ci), alpha = 0.5, stat = "stepribbon") +
+  geom_ribbon(aes(time, ymin = lwr_ci, ymax = upr_ci), alpha = 0.5, stat = "stepribbon") +
   scale_y_log10()
 ```
 
 Plot 1-day geometric means:
 ```{r message=FALSE, warning=FALSE, paged.print=FALSE}
 df %>% 
-  tbr_gmean(y, time, unit = "days", n = 1, method = "classic") %>%
+  tbr_gmean(y, time, unit = "days", n = 1, conf = 0.95) %>%
   ggplot() +
   geom_point(aes(time, y), alpha = 0.25) +
   geom_step(aes(time, mean)) +
-  geom_ribbon(aes(time, ymin = lwr.ci, ymax = upr.ci), alpha = 0.5, stat = "stepribbon") +
+  geom_ribbon(aes(time, ymin = lwr_ci, ymax = upr_ci), alpha = 0.5, stat = "stepribbon") +
   scale_y_log10()
 ```
 
-### Confidence Intervals
-
-`tbr_mean` and `tbr_gmean` default to a bootstrap approach for calculating confidence intervals. Computations can be substantially decreased by using `method = "classic"`. 
-
-```{r message=FALSE, warning=FALSE, paged.print=FALSE}
-
-data("Dissolved_Oxygen")
-
-system.time(df <- Dissolved_Oxygen %>%
-              tbr_mean(x = Average_DO, tcolumn = Date, unit = "years", n = 5, method = "boot"))
-
-system.time(df <- Dissolved_Oxygen %>%
-  tbr_mean(x = Average_DO, tcolumn = Date, unit = "years", n = 5, method = "classic"))
-
-system.time(df <- Dissolved_Oxygen %>%
-  tbr_misc(x = Average_DO, tcolumn = Date, unit = "years", n = 5, func = mean))
-
-```
 

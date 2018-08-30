@@ -24,18 +24,18 @@
 #' @seealso \code{\link{gm_mean_ci}}
 #' @examples
 #'
-#' ## Create 5-year rollling geometric mean
-#' tbr_gmean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n
-#' = 5, conf = .95)
-#'
-#' ## Create rolling geometric mean without confidence intervals
-#' tbr_gmean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n
-#' = 5, conf = NA)
+#' ## Return a tibble with new rolling geometric mean column
+#' tbr_gmean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5)
+#' 
+#' ## Return a tibble with rolling geometric mean and 95% CI
+#' \dontrun{
+#' ## This example 
+#' tbr_gmean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5, conf = .95)}
 tbr_gmean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
 
   dots <- list(...)
 
-  default_dots <- list(conf = 0.95,
+  default_dots <- list(conf = NA,
                        na.rm = FALSE,
                        type = "basic",
                        R = 1000,
@@ -190,6 +190,7 @@ gm_mean <- function(x, na.rm=TRUE, zero.propagate = FALSE){
 #' @return named list with geometric mean and (optionally) specified confidence
 #'   interval
 #' @import boot
+#' @importFrom stats var
 #' @export
 #'
 #' @keywords internal
@@ -209,7 +210,7 @@ gm_mean_ci <- function(window, conf = 0.95, na.rm = TRUE, type = "basic",
     gmboot <- boot::boot(window, function(x,i) {
       gm <- gm_mean(x[i], na.rm = na.rm)
       n <- length(i)
-      v <- (n - 1) * var(x[i]) / n^2
+      v <- (n - 1) * stats::var(x[i]) / n^2
       c(gm, v)
     },
     R = R,

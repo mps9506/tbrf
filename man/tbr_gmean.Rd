@@ -31,13 +31,13 @@ confidence intervals.
 }
 \examples{
 
-## Create 5-year rollling geometric mean
-tbr_gmean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n
-= 5, conf = .95)
+## Return a tibble with new rolling geometric mean column
+tbr_gmean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5)
 
-## Create rolling geometric mean without confidence intervals
-tbr_gmean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n
-= 5, conf = NA)
+## Return a tibble with rolling geometric mean and 95\% CI
+\dontrun{
+## This example 
+tbr_gmean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5, conf = .95)}
 }
 \seealso{
 \code{\link{gm_mean_ci}}

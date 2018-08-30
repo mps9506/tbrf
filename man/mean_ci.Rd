@@ -4,8 +4,9 @@
 \alias{mean_ci}
 \title{Returns the mean and CI}
 \usage{
-mean_ci(window, conf = 0.95, na.rm = TRUE, type = "basic", R = 1000,
-  parallel = "no", ncpus = getOption("boot.ncpus", 1L), cl = NULL)
+mean_ci(window, conf = 0.95, na.rm = TRUE, type = "basic",
+  R = 1000, parallel = "no", ncpus = getOption("boot.ncpus", 1L),
+  cl = NULL)
 }
 \arguments{
 \item{window}{vector of data values}
