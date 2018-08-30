@@ -29,9 +29,8 @@ Produces a a rolling time-window based vector of means and confidence intervals.
 ## Return a tibble with new rolling mean column
 tbr_mean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5)
 
-## Return a tibble with rolling mean and 95\% CI
 \dontrun{
-## This example 
+## Return a tibble with rolling mean and 95\% CI
 tbr_mean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5, conf = .95)}
 }
 \seealso{

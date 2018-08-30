@@ -30,9 +30,8 @@ Produces a a rolling time-window based vector of medians and confidence interval
 tbr_median(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years",
 n = 5)
 
-## Return a tibble with rolling median and 95\% CI
 \dontrun{
-## This example 
+## Return a tibble with rolling median and 95\% CI 
 tbr_median(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5, conf = .95)}
 }
 \seealso{

@@ -27,9 +27,8 @@
 #' ## Return a tibble with new rolling geometric mean column
 #' tbr_gmean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5)
 #' 
-#' ## Return a tibble with rolling geometric mean and 95% CI
 #' \dontrun{
-#' ## This example 
+#' ## Return a tibble with rolling geometric mean and 95% CI
 #' tbr_gmean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5, conf = .95)}
 tbr_gmean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
 

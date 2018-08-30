@@ -127,7 +127,7 @@ data_frame(date = sample(seq(as.Date('2001-01-01'),
                                    by = "day"), 
                                60),
                  x = rexp(60, 1/1000)) %>%
-  tbr_gmean(x, date, "years", 7, conf = 0.95) %>%
+  tbr_gmean(x, date, "years", 7, conf = 0.95, type = "perc") %>%
   ggplot() +
   geom_point(aes(date, x), alpha = 0.5) +
   geom_step(aes(date, mean)) +
@@ -144,7 +144,7 @@ Plot the rolling 7-year mean:
 Dissolved_Oxygen %>%
   mutate(Station_ID = as.factor(Station_ID)) %>%
   group_by(Station_ID) %>%
-  tbr_mean(Average_DO, Date, "years", 7, conf = 0.95) %>%
+  tbr_mean(Average_DO, Date, "years", 7, conf = 0.95, type = "perc") %>%
   ggplot() +
   geom_point(aes(Date, Average_DO, color = Station_ID), alpha = 0.5) +
   geom_step(aes(Date, mean, color = Station_ID)) +
@@ -158,7 +158,7 @@ Plot the rolling 7-year median:
 Dissolved_Oxygen %>%
   mutate(Station_ID = as.factor(Station_ID)) %>%
   group_by(Station_ID) %>%
-  tbr_median(Average_DO, Date, "years", 7, conf = 0.95) %>%
+  tbr_median(Average_DO, Date, "years", 7, conf = 0.95, type = "perc") %>%
   ggplot() +
   geom_point(aes(Date, Average_DO, color = Station_ID), alpha = 0.5) +
   geom_step(aes(Date, median, color = Station_ID)) +
@@ -248,9 +248,9 @@ library(snow)
 cl <- makeCluster(4, type = "SOCK")
 
 tbr_mean(Dissolved_Oxygen, Average_DO, Date, 
-                     "years", 5, R = 1000, 
-                     parallel = "snow", ncpus = "4",
-                     cl = cl)
+         "years", 5, R = 1000, conf = .95,
+         type = "perc", parallel = "snow", 
+         cl = cl)
 
 stopCluster(cl)
 ```
