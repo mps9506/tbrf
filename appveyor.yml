@@ -14,7 +14,10 @@ cache:
   - C:\RLibrary
 
 # Adapt as necessary starting from here
-
+environment:
+  global:
+    WARNINGS_ARE_ERRORS: 1
+    
   matrix:
   - R_VERSION: devel
     GCC_PATH: mingw_32
@@ -27,12 +30,6 @@ cache:
     R_ARCH: x64
 
   - R_VERSION: stable
-
-  - R_VERSION: patched
-
-  - R_VERSION: oldrel
-    RTOOLS_VERSION: 33
-    CRAN: http://cran.rstudio.com
 
 matrix:
   fast_finish: true
