@@ -2,7 +2,13 @@
 
 language: R
 sudo: false
+dist: trusty
 cache: packages
+
+addons:
+  apt:
+    packages:
+      - ggalt
 
 r:
   - oldrel
