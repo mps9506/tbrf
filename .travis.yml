@@ -12,27 +12,10 @@ r:
 
 addons:
   apt:
-    sources:
-      - sourceline: 'ppa:ubuntugis/ubuntugis-unstable'
     packages:
+      - binutils
       - libproj-dev
-      - libgeos-dev
-      - libgdal-dev
-
-r_packages:
-  - boot
-  - dplyr
-  - lubridate
-  - purrr
-  - rlang
-  - tibble
-  - tidyr
-  - covr
-  - ggplot2
-  - ggalt
-  - testthat
-  - knitr
-  - rmarkdown
+      - gdal-bin
 
 after_success:
     - Rscript -e 'covr::codecov()'
