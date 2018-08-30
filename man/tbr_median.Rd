@@ -26,7 +26,8 @@ tibble with columns for the rolling median and upper and lower confidence interv
 Produces a a rolling time-window based vector of medians and confidence intervals.
 }
 \examples{
-tbr_median(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5)
+tbr_median(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years",
+n = 5)
 }
 \seealso{
 \code{\link{median_ci}}

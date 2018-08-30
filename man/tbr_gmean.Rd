@@ -19,7 +19,7 @@ as date, date/time and value column.}
 
 \item{n}{numeric, describing the length of the time window.}
 
-\item{...}{additional arguments passed to \code{\link{gmean_ci}}}
+\item{...}{additional arguments passed to \code{\link{gm_mean_ci}}}
 }
 \value{
 tibble with columns for the rolling geometric mean and upper and
@@ -30,8 +30,15 @@ Produces a a rolling time-window based vector of geometric means and
 confidence intervals.
 }
 \examples{
-tbr_gmean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5, method = "classic")
+
+## Create 5-year rollling geometric mean
+tbr_gmean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n
+= 5, conf = .95)
+
+## Create rolling geometric mean without confidence intervals
+tbr_gmean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n
+= 5, conf = NA)
 }
 \seealso{
-\code{\link{gmean_ci}}
+\code{\link{gm_mean_ci}}
 }

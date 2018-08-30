@@ -11,7 +11,7 @@
 #' @param unit character, one of "years", "months", "weeks", "days", "hours",
 #'   "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
-#' @param ... additional arguments passed to \code{\link{gmean_ci}}
+#' @param ... additional arguments passed to \code{\link{gm_mean_ci}}
 #'
 #' @import dplyr
 #' @import rlang
@@ -21,19 +21,27 @@
 #' @return tibble with columns for the rolling geometric mean and upper and
 #'   lower confidence levels.
 #' @export
-#' @seealso \code{\link{gmean_ci}}
+#' @seealso \code{\link{gm_mean_ci}}
 #' @examples
-#' tbr_gmean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5, method = "classic")
+#'
+#' ## Create 5-year rollling geometric mean
+#' tbr_gmean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n
+#' = 5, conf = .95)
+#'
+#' ## Create rolling geometric mean without confidence intervals
+#' tbr_gmean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n
+#' = 5, conf = NA)
 tbr_gmean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
 
-  #Match dots args: method = "boot", conf.level = 0.95, sides = "two.sided",
-  #na.rm = FALSE, type = "basic", parallel = "boot.parallel", R = 999
   dots <- list(...)
 
-  default_dots <- list(method = "boot", conf.level = 0.95,
-                       sides = "two.sided", na.rm = FALSE,
-                       type = "basic", parallel = "boot.parallel",
-                       R = 999)
+  default_dots <- list(conf = 0.95,
+                       na.rm = FALSE,
+                       type = "basic",
+                       R = 1000,
+                       parallel = "no",
+                       ncpus = getOption("boot.ncpus", 1L),
+                       cl = NULL)
 
   default_dots[names(dots)] <- dots
 
@@ -46,10 +54,13 @@ tbr_gmean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
                                          unit = unit,
                                          n = n,
                                          i = .x,
-                                         method = default_dots$method,
-                                         conf.level = default_dots$conf.level,
-                                         sides = default_dots$sides,
-                                         na.rm = default_dots$na.rm))) %>%
+                                         conf = default_dots$conf,
+                                         na.rm = default_dots$na.rm,
+                                         type = default_dots$type,
+                                         R = default_dots$R,
+                                         parallel = default_dots$parallel,
+                                         ncpus = default_dots$ncpus,
+                                         cl = default_dots$cl))) %>%
     tidyr::unnest()
   .tbl <- tibble::as_tibble(.tbl)
   return(.tbl)
@@ -83,12 +94,12 @@ tbr_gmean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
   # else three columns
   dots <- list(...)
 
-  if (is.na(dots$conf.level)) {
+  if (is.na(dots$conf)) {
     resultsColumns <- c("mean")
   }
 
   else {
-    resultsColumns <- c("mean", "lwr.ci", "upr.ci")
+    resultsColumns <- c("mean", "lwr_ci", "upr_ci")
   }
 
   # do not calculate the first row, always returns NA
@@ -111,15 +122,114 @@ tbr_gmean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
     # else calculate the geometric mean with confidence interval
     else{
 
-      if (is.na(dots$conf.level)) {
-        results <- tibble::as.tibble(list(mean = gmean_ci(x = window, ...)))
+      if (is.na(dots$conf)) {
+        results <- tibble::as.tibble(list(mean = gm_mean_ci(window = window, ...)))
       }
 
       else {
-        results <- tibble::as_tibble(as.list(gmean_ci(x = window, ...)))
+        results <- tibble::as_tibble(as.list(gm_mean_ci(window = window, ...)))
       }
 
       return(results)
     }
   }
+}
+
+
+
+# gm_mean Calculate the Geometric Mean ------------------------------------
+
+
+
+#' Calculates the Geometric Mean
+#'
+#' Originally from Paul McMurdie, Ben Bolker, and Gregor on Stack Overflow:
+#' https://stackoverflow.com/questions/2602583/geometric-mean-is-there-a-built-in
+#' @param x vector of numeric values
+#' @param na.rm logical TRUE/FALSE remove NA values
+#' @param zero.propagate logical TRUE/FALSE. Allows the optional propogation of
+#'   zeros.
+#'
+#' @return the geometric mean of the vector
+#' @export
+#'
+#' @keywords internal
+gm_mean <- function(x, na.rm=TRUE, zero.propagate = FALSE){
+  if (any(x < 0, na.rm = TRUE)) {
+    return(NaN)
+  }
+  if (zero.propagate) {
+    if (any(x == 0, na.rm = TRUE)) {
+      return(0)
+    }
+    exp(mean(log(x), na.rm = na.rm))
+  } else {
+    exp(sum(log(x[x > 0]), na.rm = na.rm) / length(x))
+  }
+}
+
+
+#' Returns the Geomean and CI
+#'
+#' Generates Geometric mean and confidence intervals using bootstrap.
+#' @param window vector of data values
+#' @param conf confidence level of the required interval. \code{NA} if skipping
+#'   calculating the bootstrapped CI
+#' @param na.rm logical \code{TRUE/FALSE}. Remove NAs from the dataset. Defaults
+#'   \code{TRUE}
+#' @param type character string, one of \code{c("norm","basic", "stud", "perc",
+#'   "bca")}. \code{"all"} is not a valid value. See \code{\link{boot.ci}}
+#' @param R the number of bootstrap replicates. see \code{\link{boot}}
+#' @param parallel The type of parallel operation to be used (if any). see
+#'   \code{\link{boot}}
+#' @param ncpus integer: number of process to be used in parallel operation. see
+#'   \code{\link{boot}}
+#' @param cl optional parallel or snow cluster for use if \code{parallel =
+#'   "snow"}. see \code{\link{boot}}
+#'
+#' @return named list with geometric mean and (optionally) specified confidence
+#'   interval
+#' @import boot
+#' @export
+#'
+#' @keywords internal
+gm_mean_ci <- function(window, conf = 0.95, na.rm = TRUE, type = "basic",
+                       R = 1000, parallel = "no", ncpus = getOption("boot.ncpus", 1L),
+                       cl = NULL) {
+
+  ## if conf is.na return just the gm_mean
+  if (is.na(conf)) {
+    results <- c(mean = gm_mean(window))
+  }
+  ## else return gm_mean + conf intervals
+
+  else {
+
+    ## type must be one of "norm", "basic", "stud", "perc", "bca"
+    gmboot <- boot::boot(window, function(x,i) {
+      gm <- gm_mean(x[i], na.rm = na.rm)
+      n <- length(i)
+      v <- (n - 1) * var(x[i]) / n^2
+      c(gm, v)
+    },
+    R = R,
+    parallel = parallel,
+    ncpus = ncpus,
+    cl = cl)
+
+
+    ci <- boot::boot.ci(gmboot, conf = conf, type = type)
+
+    if (type == "norm") {
+      results <- c(mean = ci[[2]],
+                   lwr_ci = ci[[4]][[2]],
+                   upr_ci = ci[[4]][[3]])
+    }
+    else {
+      results <- c(mean = ci[[2]],
+                 lwr_ci = ci[[4]][[4]],
+                 upr_ci = ci[[4]][[5]])
+    }
+  }
+  return(results)
 }

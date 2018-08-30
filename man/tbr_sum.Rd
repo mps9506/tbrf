@@ -7,13 +7,15 @@
 tbr_sum(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE)
 }
 \arguments{
-\item{.tbl}{a data frame with at least two variables; time column formatted as date, date/time and value column.}
+\item{.tbl}{a data frame with at least two variables; time column formatted
+as date, date/time and value column.}
 
 \item{x}{column containing the values to calculate the sum.}
 
 \item{tcolumn}{formated time column.}
 
-\item{unit}{character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"}
+\item{unit}{character, one of "years", "months", "weeks", "days", "hours",
+"minutes", "seconds"}
 
 \item{n}{numeric, describing the length of the time window.}
 
@@ -26,7 +28,8 @@ dataframe with column for the rolling sum.
 Time-Based Rolling Sum
 }
 \examples{
-tbr_sum(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5)
+tbr_sum(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n =
+5)
 }
 \seealso{
 \code{\link{sum}}
