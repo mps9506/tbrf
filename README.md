@@ -59,9 +59,11 @@ devtools::install.github("mps9506/tbrf")
 
 ## Usage
 
-link
+See:
 
-## Examples
+<https://mps9506.github.io/tbrf/>
+
+## Example
 
 Plot a rolling 6-hour geometric mean
 
@@ -79,39 +81,14 @@ time = sample(seq(as.POSIXct(strptime("2017-01-01 00:01:00", "%Y-%m-%d %H:%M:%S"
 df <- data_frame(time, y)
 
 df %>% 
-  tbr_gmean(y, time, unit = "hours", n = 6) %>%
+  tbr_gmean(y, time, unit = "hours", n = 6, conf = 0.95) %>%
   ggplot() +
   geom_point(aes(time, y)) +
   geom_step(aes(time, mean)) +
-  geom_ribbon(aes(time, ymin = lwr.ci, ymax = upr.ci), alpha = 0.5, stat = "stepribbon")
+  geom_ribbon(aes(time, ymin = lwr_ci, ymax = upr_ci), alpha = 0.5, stat = "stepribbon")
 ```
 
 <img src="man/figures/README-tbr_misc-1.png" width="672" />
-
-## Speed
-
-`tbr_mean` and `tbr_gmean` use a bootstrap approach to calculate
-confidence intervals by default. Computations are substantially
-decreased by using `method = "classic"`
-
-``` r
-data("Dissolved_Oxygen")
-
-system.time(df <- Dissolved_Oxygen %>%
-              tbr_mean(x = Average_DO, tcolumn = Date, unit = "years", n = 5, method = "boot"))
-##    user  system elapsed 
-##   15.39    0.03   15.45
-
-system.time(df <- Dissolved_Oxygen %>%
-  tbr_mean(x = Average_DO, tcolumn = Date, unit = "years", n = 5, method = "classic"))
-##    user  system elapsed 
-##    0.46    0.00    0.46
-
-system.time(df <- Dissolved_Oxygen %>%
-  tbr_misc(x = Average_DO, tcolumn = Date, unit = "years", n = 5, func = mean))
-##    user  system elapsed 
-##    0.86    0.00    0.86
-```
 
 ## Contributing
 
@@ -126,18 +103,13 @@ tbrf code is released under GPL-3 | LICENSE.md
 `binom_ci()` is an implementation of code licensed under GPL (\>=2) by
 Frank Harrell’s [`Hmisc`](https://github.com/harrelfe/Hmisc) package.
 
-`gmean_ci()`, `mean_ci()`, `median_ci()`,`SignTest()`, and `Winsorize()`
-are implementations of code licensed under GPL (\>= 2) by Andri
-Signorell’s [DescTools](https://cran.r-project.org/package=DescTools)
-package.
-
 ## Test Results
 
 ``` r
 library(tbrf)
 
 date()
-## [1] "Mon Aug 27 16:37:19 2018"
+## [1] "Thu Aug 30 18:24:59 2018"
 
 devtools::test()
 ## v | OK F W S | Context
@@ -149,7 +121,7 @@ devtools::test()
 / |  4       | core functions work in piped workflow
 - |  5       | core functions work in piped workflow
 \ |  6       | core functions work in piped workflow
-v |  6       | core functions work in piped workflow [0.6 s]
+v |  6       | core functions work in piped workflow [0.4 s]
 ## 
 / |  0       | core functions return expected errors and messages
 - |  1       | core functions return expected errors and messages
@@ -170,7 +142,7 @@ v |  7       | core functions return expected errors and messages
 \ |  6       | core functions return expected structures and values
 | |  7       | core functions return expected structures and values
 / |  8       | core functions return expected structures and values
-v |  8       | core functions return expected structures and values [2.5 s]
+v |  8       | core functions return expected structures and values [1.1 s]
 ## 
 / |  0       | internal statistical functions return expected values
 - |  1       | internal statistical functions return expected values
@@ -184,13 +156,12 @@ v |  8       | core functions return expected structures and values [2.5 s]
 - |  9       | internal statistical functions return expected values
 \ | 10       | internal statistical functions return expected values
 | | 11       | internal statistical functions return expected values
-/ | 12       | internal statistical functions return expected values
-v | 12       | internal statistical functions return expected values [0.1 s]
+v | 11       | internal statistical functions return expected values [0.5 s]
 ## 
-## == Results ==========================================================================================
-## Duration: 3.3 s
+## == Results =================================================================================================
+## Duration: 2.1 s
 ## 
-## OK:       33
+## OK:       32
 ## Failed:   0
 ## Warnings: 0
 ## Skipped:  0

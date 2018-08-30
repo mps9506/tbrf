@@ -6,13 +6,12 @@ Authors@R: c(
     person("Michael", "Schramm", role=c("aut", "cre"),
       email = "michael.schramm@ag.tamu.edu",
       comment = c(ORCID = "0000-0003-1876-6592")),
-    person("Frank", "Harrell", role=c("ctb")),
-    person("Andri", "Signorell", role=c("ctb"))
+    person("Frank", "Harrell", role=c("ctb"))
     )
 Maintainer: Michael Schramm <michael.schramm@ag.tamu.edu>
-Description: Provides rolling statistics functions based
+Description: Provides rolling statistical functions based
     on date and time windows instead of n-lagged observations.
-URL: https://github.com/mps9506/tbrf
+URL: https://mps9506.github.io/tbrf/
 BugReports: https://github.com/mps9506/tbrf/issues
 License: GPL-3 | file LICENSE
 Encoding: UTF-8

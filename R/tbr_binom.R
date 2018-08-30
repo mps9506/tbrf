@@ -108,7 +108,7 @@ tbr_binom_window <- function(x, tcolumn, unit = "years", n, i, alpha) {
 
 #' Confidence Intervals for Binomial Probabilities
 #'
-#' An implementation of the \code{\link[Hmisc]{binconf}} function in Frank
+#' An implementation of the \code{binconf} function in Frank
 #' Harrell's Hmisc package. Produces 1-alpha confidence intervals for binomial
 #' probabilities.
 #' @param x vector containing the number of "successes" for binomial variates.
@@ -127,7 +127,6 @@ tbr_binom_window <- function(x, tcolumn, unit = "years", n, i, alpha) {
 #' @export
 #' @author Frank Harrell, modified by Michael Schramm
 #' @keywords internal
-#' @seealso \code{\link[Hmisc]{binconf}}
 #' @references A. Agresti and B.A. Coull, Approximate is better than "exact" for
 #'   interval estimation of binomial proportions, \emph{American Statistician,}
 #'   \bold{52}:119--126, 1998.

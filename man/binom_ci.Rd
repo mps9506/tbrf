@@ -25,7 +25,7 @@ the Wilson interval is to be preferred and so is the default.}
 matrix be returned.}
 }
 \description{
-An implementation of the \code{\link[Hmisc]{binconf}} function in Frank
+An implementation of the \code{binconf} function in Frank
 Harrell's Hmisc package. Produces 1-alpha confidence intervals for binomial
 probabilities.
 }
@@ -43,9 +43,6 @@ A. Agresti and B.A. Coull, Approximate is better than "exact" for
   L.D. Brown, T.T. Cai and A. DasGupta, Interval estimation for a binomial
   proportion (with discussion), \emph{Statistical Science,}
   \bold{16}:101--133, 2001.
-}
-\seealso{
-\code{\link[Hmisc]{binconf}}
 }
 \author{
 Frank Harrell, modified by Michael Schramm

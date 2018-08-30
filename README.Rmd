@@ -53,9 +53,11 @@ devtools::install.github("mps9506/tbrf")
 
 ## Usage
 
-link
+See:
 
-## Examples
+https://mps9506.github.io/tbrf/
+
+## Example
 
 Plot a rolling 6-hour geometric mean
 
@@ -73,30 +75,12 @@ time = sample(seq(as.POSIXct(strptime("2017-01-01 00:01:00", "%Y-%m-%d %H:%M:%S"
 df <- data_frame(time, y)
 
 df %>% 
-  tbr_gmean(y, time, unit = "hours", n = 6) %>%
+  tbr_gmean(y, time, unit = "hours", n = 6, conf = 0.95) %>%
   ggplot() +
   geom_point(aes(time, y)) +
   geom_step(aes(time, mean)) +
-  geom_ribbon(aes(time, ymin = lwr.ci, ymax = upr.ci), alpha = 0.5, stat = "stepribbon")
+  geom_ribbon(aes(time, ymin = lwr_ci, ymax = upr_ci), alpha = 0.5, stat = "stepribbon")
   
-```
-
-
-## Speed
-
-`tbr_mean` and `tbr_gmean` use a bootstrap approach to calculate confidence intervals by default. Computations are substantially decreased by using `method = "classic"`
-
-```{r}
-data("Dissolved_Oxygen")
-
-system.time(df <- Dissolved_Oxygen %>%
-              tbr_mean(x = Average_DO, tcolumn = Date, unit = "years", n = 5, method = "boot"))
-
-system.time(df <- Dissolved_Oxygen %>%
-  tbr_mean(x = Average_DO, tcolumn = Date, unit = "years", n = 5, method = "classic"))
-
-system.time(df <- Dissolved_Oxygen %>%
-  tbr_misc(x = Average_DO, tcolumn = Date, unit = "years", n = 5, func = mean))
 ```
 
 
@@ -110,8 +94,6 @@ By participating in this project you agree to abide by its terms.
 tbrf code is released under GPL-3 | LICENSE.md
 
 `binom_ci()` is an implementation of code licensed under GPL (>=2) by Frank Harrell's [`Hmisc`](https://github.com/harrelfe/Hmisc) package.
-
-`gmean_ci()`, `mean_ci()`, `median_ci()`,`SignTest()`, and `Winsorize()` are implementations of code licensed under GPL (>= 2) by Andri Signorell's [DescTools](https://cran.r-project.org/package=DescTools) package.
 
 ## Test Results
 
