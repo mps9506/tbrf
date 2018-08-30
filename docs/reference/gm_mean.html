@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Geometric Mean and Standard Deviation — gmean_ci • tbrf</title>
+<title>Calculates the Geometric Mean — gm_mean • tbrf</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,11 +30,10 @@
 
 
 
-<meta property="og:title" content="Geometric Mean and Standard Deviation — gmean_ci" />
+<meta property="og:title" content="Calculates the Geometric Mean — gm_mean" />
 
-<meta property="og:description" content="An implementation of the Gmean function in Andri Signorell's DescTools
-pacakage. Calculates the geometric mean, its confidence interval and the
-geometric standard deviation of a vector x." />
+<meta property="og:description" content="Originally from Paul McMurdie, Ben Bolker, and Gregor on Stack Overflow:
+https://stackoverflow.com/questions/2602583/geometric-mean-is-there-a-built-in" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,71 +113,41 @@ geometric standard deviation of a vector x." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Geometric Mean and Standard Deviation</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mps9506/tbrf/blob/master/R/utils_stats.R'><code>R/utils_stats.R</code></a></small>
-    <div class="hidden name"><code>gmean_ci.Rd</code></div>
+    <h1>Calculates the Geometric Mean</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mps9506/tbrf/blob/master/R/tbr_gmean.R'><code>R/tbr_gmean.R</code></a></small>
+    <div class="hidden name"><code>gm_mean.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>An implementation of the Gmean function in Andri Signorell's DescTools
-pacakage. Calculates the geometric mean, its confidence interval and the
-geometric standard deviation of a vector x.</p>
+    <p>Originally from Paul McMurdie, Ben Bolker, and Gregor on Stack Overflow:
+https://stackoverflow.com/questions/2602583/geometric-mean-is-there-a-built-in</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>gmean_ci</span>(<span class='no'>x</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"classic"</span>, <span class='st'>"boot"</span>), <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>sides</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"two.sided"</span>, <span class='st'>"left"</span>, <span class='st'>"right"</span>), <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>gm_mean</span>(<span class='no'>x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>zero.propagate</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>a positive numeric vector. An object which is not a vector is
-coerced (if possible) by as.vector.</p></td>
-    </tr>
-    <tr>
-      <th>method</th>
-      <td><p>a vector of character strings representing the type of
-intervals required. The value should be any subset of the values
-<code>"classic"</code>, <code>"boot"</code>.</p></td>
-    </tr>
-    <tr>
-      <th>conf.level</th>
-      <td><p>confidence level of the interval. Default is <code>NA</code>.</p></td>
-    </tr>
-    <tr>
-      <th>sides</th>
-      <td><p>a character string specifying the side of the confidence
-interval, must be one of <code>"two.sided"</code> (default), <code>"left"</code> or
-<code>"right"</code>. You can specify just the initial letter. <code>"left"</code>
-would be analogue to a hypothesis of <code>"greater"</code> in a <code>t.test</code>.</p></td>
+      <td><p>vector of numeric values</p></td>
     </tr>
     <tr>
       <th>na.rm</th>
-      <td><p>logical, indicating whether <code>NA</code> values should be stripped
-before the computation proceeds. Defaults to <code>FALSE</code>.</p></td>
+      <td><p>logical TRUE/FALSE remove NA values</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>further arguments are passed to the <code>boot</code> function.
-Supported arguments are <code>type</code> (<code>"norm"</code>, <code>"basic"</code>,
-<code>"stud"</code>, <code>"perc"</code>, <code>"bca"</code>), <code>parallel</code> and the number
-of bootstrap replicates <code>R</code>. If not defined those will be set to their
-defaults, being <code>"basic"</code> for <code>type</code>, option
-<code>"boot.parallel"</code> (and if that is not set, <code>"no"</code>) for
-<code>parallel</code> and <code>999</code> for <code>R</code>.</p></td>
+      <th>zero.propagate</th>
+      <td><p>logical TRUE/FALSE. Allows the optional propogation of
+zeros.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a numeric value.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='http://www.rdocumentation.org/packages/DescTools/topics/Gmean'>Gmean</a></code></p></div>
+    <p>the geometric mean of the vector</p>
     
 
   </div>
@@ -188,13 +157,7 @@ defaults, being <code>"basic"</code> for <code>type</code>, option
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
           </ul>
-
-    <h2>Author</h2>
-    
-Andri Signorell &lt;andri@signorell.net&gt;
 
   </div>
 </div>

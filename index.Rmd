@@ -7,7 +7,7 @@ output: github_document
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "##",
-  fig.path = "man/figures/README-",
+  fig.path = "man/figures/index-",
   fig.retina = 2
 )
 
@@ -19,7 +19,6 @@ library(ggplot2)
 [![Travis build status](https://travis-ci.org/mps9506/tbrf.svg?branch=master)](https://travis-ci.org/mps9506/tbrf)
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/mps9506/tbrf?branch=master&svg=true)](https://ci.appveyor.com/project/mps9506/tbrf)
 [![Coverage status](https://codecov.io/gh/mps9506/tbrf/branch/master/graph/badge.svg)](https://codecov.io/github/mps9506/tbrf?branch=master)
- 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
  
 The goal of tbrf is to provide time-window based rolling statistical functions. The package differs from other rolling statistic packages because the intended use is for irregular measured data. Althogh tbrf can be used to apply statistical functions to regularly sampled data, [`zoo`](https://CRAN.R-project.org/package=zoo), [`RcppRoll`](https://cran.r-project.org/package=RcppRoll), and other packages provide fast, efficient, and rich implementations of rolling/windowed functions.
@@ -65,6 +64,8 @@ unit = character indicating the time unit used, one of "years", "months", "weeks
 
 n = numeric, indicating the window length
 ```
+Additional arguments for calculating confidence intervals in `tbr_gmean`, `tbr_mean`, and `tbr_median` are passed to `boot` and `boot.ci`.
+
 
 ### Basic Example
 
@@ -83,10 +84,10 @@ library(ggalt) #for step_ribbon
 Dissolved_Oxygen %>%
   mutate(Station_ID = as.factor(Station_ID)) %>%
   group_by(Station_ID) %>%
-  tbr_mean(Average_DO, Date, "years", 5) %>%
+  tbr_mean(Average_DO, Date, "years", 5, conf = 0.95) %>%
   ggplot() +
   geom_step(aes(Date, mean, color = Station_ID)) +
-  geom_ribbon(aes(Date, ymin = lwr.ci, ymax = upr.ci, fill = Station_ID), alpha = 0.5)
+  geom_ribbon(aes(Date, ymin = lwr_ci, ymax = upr_ci, fill = Station_ID), alpha = 0.5)
 ```
 
 ### Different Time Units
@@ -108,52 +109,34 @@ Plot 120-minute geometric means:
 
 ```{r message=FALSE, warning=FALSE, paged.print=FALSE}
 df %>% 
-  tbr_gmean(y, time, unit = "minutes", n = 120, method = "classic") %>%
+  tbr_gmean(y, time, unit = "minutes", n = 120, conf = 0.95) %>%
   ggplot() +
   geom_point(aes(time, y), alpha = 0.25) +
   geom_step(aes(time, mean)) +
-  geom_ribbon(aes(time, ymin = lwr.ci, ymax = upr.ci), alpha = 0.5, stat = "stepribbon") +
+  geom_ribbon(aes(time, ymin = lwr_ci, ymax = upr_ci), alpha = 0.5, stat = "stepribbon") +
   scale_y_log10()
 ```
 
 Plot 12-hour minute geometric means:
 ```{r message=FALSE, warning=FALSE, paged.print=FALSE}
 df %>% 
-  tbr_gmean(y, time, unit = "hours", n = 12, method = "classic") %>%
+  tbr_gmean(y, time, unit = "hours", n = 12, conf = 0.95) %>%
   ggplot() +
   geom_point(aes(time, y), alpha = 0.25) +
   geom_step(aes(time, mean)) +
-  geom_ribbon(aes(time, ymin = lwr.ci, ymax = upr.ci), alpha = 0.5, stat = "stepribbon") +
+  geom_ribbon(aes(time, ymin = lwr_ci, ymax = upr_ci), alpha = 0.5, stat = "stepribbon") +
   scale_y_log10()
 ```
 
 Plot 1-day geometric means:
 ```{r message=FALSE, warning=FALSE, paged.print=FALSE}
 df %>% 
-  tbr_gmean(y, time, unit = "days", n = 1, method = "classic") %>%
+  tbr_gmean(y, time, unit = "days", n = 1, conf = 0.95) %>%
   ggplot() +
   geom_point(aes(time, y), alpha = 0.25) +
   geom_step(aes(time, mean)) +
-  geom_ribbon(aes(time, ymin = lwr.ci, ymax = upr.ci), alpha = 0.5, stat = "stepribbon") +
+  geom_ribbon(aes(time, ymin = lwr_ci, ymax = upr_ci), alpha = 0.5, stat = "stepribbon") +
   scale_y_log10()
 ```
 
-### Confidence Intervals
-
-`tbr_mean` and `tbr_gmean` default to a bootstrap approach for calculating confidence intervals. Computations can be substantially decreased by using `method = "classic"`. 
-
-```{r message=FALSE, warning=FALSE, paged.print=FALSE}
-
-data("Dissolved_Oxygen")
-
-system.time(df <- Dissolved_Oxygen %>%
-              tbr_mean(x = Average_DO, tcolumn = Date, unit = "years", n = 5, method = "boot"))
-
-system.time(df <- Dissolved_Oxygen %>%
-  tbr_mean(x = Average_DO, tcolumn = Date, unit = "years", n = 5, method = "classic"))
-
-system.time(df <- Dissolved_Oxygen %>%
-  tbr_misc(x = Average_DO, tcolumn = Date, unit = "years", n = 5, func = mean))
-
-```
 

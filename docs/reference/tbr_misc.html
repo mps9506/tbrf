@@ -155,7 +155,7 @@ as date, date/time and value column.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>optional additional arguments passed to function func</p></td>
+      <td><p>optional additional arguments passed to function <code>func</code></p></td>
     </tr>
     </table>
     
@@ -164,6 +164,22 @@ as date, date/time and value column.</p></td>
     <p>tibble</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>tbr_misc</span>(<span class='no'>Dissolved_Oxygen</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>Average_DO</span>, <span class='kw'>tcolumn</span> <span class='kw'>=</span> <span class='no'>Date</span>, <span class='kw'>unit</span> <span class='kw'>=</span> <span class='st'>"years"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>func</span> <span class='kw'>=</span> <span class='no'>mean</span>)</div><div class='output co'>#&gt; # A tibble: 236 x 9
+#&gt;    Station_ID Date       Param_Code Param_Desc        Average_DO Min_DO results
+#&gt;         &lt;int&gt; &lt;date&gt;     &lt;chr&gt;      &lt;chr&gt;                  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
+#&gt;  1      12515 2000-01-03 00300      OXYGEN, DISSOLVE~       6.19   6.19    6.19
+#&gt;  2      12515 2000-03-14 00300      OXYGEN, DISSOLVE~       6.7    6.7     6.73
+#&gt;  3      12517 2000-03-14 00300      OXYGEN, DISSOLVE~       7.3    7.3     6.73
+#&gt;  4      12515 2000-03-16 00300      OXYGEN, DISSOLVE~       6.41   6.41    6.65
+#&gt;  5      12515 2000-05-03 00300      OXYGEN, DISSOLVE~       4.42   4.42    6.20
+#&gt;  6      12517 2000-06-14 00300      OXYGEN, DISSOLVE~       5.74   5.74    6.13
+#&gt;  7      12515 2000-06-15 00300      OXYGEN, DISSOLVE~       4.86   4.86    5.95
+#&gt;  8      12515 2000-07-11 00300      OXYGEN, DISSOLVE~       4.48   4.48    5.76
+#&gt;  9      12515 2000-09-12 00300      OXYGEN, DISSOLVE~       5.64   5.64    5.75
+#&gt; 10      12517 2000-10-17 00300      OXYGEN, DISSOLVE~       7.96   7.96    5.97
+#&gt; # ... with 226 more rows, and 2 more variables: min_date &lt;date&gt;,
+#&gt; #   max_date &lt;date&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -171,7 +187,9 @@ as date, date/time and value column.</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

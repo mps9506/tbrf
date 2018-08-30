@@ -158,7 +158,26 @@
 
     <p>tibble with column for the rolling sd.</p>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
+    <div class='dont-index'><p><code>sd</code></p></div>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>tbr_sd</span>(<span class='no'>Dissolved_Oxygen</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>Average_DO</span>, <span class='kw'>tcolumn</span> <span class='kw'>=</span> <span class='no'>Date</span>, <span class='kw'>unit</span> <span class='kw'>=</span> <span class='st'>"years"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5</span>)</div><div class='output co'>#&gt; # A tibble: 236 x 7
+#&gt;    Station_ID Date       Param_Code Param_Desc         Average_DO Min_DO     sd
+#&gt;         &lt;int&gt; &lt;date&gt;     &lt;chr&gt;      &lt;chr&gt;                   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+#&gt;  1      12515 2000-01-03 00300      OXYGEN, DISSOLVED~       6.19   6.19 NA    
+#&gt;  2      12515 2000-03-14 00300      OXYGEN, DISSOLVED~       6.7    6.7   0.556
+#&gt;  3      12517 2000-03-14 00300      OXYGEN, DISSOLVED~       7.3    7.3   0.556
+#&gt;  4      12515 2000-03-16 00300      OXYGEN, DISSOLVED~       6.41   6.41  0.481
+#&gt;  5      12515 2000-05-03 00300      OXYGEN, DISSOLVED~       4.42   4.42  1.08 
+#&gt;  6      12517 2000-06-14 00300      OXYGEN, DISSOLVED~       5.74   5.74  0.985
+#&gt;  7      12515 2000-06-15 00300      OXYGEN, DISSOLVED~       4.86   4.86  1.02 
+#&gt;  8      12515 2000-07-11 00300      OXYGEN, DISSOLVED~       4.48   4.48  1.08 
+#&gt;  9      12515 2000-09-12 00300      OXYGEN, DISSOLVED~       5.64   5.64  1.01 
+#&gt; 10      12517 2000-10-17 00300      OXYGEN, DISSOLVED~       7.96   7.96  1.18 
+#&gt; # ... with 226 more rows</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -166,7 +185,11 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

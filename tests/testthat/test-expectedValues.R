@@ -79,8 +79,7 @@ test_that("core functions work with different time units", {
   expect_s3_class(df %>% tbr_mean(x = value,
                                   tcolumn = date,
                                   unit = "minutes",
-                                  n = 60,
-                                  method = "classic"),
+                                  n = 60),
                   "tbl_df")
 
   expect_s3_class(df %>% tbr_misc(x = value,

@@ -26,8 +26,7 @@ test_that("tbr_gmean returns error", {
   expect_error(df %>% tbr_gmean(x = value,
                                    tcolumn = date,
                                    unit = "year",
-                                   n = 5,
-                                   conf.level = 0.95),
+                                   n = 5),
                "Evaluation error: unit must be one of years, months, weeks, days, hours, minutes, seconds.")
 })
 

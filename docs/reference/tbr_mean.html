@@ -158,7 +158,32 @@
 
     <p>tibble with columns for the rolling mean and upper and lower confidence intervals.</p>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
+    <div class='dont-index'><p><code><a href='mean_ci.html'>mean_ci</a></code></p></div>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'>## Return a tibble with new rolling mean column</span>
+<span class='fu'>tbr_mean</span>(<span class='no'>Dissolved_Oxygen</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>Average_DO</span>, <span class='kw'>tcolumn</span> <span class='kw'>=</span> <span class='no'>Date</span>, <span class='kw'>unit</span> <span class='kw'>=</span> <span class='st'>"years"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5</span>)</div><div class='output co'>#&gt; # A tibble: 236 x 9
+#&gt;    Station_ID Date       Param_Code Param_Desc   Average_DO Min_DO  mean lwr_ci
+#&gt;         &lt;int&gt; &lt;date&gt;     &lt;chr&gt;      &lt;chr&gt;             &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;lgl&gt; 
+#&gt;  1      12515 2000-01-03 00300      OXYGEN, DIS~       6.19   6.19 NA    NA    
+#&gt;  2      12515 2000-03-14 00300      OXYGEN, DIS~       6.7    6.7   6.73 NA    
+#&gt;  3      12517 2000-03-14 00300      OXYGEN, DIS~       7.3    7.3   6.73 NA    
+#&gt;  4      12515 2000-03-16 00300      OXYGEN, DIS~       6.41   6.41  6.65 NA    
+#&gt;  5      12515 2000-05-03 00300      OXYGEN, DIS~       4.42   4.42  6.20 NA    
+#&gt;  6      12517 2000-06-14 00300      OXYGEN, DIS~       5.74   5.74  6.13 NA    
+#&gt;  7      12515 2000-06-15 00300      OXYGEN, DIS~       4.86   4.86  5.95 NA    
+#&gt;  8      12515 2000-07-11 00300      OXYGEN, DIS~       4.48   4.48  5.76 NA    
+#&gt;  9      12515 2000-09-12 00300      OXYGEN, DIS~       5.64   5.64  5.75 NA    
+#&gt; 10      12517 2000-10-17 00300      OXYGEN, DIS~       7.96   7.96  5.97 NA    
+#&gt; # ... with 226 more rows, and 1 more variable: upr_ci &lt;lgl&gt;</div><div class='input'>
+## Return a tibble with rolling mean and 95% CI
+</div><span class='co'># NOT RUN {</span>
+<span class='co'>## This example </span>
+<span class='fu'>tbr_mean</span>(<span class='no'>Dissolved_Oxygen</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>Average_DO</span>, <span class='kw'>tcolumn</span> <span class='kw'>=</span> <span class='no'>Date</span>, <span class='kw'>unit</span> <span class='kw'>=</span> <span class='st'>"years"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>conf</span> <span class='kw'>=</span> <span class='fl'>.95</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -166,7 +191,11 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

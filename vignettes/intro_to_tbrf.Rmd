@@ -120,16 +120,18 @@ Dissolved_Oxygen %>%
 Plot the rolling 7-year geometric mean:
 
 ```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+library(ggalt)
+
 data_frame(date = sample(seq(as.Date('2001-01-01'),
                                    as.Date('2017-12-31'), 
                                    by = "day"), 
-                               100),
-                 x = rexp(100, 1/1000)) %>%
-  tbr_gmean(x, date, "years", 7, method = "classic") %>%
+                               60),
+                 x = rexp(60, 1/1000)) %>%
+  tbr_gmean(x, date, "years", 7, conf = 0.95, type = "perc") %>%
   ggplot() +
   geom_point(aes(date, x), alpha = 0.5) +
-  geom_line(aes(date, mean)) +
-  geom_ribbon(aes(x = date, ymin = lwr.ci, ymax = upr.ci), alpha = 0.5) +
+  geom_step(aes(date, mean)) +
+  geom_ribbon(aes(x = date, ymin = lwr_ci, ymax = upr_ci), alpha = 0.5, stat = "stepribbon") +
   scale_y_log10()
 
 
@@ -140,11 +142,13 @@ data_frame(date = sample(seq(as.Date('2001-01-01'),
 Plot the rolling 7-year mean:
 ```{r message=FALSE, warning=FALSE, paged.print=FALSE}
 Dissolved_Oxygen %>%
-  tbr_mean(Average_DO, Date, "years", 7, method = "classic") %>%
+  mutate(Station_ID = as.factor(Station_ID)) %>%
+  group_by(Station_ID) %>%
+  tbr_mean(Average_DO, Date, "years", 7, conf = 0.95, type = "perc") %>%
   ggplot() +
-  geom_point(aes(Date, Average_DO), alpha = 0.5) +
-  geom_line(aes(Date, mean)) +
-  geom_ribbon(aes(x = Date, ymin = lwr.ci, ymax = upr.ci), alpha = 0.5)
+  geom_point(aes(Date, Average_DO, color = Station_ID), alpha = 0.5) +
+  geom_step(aes(Date, mean, color = Station_ID)) +
+  geom_ribbon(aes(x = Date, ymin = lwr_ci, ymax = upr_ci, fill = Station_ID), alpha = 0.5, stat = "stepribbon")
 ```
 
 ### Median
@@ -152,11 +156,13 @@ Dissolved_Oxygen %>%
 Plot the rolling 7-year median:
 ```{r message=FALSE, warning=FALSE, paged.print=FALSE}
 Dissolved_Oxygen %>%
-  tbr_median(Average_DO, Date, "years", 7) %>%
+  mutate(Station_ID = as.factor(Station_ID)) %>%
+  group_by(Station_ID) %>%
+  tbr_median(Average_DO, Date, "years", 7, conf = 0.95, type = "perc") %>%
   ggplot() +
-  geom_point(aes(Date, Average_DO), alpha = 0.5) +
-  geom_line(aes(Date, median)) +
-  geom_ribbon(aes(x = Date, ymin = lwr.ci, ymax = upr.ci), alpha = 0.5)
+  geom_point(aes(Date, Average_DO, color = Station_ID), alpha = 0.5) +
+  geom_step(aes(Date, median, color = Station_ID)) +
+  geom_ribbon(aes(x = Date, ymin = lwr_ci, ymax = upr_ci, fill = Station_ID), alpha = 0.5, stat = "stepribbon")
 ```
 
 ### Generic functions
@@ -189,9 +195,11 @@ Plot the rolling 7-year sum:
 
 ```{r message=FALSE, warning=FALSE, paged.print=FALSE}
 Dissolved_Oxygen %>%
+  mutate(Station_ID = as.factor(Station_ID)) %>%
+  group_by(Station_ID) %>%
   tbr_sum(Average_DO, Date, "years", 7) %>%
   ggplot() +
-  geom_line(aes(Date, sum))
+  geom_line(aes(Date, sum, color = Station_ID))
 ```
 
 
@@ -208,39 +216,41 @@ time = sample(seq(as.POSIXct(strptime("2017-01-01 00:01:00", "%Y-%m-%d %H:%M:%S"
 df <- data_frame(y, time)
 
 df %>%
-  tbr_mean(y, time, "minutes", n = 30, method = "classic") %>%
+  tbr_mean(y, time, "minutes", n = 30) %>%
   ggplot() +
   geom_point(aes(time, y)) +
-  geom_line(aes(time, mean)) +
-  geom_ribbon(aes(x = time, ymin = lwr.ci, ymax = upr.ci), alpha = 0.5)
+  geom_line(aes(time, mean))
 
 
 df %>%
-  tbr_mean(y, time, "minutes", n = 60, method = "classic") %>%
+  tbr_mean(y, time, "minutes", n = 60) %>%
   ggplot() +
   geom_point(aes(time, y)) +
-  geom_line(aes(time, mean)) +
-  geom_ribbon(aes(x = time, ymin = lwr.ci, ymax = upr.ci), alpha = 0.5)
+  geom_line(aes(time, mean))
 
 
 df %>%
-  tbr_mean(y, time, "hours", n = 5, method = "classic") %>%
+  tbr_mean(y, time, "hours", n = 5) %>%
   ggplot() +
   geom_point(aes(time, y)) +
-  geom_line(aes(time, mean)) +
-  geom_ribbon(aes(x = time, ymin = lwr.ci, ymax = upr.ci), alpha = 0.5)
+  geom_line(aes(time, mean))
 
 ```
 
 ## CI method
 
-`tbr_gmean` and `tbr_mean` utilize the bootstrap method to generate confidence intervals by default. Specify `method = "classic"` to substantially decrease compute times.
+Confidence intervals in `tbr_gmean`, `tbr_mean`, and `tbr_median` are calculated using `boot_ci`. If you do not need confidence intervals, calulcation times are substantially shorter. `parallel`, `ncores`, and `cl` arguments are passed to `boot` and can improve computation times. An example using parallel processing for Windows systems is below:
 
 
-```{r}
-system.time(df %>%
-  tbr_mean(y, time, "minutes", n = 60, method = "boot"))
-  
-system.time(df %>%
-  tbr_mean(y, time, "minutes", n = 60, method = "classic"))
+```{r eval=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+library(snow)
+
+cl <- makeCluster(4, type = "SOCK")
+
+tbr_mean(Dissolved_Oxygen, Average_DO, Date, 
+         "years", 5, R = 1000, conf = .95,
+         type = "perc", parallel = "snow", 
+         cl = cl)
+
+stopCluster(cl)
 ```

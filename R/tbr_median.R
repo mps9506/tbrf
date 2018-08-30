@@ -16,17 +16,24 @@
 #' @export
 #' @seealso \code{\link{median_ci}}
 #' @examples
+#' ## Return a tibble with new rolling median column
 #' tbr_median(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years",
 #' n = 5)
+#' 
+#' \dontrun{
+#' ## Return a tibble with rolling median and 95% CI 
+#' tbr_median(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5, conf = .95)}
 tbr_median <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
 
-  #Match dots args: method = "boot", conf.level = 0.95,
-  #sides = "two.sided", na.rm = FALSE, R = 999
   dots <- list(...)
 
-  default_dots <- list(method = "boot", conf.level = 0.95,
-                       sides = "two.sided", na.rm = FALSE,
-                       R = 999)
+  default_dots <- list(conf = NA,
+                       na.rm = FALSE,
+                       type = "basic",
+                       R = 1000,
+                       parallel = "no",
+                       ncpus = getOption("boot.ncpus", 1L),
+                       cl = NULL)
 
   default_dots[names(dots)] <- dots
 
@@ -39,11 +46,13 @@ tbr_median <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
                                         unit = unit,
                                         n = n,
                                         i = .x,
-                                        method = default_dots$method,
-                                        conf.level = default_dots$conf.level,
-                                        sides = default_dots$sides,
+                                        conf = default_dots$conf,
                                         na.rm = default_dots$na.rm,
-                                        R = default_dots$R))) %>%
+                                        type = default_dots$type,
+                                        R = default_dots$R,
+                                        parallel = default_dots$parallel,
+                                        ncpus = default_dots$ncpus,
+                                        cl = default_dots$c))) %>%
     tidyr::unnest()
   .tbl <- tibble::as_tibble(.tbl)
   return(.tbl)
@@ -71,14 +80,11 @@ tbr_median_window <- function(x, tcolumn, unit = "years", n, i, ...) {
     stop("unit must be one of ", paste(u, collapse = ", "))
   }
 
-  resultsColumns <- c("median", "lwr.ci", "upr.ci")
+  resultsColumns <- c("median", "lwr_ci", "upr_ci")
 
-  # do not calculate the first row, always returns NA
-  # note that MedianCI always returns confidence intervals
-  # unlike other DescTools stats
   if (i == 1) {
     results <- list(NA, NA, NA)
-    names(results) <- c("median", "lwr.ci", "upr.ci")
+    names(results) <- c("median", "lwr_ci", "upr_ci")
     return(tibble::as_tibble(results))
   }
 
@@ -96,9 +102,77 @@ tbr_median_window <- function(x, tcolumn, unit = "years", n, i, ...) {
     }
 
     else {
-      results <- tibble::as_tibble(as.list(median_ci(x = window, ...)))
+      results <- tibble::as_tibble(as.list(median_ci(window = window, ...)))
 
       return(results)
     }
   }
+}
+
+
+#' Returns the median and CI
+#'
+#' Generates median and confidence intervals using bootstrap.
+#' @param window vector of data values
+#' @param conf confidence level of the required interval. \code{NA} if skipping
+#'   calculating the bootstrapped CI
+#' @param na.rm logical code{TRUE/FALSE}. Remove NAs from the dataset. Defaults
+#'   \code{TRUE}
+#' @param type character string, one of \code{c("norm","basic", "stud", "perc",
+#'   "bca")}. \code{"all"} is not a valid value. See \code{\link{boot.ci}}
+#' @param R the number of bootstrap replicates. see \code{\link{boot}}
+#' @param parallel The type of parallel operation to be used (if any). see
+#'   \code{\link{boot}}
+#' @param ncpus integer: number of process to be used in parallel operation. see
+#'   \code{\link{boot}}
+#' @param cl optional parallel or snow cluster for use if \code{parallel =
+#'   "snow"}. see \code{\link{boot}}
+#'
+#' @return named list with mean and (optionally) specified confidence
+#'   interval
+#' @import boot
+#' @importFrom stats var
+#' @importFrom stats median
+#' @export
+#'
+#' @keywords internal
+median_ci <- function(window, conf = 0.95, na.rm = TRUE, type = "basic",
+                    R = 1000, parallel = "no", ncpus = getOption("boot.ncpus", 1L),
+                    cl = NULL) {
+  
+  ## if conf is.na return just the gm_mean
+  if (is.na(conf)) {
+    results <- c(median = stats::median(window, na.rm = na.rm))
+  }
+  ## else return median + conf intervals
+  
+  else {
+    
+    ## type must be one of "norm", "basic", "stud", "perc", "bca"
+    boot <- boot::boot(window, function(x,i) {
+      md <- stats::median(x[i], na.rm = na.rm)
+      n <- length(i)
+      v <- (n - 1) * stats::var(x[i]) / n^2
+      c(md, v)
+    },
+    R = R,
+    parallel = parallel,
+    ncpus = ncpus,
+    cl = cl)
+    
+    
+    ci <- boot::boot.ci(boot, conf = conf, type = type)
+    
+    if (type == "norm") {
+      results <- c(median = ci[[2]],
+                   lwr_ci = ci[[4]][[2]],
+                   upr_ci = ci[[4]][[3]])
+    }
+    else {
+      results <- c(median = ci[[2]],
+                   lwr_ci = ci[[4]][[4]],
+                   upr_ci = ci[[4]][[5]])
+    }
+  }
+  return(results)
 }

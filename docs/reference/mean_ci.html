@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Confidence Interval for the Mean — mean_ci • tbrf</title>
+<title>Returns the mean and CI — mean_ci • tbrf</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,12 +30,9 @@
 
 
 
-<meta property="og:title" content="Confidence Interval for the Mean — mean_ci" />
+<meta property="og:title" content="Returns the mean and CI — mean_ci" />
 
-<meta property="og:description" content="An implementation of the MeanCI function in Andri Signorell's DescTools
-pacakage. Collection of several approaches to determine confidence intervals
-for the mean. Both, the classical way and bootstrap intervals are implemented
-for both, normal and trimmed means." />
+<meta property="og:description" content="Generates mean and confidence intervals using bootstrap." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -115,90 +112,68 @@ for both, normal and trimmed means." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Confidence Interval for the Mean</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mps9506/tbrf/blob/master/R/utils_stats.R'><code>R/utils_stats.R</code></a></small>
+    <h1>Returns the mean and CI</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mps9506/tbrf/blob/master/R/tbr_mean.R'><code>R/tbr_mean.R</code></a></small>
     <div class="hidden name"><code>mean_ci.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>An implementation of the MeanCI function in Andri Signorell's DescTools
-pacakage. Collection of several approaches to determine confidence intervals
-for the mean. Both, the classical way and bootstrap intervals are implemented
-for both, normal and trimmed means.</p>
+    <p>Generates mean and confidence intervals using bootstrap.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>mean_ci</span>(<span class='no'>x</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>trim</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"classic"</span>, <span class='st'>"boot"</span>),
-  <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>sides</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"two.sided"</span>, <span class='st'>"left"</span>, <span class='st'>"right"</span>),
-  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>mean_ci</span>(<span class='no'>window</span>, <span class='kw'>conf</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"basic"</span>,
+  <span class='kw'>R</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='st'>"no"</span>, <span class='kw'>ncpus</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"boot.ncpus"</span>, <span class='fl'>1L</span>),
+  <span class='kw'>cl</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>a (non-empty) numeric vector of data values.</p></td>
+      <th>window</th>
+      <td><p>vector of data values</p></td>
     </tr>
     <tr>
-      <th>sd</th>
-      <td><p>the standard deviation of x. If provided it's interpreted as sd of
-the population and the normal quantiles will be used for constructing the
-confidence intervals. If left to <code>NULL</code> (default) the sample
-<code>sd(x)</code> will be calculated and used in combination with the
-t-distribution.</p></td>
-    </tr>
-    <tr>
-      <th>trim</th>
-      <td><p>the fraction (0 to 0.5) of observations to be trimmed from each
-end of <code>x</code> before the mean is computed. Values of <code>trim</code> outside
-that range are taken as the nearest endpoint.</p></td>
-    </tr>
-    <tr>
-      <th>method</th>
-      <td><p>A vector of character strings representing the type of
-intervals required. The value should be any subset of the values
-<code>"classic"</code>, <code>"boot"</code>.</p></td>
-    </tr>
-    <tr>
-      <th>conf.level</th>
-      <td><p>confidence level of the interval.</p></td>
-    </tr>
-    <tr>
-      <th>sides</th>
-      <td><p>a character string specifying the side of the confidence
-interval, must be one of <code>"two.sided"</code> (default), <code>"left"</code> or
-<code>"right"</code>. You can specify just the initial letter. <code>"left"</code>
-would be analogue to a hypothesis of <code>"greater"</code> in a <code>t.test</code>.</p></td>
+      <th>conf</th>
+      <td><p>confidence level of the required interval. <code>NA</code> if skipping
+calculating the bootstrapped CI</p></td>
     </tr>
     <tr>
       <th>na.rm</th>
-      <td><p>a logical value indicating whether <code>NA</code> values should be
-stripped before the computation proceeds. Defaults to FALSE.</p></td>
+      <td><p>logical codeTRUE/FALSE. Remove NAs from the dataset. Defaults
+<code>TRUE</code></p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>further arguments are passed to the <code>boot</code> function.
-Supported arguments are <code>type</code> (<code>"norm"</code>, <code>"basic"</code>,
-<code>"stud"</code>, <code>"perc"</code>, <code>"bca"</code>), <code>parallel</code> and the number
-of bootstrap replicates <code>R</code>. If not defined those will be set to their
-defaults, being <code>"basic"</code> for <code>type</code>,  option
-<code>"boot.parallel"</code> (and if that is not set, <code>"no"</code>) for
-<code>parallel</code></p></td>
+      <th>type</th>
+      <td><p>character string, one of <code>c("norm","basic", "stud", "perc",
+"bca")</code>. <code>"all"</code> is not a valid value. See <code>boot.ci</code></p></td>
+    </tr>
+    <tr>
+      <th>R</th>
+      <td><p>the number of bootstrap replicates. see <code>boot</code></p></td>
+    </tr>
+    <tr>
+      <th>parallel</th>
+      <td><p>The type of parallel operation to be used (if any). see
+<code>boot</code></p></td>
+    </tr>
+    <tr>
+      <th>ncpus</th>
+      <td><p>integer: number of process to be used in parallel operation. see
+<code>boot</code></p></td>
+    </tr>
+    <tr>
+      <th>cl</th>
+      <td><p>optional parallel or snow cluster for use if <code>parallel =
+"snow"</code>. see <code>boot</code></p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a numeric vector with 3 elements:</p>
-<dt>mean</dt><dd><p>mean</p></dd>,
-  <dt>lwr.ci</dt><dd><p>lower bound of the confidence interval</p></dd>, <dt>upr.ci</dt><dd><p>upper
-  bound of the confidence interval</p></dd>
-
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='http://www.rdocumentation.org/packages/DescTools/topics/MeanCI'>MeanCI</a></code></p></div>
+    <p>named list with mean and (optionally) specified confidence
+  interval</p>
     
 
   </div>
@@ -208,13 +183,7 @@ defaults, being <code>"basic"</code> for <code>type</code>,  option
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
           </ul>
-
-    <h2>Author</h2>
-    
-Andri Signorell &lt;andri@signorell.net&gt;
 
   </div>
 </div>
