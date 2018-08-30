@@ -10,6 +10,15 @@ r:
   - release
   - devel
 
+addons:
+  apt:
+    sources:
+      - sourceline: 'ppa:ubuntugis/ubuntugis-unstable'
+    packages:
+      - libproj-dev
+      - libgeos-dev
+      - libgdal-dev
+
 r_packages:
   - boot
   - dplyr
