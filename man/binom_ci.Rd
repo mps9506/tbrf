@@ -4,8 +4,8 @@
 \alias{binom_ci}
 \title{Confidence Intervals for Binomial Probabilities}
 \usage{
-binom_ci(x, n, alpha = 0.05, method = c("wilson", "exact", "asymptotic"),
-  return.df = FALSE)
+binom_ci(x, n, alpha = 0.05, method = c("wilson", "exact",
+  "asymptotic"), return.df = FALSE)
 }
 \arguments{
 \item{x}{vector containing the number of "successes" for binomial variates.}

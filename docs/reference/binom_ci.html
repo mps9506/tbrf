@@ -96,12 +96,7 @@ probabilities." />
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/mps9506/tbrf">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -115,7 +110,7 @@ probabilities." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Confidence Intervals for Binomial Probabilities</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mps9506/tbrf/blob/master/R/tbr_binom.R'><code>R/tbr_binom.R</code></a></small>
+    
     <div class="hidden name"><code>binom_ci.Rd</code></div>
     </div>
 
@@ -127,8 +122,8 @@ probabilities.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>binom_ci</span>(<span class='no'>x</span>, <span class='no'>n</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"wilson"</span>, <span class='st'>"exact"</span>,
-  <span class='st'>"asymptotic"</span>), <span class='kw'>return.df</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>binom_ci</span>(<span class='no'>x</span>, <span class='no'>n</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"wilson"</span>, <span class='st'>"exact"</span>, <span class='st'>"asymptotic"</span>),
+  <span class='kw'>return.df</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -172,10 +167,6 @@ matrix be returned.</p></td>
   proportion (with discussion), <em>Statistical Science,</em>
   <b>16</b>:101--133, 2001.</p>
     
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code>binconf</code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>binom_ci</span>(<span class='fl'>46</span>,<span class='fl'>50</span>,<span class='kw'>method</span><span class='kw'>=</span><span class='st'>"wilson"</span>)</div><div class='output co'>#&gt;  PointEst     Lower     Upper
@@ -187,8 +178,6 @@ matrix be returned.</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#references">References</a></li>
-
-      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

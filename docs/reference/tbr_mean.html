@@ -94,12 +94,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/mps9506/tbrf">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -113,7 +108,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Time-Based Rolling Mean</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mps9506/tbrf/blob/master/R/tbr_mean.R'><code>R/tbr_mean.R</code></a></small>
+    
     <div class="hidden name"><code>tbr_mean.Rd</code></div>
     </div>
 
@@ -179,9 +174,8 @@
 #&gt;  9      12515 2000-09-12 00300      OXYGEN, DIS~       5.64   5.64  5.75 NA    
 #&gt; 10      12517 2000-10-17 00300      OXYGEN, DIS~       7.96   7.96  5.97 NA    
 #&gt; # ... with 226 more rows, and 1 more variable: upr_ci &lt;lgl&gt;</div><div class='input'>
-## Return a tibble with rolling mean and 95% CI
 </div><span class='co'># NOT RUN {</span>
-<span class='co'>## This example </span>
+<span class='co'>## Return a tibble with rolling mean and 95% CI</span>
 <span class='fu'>tbr_mean</span>(<span class='no'>Dissolved_Oxygen</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>Average_DO</span>, <span class='kw'>tcolumn</span> <span class='kw'>=</span> <span class='no'>Date</span>, <span class='kw'>unit</span> <span class='kw'>=</span> <span class='st'>"years"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>conf</span> <span class='kw'>=</span> <span class='fl'>.95</span>)
 <span class='co'># }</span></pre>
   </div>

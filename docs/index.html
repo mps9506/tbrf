@@ -10,7 +10,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Time-Based Rolling Functions">
-<meta property="og:description" content="Provides rolling statistics functions based
+<meta property="og:description" content="Provides rolling statistical functions based
     on date and time windows instead of n-lagged observations.">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -61,14 +61,7 @@
   <a href="news/index.html">Changelog</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/mps9506/tbrf">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
-      </ul>
+<ul class="nav navbar-nav navbar-right"></ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -90,7 +83,7 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>tbrf is still under active development (do not expect stable behavior) and can be installed from github with:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw">install.github</span>(<span class="st">"mps9506/tbrf"</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">devtools<span class="op">::</span><span class="kw">install.github</span>(<span class="st">"mps9506/tbrf"</span>)</a></code></pre></div>
 </div>
 <div id="available-functions" class="section level2">
 <h2 class="hasAnchor">
@@ -123,71 +116,72 @@ n = numeric, indicating the window length</code></pre>
 <h3 class="hasAnchor">
 <a href="#basic-example" class="anchor"></a>Basic Example</h3>
 <p>For example, get the 5-year rolling mean:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/tbr_mean.html">tbr_mean</a></span>(Dissolved_Oxygen, <span class="dt">x =</span> Average_DO,
-         <span class="dt">tcolumn =</span> Date, <span class="dt">unit =</span> <span class="st">"years"</span>, <span class="dt">n =</span> <span class="dv">5</span>)
-## # A tibble: 236 x 9
-##    Station_ID Date       Param_Code Param_Desc     Average_DO Min_DO  mean
-##         &lt;int&gt; &lt;date&gt;     &lt;chr&gt;      &lt;chr&gt;               &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
-##  1      12515 2000-01-03 00300      OXYGEN, DISSO~       6.19   6.19 NA   
-##  2      12515 2000-03-14 00300      OXYGEN, DISSO~       6.7    6.7   6.73
-##  3      12517 2000-03-14 00300      OXYGEN, DISSO~       7.3    7.3   6.73
-##  4      12515 2000-03-16 00300      OXYGEN, DISSO~       6.41   6.41  6.65
-##  5      12515 2000-05-03 00300      OXYGEN, DISSO~       4.42   4.42  6.20
-##  6      12517 2000-06-14 00300      OXYGEN, DISSO~       5.74   5.74  6.13
-##  7      12515 2000-06-15 00300      OXYGEN, DISSO~       4.86   4.86  5.95
-##  8      12515 2000-07-11 00300      OXYGEN, DISSO~       4.48   4.48  5.76
-##  9      12515 2000-09-12 00300      OXYGEN, DISSO~       5.64   5.64  5.75
-## 10      12517 2000-10-17 00300      OXYGEN, DISSO~       7.96   7.96  5.97
-## # ... with 226 more rows, and 2 more variables: lwr_ci &lt;lgl&gt;, upr_ci &lt;lgl&gt;</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="reference/tbr_mean.html">tbr_mean</a></span>(Dissolved_Oxygen, <span class="dt">x =</span> Average_DO,</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">         <span class="dt">tcolumn =</span> Date, <span class="dt">unit =</span> <span class="st">"years"</span>, <span class="dt">n =</span> <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">## # A tibble: 236 x 9</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">##    Station_ID Date       Param_Code Param_Desc     Average_DO Min_DO  mean</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">##         &lt;int&gt; &lt;date&gt;     &lt;chr&gt;      &lt;chr&gt;               &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">##  1      12515 2000-01-03 00300      OXYGEN, DISSO~       6.19   6.19 NA   </a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">##  2      12515 2000-03-14 00300      OXYGEN, DISSO~       6.7    6.7   6.73</a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">##  3      12517 2000-03-14 00300      OXYGEN, DISSO~       7.3    7.3   6.73</a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">##  4      12515 2000-03-16 00300      OXYGEN, DISSO~       6.41   6.41  6.65</a>
+<a class="sourceLine" id="cb3-10" data-line-number="10">##  5      12515 2000-05-03 00300      OXYGEN, DISSO~       4.42   4.42  6.20</a>
+<a class="sourceLine" id="cb3-11" data-line-number="11">##  6      12517 2000-06-14 00300      OXYGEN, DISSO~       5.74   5.74  6.13</a>
+<a class="sourceLine" id="cb3-12" data-line-number="12">##  7      12515 2000-06-15 00300      OXYGEN, DISSO~       4.86   4.86  5.95</a>
+<a class="sourceLine" id="cb3-13" data-line-number="13">##  8      12515 2000-07-11 00300      OXYGEN, DISSO~       4.48   4.48  5.76</a>
+<a class="sourceLine" id="cb3-14" data-line-number="14">##  9      12515 2000-09-12 00300      OXYGEN, DISSO~       5.64   5.64  5.75</a>
+<a class="sourceLine" id="cb3-15" data-line-number="15">## 10      12517 2000-10-17 00300      OXYGEN, DISSO~       7.96   7.96  5.97</a>
+<a class="sourceLine" id="cb3-16" data-line-number="16">## # ... with 226 more rows, and 2 more variables: lwr_ci &lt;lgl&gt;, upr_ci &lt;lgl&gt;</a></code></pre></div>
 <p>This works in a tidy-workflow as:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggalt) <span class="co">#for step_ribbon</span>
-
-Dissolved_Oxygen <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Station_ID =</span> <span class="kw">as.factor</span>(Station_ID)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">group_by</span>(Station_ID) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="reference/tbr_mean.html">tbr_mean</a></span>(Average_DO, Date, <span class="st">"years"</span>, <span class="dv">5</span>, <span class="dt">conf =</span> <span class="fl">0.95</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_step</span>(<span class="kw">aes</span>(Date, mean, <span class="dt">color =</span> Station_ID)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_ribbon</span>(<span class="kw">aes</span>(Date, <span class="dt">ymin =</span> lwr_ci, <span class="dt">ymax =</span> upr_ci, <span class="dt">fill =</span> Station_ID), <span class="dt">alpha =</span> <span class="fl">0.5</span>)</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">library</span>(ggalt) <span class="co">#for stat="stepribbon""</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">Dissolved_Oxygen <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Station_ID =</span> <span class="kw">as.factor</span>(Station_ID)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="st">  </span><span class="kw">group_by</span>(Station_ID) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="reference/tbr_mean.html">tbr_mean</a></span>(Average_DO, Date, <span class="st">"years"</span>, <span class="dv">5</span>, <span class="dt">conf =</span> <span class="fl">0.95</span>, <span class="dt">type =</span> <span class="st">"perc"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="st">  </span><span class="kw">geom_step</span>(<span class="kw">aes</span>(Date, mean, <span class="dt">color =</span> Station_ID)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="st">  </span><span class="kw">geom_ribbon</span>(<span class="kw">aes</span>(Date, <span class="dt">ymin =</span> lwr_ci, <span class="dt">ymax =</span> upr_ci, <span class="dt">fill =</span> Station_ID), </a>
+<a class="sourceLine" id="cb4-10" data-line-number="10">              <span class="dt">stat =</span> <span class="st">"stepribbon"</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>)</a></code></pre></div>
 <p><img src="reference/figures/index-unnamed-chunk-2-1.png" width="700"></p>
 </div>
 <div id="different-time-units" class="section level3">
 <h3 class="hasAnchor">
 <a href="#different-time-units" class="anchor"></a>Different Time Units</h3>
 <p>tbrf works with times or dates.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Some sample data
-y &lt;-<span class="st"> </span><span class="op">-</span><span class="dv">1000</span><span class="op">*</span><span class="kw">log</span>(<span class="kw">runif</span>(<span class="dv">1000</span>))
-time =<span class="st"> </span><span class="kw">sample</span>(<span class="kw">seq</span>(<span class="kw">as.POSIXct</span>(<span class="kw">strptime</span>(<span class="st">"2017-01-01 00:01:00"</span>, <span class="st">"%Y-%m-%d %H:%M:%S"</span>)),
-                  <span class="kw">as.POSIXct</span>(<span class="kw">strptime</span>(<span class="st">"2017-01-05 23:00:00"</span>, <span class="st">"%Y-%m-%d %H:%M:%S"</span>)),
-                  <span class="dt">by =</span> <span class="st">"min"</span>), <span class="dv">1000</span>)
-
-df &lt;-<span class="st"> </span><span class="kw">data_frame</span>(time, y)</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">## Some sample data</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">y &lt;-<span class="st"> </span><span class="dv">-1000</span><span class="op">*</span><span class="kw">log</span>(<span class="kw">runif</span>(<span class="dv">1000</span>))</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">time =<span class="st"> </span><span class="kw">sample</span>(<span class="kw">seq</span>(<span class="kw">as.POSIXct</span>(<span class="kw">strptime</span>(<span class="st">"2017-01-01 00:01:00"</span>, <span class="st">"%Y-%m-%d %H:%M:%S"</span>)),</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">                  <span class="kw">as.POSIXct</span>(<span class="kw">strptime</span>(<span class="st">"2017-01-05 23:00:00"</span>, <span class="st">"%Y-%m-%d %H:%M:%S"</span>)),</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">                  <span class="dt">by =</span> <span class="st">"min"</span>), <span class="dv">1000</span>)</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">df &lt;-<span class="st"> </span><span class="kw">data_frame</span>(time, y)</a></code></pre></div>
 <p>Plot 120-minute geometric means:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw"><a href="reference/tbr_gmean.html">tbr_gmean</a></span>(y, time, <span class="dt">unit =</span> <span class="st">"minutes"</span>, <span class="dt">n =</span> <span class="dv">120</span>, <span class="dt">conf =</span> <span class="fl">0.95</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(time, y), <span class="dt">alpha =</span> <span class="fl">0.25</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_step</span>(<span class="kw">aes</span>(time, mean)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_ribbon</span>(<span class="kw">aes</span>(time, <span class="dt">ymin =</span> lwr_ci, <span class="dt">ymax =</span> upr_ci), <span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">stat =</span> <span class="st">"stepribbon"</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_y_log10</span>()</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">df <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/tbr_gmean.html">tbr_gmean</a></span>(y, time, <span class="dt">unit =</span> <span class="st">"minutes"</span>, <span class="dt">n =</span> <span class="dv">120</span>, <span class="dt">conf =</span> <span class="fl">0.95</span>, <span class="dt">type =</span> <span class="st">"perc"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(time, y), <span class="dt">alpha =</span> <span class="fl">0.25</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_step</span>(<span class="kw">aes</span>(time, mean)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_ribbon</span>(<span class="kw">aes</span>(time, <span class="dt">ymin =</span> lwr_ci, <span class="dt">ymax =</span> upr_ci), <span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">stat =</span> <span class="st">"stepribbon"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="st">  </span><span class="kw">scale_y_log10</span>()</a></code></pre></div>
 <p><img src="reference/figures/index-unnamed-chunk-4-1.png" width="700"></p>
 <p>Plot 12-hour minute geometric means:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw"><a href="reference/tbr_gmean.html">tbr_gmean</a></span>(y, time, <span class="dt">unit =</span> <span class="st">"hours"</span>, <span class="dt">n =</span> <span class="dv">12</span>, <span class="dt">conf =</span> <span class="fl">0.95</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(time, y), <span class="dt">alpha =</span> <span class="fl">0.25</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_step</span>(<span class="kw">aes</span>(time, mean)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_ribbon</span>(<span class="kw">aes</span>(time, <span class="dt">ymin =</span> lwr_ci, <span class="dt">ymax =</span> upr_ci), <span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">stat =</span> <span class="st">"stepribbon"</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_y_log10</span>()</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">df <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/tbr_gmean.html">tbr_gmean</a></span>(y, time, <span class="dt">unit =</span> <span class="st">"hours"</span>, <span class="dt">n =</span> <span class="dv">12</span>, <span class="dt">conf =</span> <span class="fl">0.95</span>, <span class="dt">type =</span> <span class="st">"perc"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(time, y), <span class="dt">alpha =</span> <span class="fl">0.25</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_step</span>(<span class="kw">aes</span>(time, mean)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_ribbon</span>(<span class="kw">aes</span>(time, <span class="dt">ymin =</span> lwr_ci, <span class="dt">ymax =</span> upr_ci), <span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">stat =</span> <span class="st">"stepribbon"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="st">  </span><span class="kw">scale_y_log10</span>()</a></code></pre></div>
 <p><img src="reference/figures/index-unnamed-chunk-5-1.png" width="700"></p>
 <p>Plot 1-day geometric means:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw"><a href="reference/tbr_gmean.html">tbr_gmean</a></span>(y, time, <span class="dt">unit =</span> <span class="st">"days"</span>, <span class="dt">n =</span> <span class="dv">1</span>, <span class="dt">conf =</span> <span class="fl">0.95</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(time, y), <span class="dt">alpha =</span> <span class="fl">0.25</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_step</span>(<span class="kw">aes</span>(time, mean)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_ribbon</span>(<span class="kw">aes</span>(time, <span class="dt">ymin =</span> lwr_ci, <span class="dt">ymax =</span> upr_ci), <span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">stat =</span> <span class="st">"stepribbon"</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_y_log10</span>()</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">df <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/tbr_gmean.html">tbr_gmean</a></span>(y, time, <span class="dt">unit =</span> <span class="st">"days"</span>, <span class="dt">n =</span> <span class="dv">1</span>, <span class="dt">conf =</span> <span class="fl">0.95</span>, <span class="dt">type =</span> <span class="st">"perc"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(time, y), <span class="dt">alpha =</span> <span class="fl">0.25</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_step</span>(<span class="kw">aes</span>(time, mean)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_ribbon</span>(<span class="kw">aes</span>(time, <span class="dt">ymin =</span> lwr_ci, <span class="dt">ymax =</span> upr_ci), <span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">stat =</span> <span class="st">"stepribbon"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="st">  </span><span class="kw">scale_y_log10</span>()</a></code></pre></div>
 <p><img src="reference/figures/index-unnamed-chunk-6-1.png" width="700"></p>
 </div>
 </div>
@@ -197,8 +191,6 @@ df &lt;-<span class="st"> </span><span class="kw">data_frame</span>(time, y)</co
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/mps9506/tbrf">https://​github.com/​mps9506/​tbrf</a>
-</li>
 <li>Report a bug at <br><a href="https://github.com/mps9506/tbrf/issues">https://​github.com/​mps9506/​tbrf/​issues</a>
 </li>
 </ul>

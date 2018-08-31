@@ -79,15 +79,16 @@ tbr_mean(Dissolved_Oxygen, x = Average_DO,
 This works in a tidy-workflow as:
 
 ```{r message=FALSE, warning=FALSE, paged.print=FALSE}
-library(ggalt) #for step_ribbon
+library(ggalt) #for stat="stepribbon""
 
 Dissolved_Oxygen %>%
   mutate(Station_ID = as.factor(Station_ID)) %>%
   group_by(Station_ID) %>%
-  tbr_mean(Average_DO, Date, "years", 5, conf = 0.95) %>%
+  tbr_mean(Average_DO, Date, "years", 5, conf = 0.95, type = "perc") %>%
   ggplot() +
   geom_step(aes(Date, mean, color = Station_ID)) +
-  geom_ribbon(aes(Date, ymin = lwr_ci, ymax = upr_ci, fill = Station_ID), alpha = 0.5)
+  geom_ribbon(aes(Date, ymin = lwr_ci, ymax = upr_ci, fill = Station_ID), 
+              stat = "stepribbon", alpha = 0.5)
 ```
 
 ### Different Time Units
@@ -109,7 +110,7 @@ Plot 120-minute geometric means:
 
 ```{r message=FALSE, warning=FALSE, paged.print=FALSE}
 df %>% 
-  tbr_gmean(y, time, unit = "minutes", n = 120, conf = 0.95) %>%
+  tbr_gmean(y, time, unit = "minutes", n = 120, conf = 0.95, type = "perc") %>%
   ggplot() +
   geom_point(aes(time, y), alpha = 0.25) +
   geom_step(aes(time, mean)) +
@@ -120,7 +121,7 @@ df %>%
 Plot 12-hour minute geometric means:
 ```{r message=FALSE, warning=FALSE, paged.print=FALSE}
 df %>% 
-  tbr_gmean(y, time, unit = "hours", n = 12, conf = 0.95) %>%
+  tbr_gmean(y, time, unit = "hours", n = 12, conf = 0.95, type = "perc") %>%
   ggplot() +
   geom_point(aes(time, y), alpha = 0.25) +
   geom_step(aes(time, mean)) +
@@ -131,7 +132,7 @@ df %>%
 Plot 1-day geometric means:
 ```{r message=FALSE, warning=FALSE, paged.print=FALSE}
 df %>% 
-  tbr_gmean(y, time, unit = "days", n = 1, conf = 0.95) %>%
+  tbr_gmean(y, time, unit = "days", n = 1, conf = 0.95, type = "perc") %>%
   ggplot() +
   geom_point(aes(time, y), alpha = 0.25) +
   geom_step(aes(time, mean)) +

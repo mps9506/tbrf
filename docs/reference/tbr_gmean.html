@@ -95,12 +95,7 @@ confidence intervals." />
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/mps9506/tbrf">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -114,7 +109,7 @@ confidence intervals." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Time-Based Rolling Geometric Mean</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mps9506/tbrf/blob/master/R/tbr_gmean.R'><code>R/tbr_gmean.R</code></a></small>
+    
     <div class="hidden name"><code>tbr_gmean.Rd</code></div>
     </div>
 
@@ -185,9 +180,8 @@ as date, date/time and value column.</p></td>
 #&gt;  9      12515 2000-09-12 00300      OXYGEN, DISSOLVED ~       5.64   5.64  5.67
 #&gt; 10      12517 2000-10-17 00300      OXYGEN, DISSOLVED ~       7.96   7.96  5.86
 #&gt; # ... with 226 more rows</div><div class='input'>
-## Return a tibble with rolling geometric mean and 95% CI
 </div><span class='co'># NOT RUN {</span>
-<span class='co'>## This example </span>
+<span class='co'>## Return a tibble with rolling geometric mean and 95% CI</span>
 <span class='fu'>tbr_gmean</span>(<span class='no'>Dissolved_Oxygen</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>Average_DO</span>, <span class='kw'>tcolumn</span> <span class='kw'>=</span> <span class='no'>Date</span>, <span class='kw'>unit</span> <span class='kw'>=</span> <span class='st'>"years"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>conf</span> <span class='kw'>=</span> <span class='fl'>.95</span>)
 <span class='co'># }</span></pre>
   </div>
