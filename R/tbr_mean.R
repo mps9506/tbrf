@@ -4,7 +4,7 @@
 #'
 #' @param .tbl a data frame with at least two variables; time column formatted as date, date/time and value column.
 #' @param x column containing the numeric values to calculate the mean.
-#' @param tcolumn formated time column.
+#' @param tcolumn formatted time column.
 #' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
 #' @param ... additional arguments passed to \code{\link{mean_ci}}.
@@ -63,7 +63,7 @@ tbr_mean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
 #' Mean Based on a Time-Window
 #'
 #' @param x column containing the values to calculate the mean.
-#' @param tcolumn formated time column.
+#' @param tcolumn formatted time column.
 #' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
 #' @param i row

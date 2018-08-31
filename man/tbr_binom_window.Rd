@@ -9,7 +9,7 @@ tbr_binom_window(x, tcolumn, unit = "years", n, i, alpha)
 \arguments{
 \item{x}{column containing "success" and "failure" observations as 0 or 1}
 
-\item{tcolumn}{formated time column}
+\item{tcolumn}{formatted time column}
 
 \item{unit}{character, one of "years", "months", "weeks", "days", "hours",
 "minutes", "seconds"}

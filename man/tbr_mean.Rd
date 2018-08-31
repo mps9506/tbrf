@@ -11,7 +11,7 @@ tbr_mean(.tbl, x, tcolumn, unit = "years", n, ...)
 
 \item{x}{column containing the numeric values to calculate the mean.}
 
-\item{tcolumn}{formated time column.}
+\item{tcolumn}{formatted time column.}
 
 \item{unit}{character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"}
 

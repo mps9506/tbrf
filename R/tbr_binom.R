@@ -53,7 +53,7 @@ tbr_binom <- function(.tbl, x, tcolumn, unit = "years", n, alpha = 0.05) {
 #' Binomial test based on time window
 #'
 #' @param x column containing "success" and "failure" observations as 0 or 1
-#' @param tcolumn formated time column
+#' @param tcolumn formatted time column
 #' @param unit character, one of "years", "months", "weeks", "days", "hours",
 #'   "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.

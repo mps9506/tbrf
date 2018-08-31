@@ -11,7 +11,7 @@ tbr_sd(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE)
 
 \item{x}{column containing the values to calculate the standard deviation.}
 
-\item{tcolumn}{formated time column.}
+\item{tcolumn}{formatted time column.}
 
 \item{unit}{character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"}
 

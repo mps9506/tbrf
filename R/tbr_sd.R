@@ -2,7 +2,7 @@
 #'
 #' @param .tbl a data frame with at least two variables; time column formatted as date, date/time and value column.
 #' @param x column containing the values to calculate the standard deviation.
-#' @param tcolumn formated time column.
+#' @param tcolumn formatted time column.
 #' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
 #' @param na.rm logical. Should missing values be removed?
@@ -36,7 +36,7 @@ tbr_sd <- function(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE) {
 #' Standard Deviation Based on a Time-Window
 #'
 #' @param x column containing the values to calculate the standard deviation.
-#' @param tcolumn formated time column.
+#' @param tcolumn formatted time column.
 #' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
 #' @param i row
