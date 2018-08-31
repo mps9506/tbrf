@@ -39,7 +39,7 @@ value = rbinom(100, 1, 0.25)
 )
 
 ## Run Function
-df <- tbr_binom(df, x = value,
+tbr_binom(df, x = value,
 tcolumn = date, unit = "years", n = 5,
 alpha = 0.1)
 }

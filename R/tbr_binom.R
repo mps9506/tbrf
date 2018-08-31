@@ -30,7 +30,7 @@
 #' )
 #'
 #' ## Run Function
-#' df <- tbr_binom(df, x = value,
+#' tbr_binom(df, x = value,
 #' tcolumn = date, unit = "years", n = 5,
 #' alpha = 0.1)
 tbr_binom <- function(.tbl, x, tcolumn, unit = "years", n, alpha = 0.05) {
