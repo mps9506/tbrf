@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 ```
 
 # tbrf
-
+[![CRAN version](https://www.r-pkg.org/badges/version/tbrf)](https://CRAN.R-project.org/package=tbrf)
 [![Travis build status](https://travis-ci.org/mps9506/tbrf.svg?branch=master)](https://travis-ci.org/mps9506/tbrf)
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/mps9506/tbrf?branch=master&svg=true)](https://ci.appveyor.com/project/mps9506/tbrf)
 [![Coverage status](https://codecov.io/gh/mps9506/tbrf/branch/master/graph/badge.svg)](https://codecov.io/github/mps9506/tbrf?branch=master)
@@ -29,7 +29,13 @@ tbrf identifies the previous n measurements within the specified time window, ap
 
 ## Installation
 
-tbrf is still under active development (do not expect stable behavior) and can be installed from github with:
+tbrf is available on CRAN:
+```{r eval=FALSE}
+install.packages("tbrf")
+```
+
+
+The development version is maintained on github and can be installed as:
 
 ``` r
 devtools::install.github("mps9506/tbrf")
@@ -75,7 +81,7 @@ time = sample(seq(as.POSIXct(strptime("2017-01-01 00:01:00", "%Y-%m-%d %H:%M:%S"
 df <- data_frame(time, y)
 
 df %>% 
-  tbr_gmean(y, time, unit = "hours", n = 6, conf = 0.95) %>%
+  tbr_gmean(y, time, unit = "hours", n = 6, conf = 0.95, type = "perc") %>%
   ggplot() +
   geom_point(aes(time, y)) +
   geom_step(aes(time, mean)) +

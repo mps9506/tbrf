@@ -3,6 +3,8 @@
 
 # tbrf
 
+[![CRAN
+version](https://www.r-pkg.org/badges/version/tbrf)](https://CRAN.R-project.org/package=tbrf)
 [![Travis build
 status](https://travis-ci.org/mps9506/tbrf.svg?branch=master)](https://travis-ci.org/mps9506/tbrf)
 [![AppVeyor build
@@ -34,8 +36,13 @@ the rolling statistical measure.
 
 ## Installation
 
-tbrf is still under active development (do not expect stable behavior)
-and can be installed from github with:
+tbrf is available on CRAN:
+
+``` r
+install.packages("tbrf")
+```
+
+The development version is maintained on github and can be installed as:
 
 ``` r
 devtools::install.github("mps9506/tbrf")
@@ -81,7 +88,7 @@ time = sample(seq(as.POSIXct(strptime("2017-01-01 00:01:00", "%Y-%m-%d %H:%M:%S"
 df <- data_frame(time, y)
 
 df %>% 
-  tbr_gmean(y, time, unit = "hours", n = 6, conf = 0.95) %>%
+  tbr_gmean(y, time, unit = "hours", n = 6, conf = 0.95, type = "perc") %>%
   ggplot() +
   geom_point(aes(time, y)) +
   geom_step(aes(time, mean)) +
@@ -109,7 +116,7 @@ Frank Harrell’s [`Hmisc`](https://github.com/harrelfe/Hmisc) package.
 library(tbrf)
 
 date()
-## [1] "Thu Aug 30 18:24:59 2018"
+## [1] "Tue Sep 04 10:17:21 2018"
 
 devtools::test()
 ## v | OK F W S | Context
@@ -121,7 +128,7 @@ devtools::test()
 / |  4       | core functions work in piped workflow
 - |  5       | core functions work in piped workflow
 \ |  6       | core functions work in piped workflow
-v |  6       | core functions work in piped workflow [0.4 s]
+v |  6       | core functions work in piped workflow [0.6 s]
 ## 
 / |  0       | core functions return expected errors and messages
 - |  1       | core functions return expected errors and messages
@@ -142,7 +149,7 @@ v |  7       | core functions return expected errors and messages
 \ |  6       | core functions return expected structures and values
 | |  7       | core functions return expected structures and values
 / |  8       | core functions return expected structures and values
-v |  8       | core functions return expected structures and values [1.1 s]
+v |  8       | core functions return expected structures and values [1.8 s]
 ## 
 / |  0       | internal statistical functions return expected values
 - |  1       | internal statistical functions return expected values
@@ -156,10 +163,10 @@ v |  8       | core functions return expected structures and values [1.1 s]
 - |  9       | internal statistical functions return expected values
 \ | 10       | internal statistical functions return expected values
 | | 11       | internal statistical functions return expected values
-v | 11       | internal statistical functions return expected values [0.5 s]
+v | 11       | internal statistical functions return expected values [0.9 s]
 ## 
-## == Results =================================================================================================
-## Duration: 2.1 s
+## == Results ==========================================================================================
+## Duration: 3.5 s
 ## 
 ## OK:       32
 ## Failed:   0
