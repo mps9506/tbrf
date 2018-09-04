@@ -15,11 +15,11 @@ library(tbrf)
 library(dplyr)
 library(ggplot2)
 ```
-
+[![CRAN version](https://www.r-pkg.org/badges/version/tbrf)](https://CRAN.R-project.org/package=tbrf)
 [![Travis build status](https://travis-ci.org/mps9506/tbrf.svg?branch=master)](https://travis-ci.org/mps9506/tbrf)
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/mps9506/tbrf?branch=master&svg=true)](https://ci.appveyor.com/project/mps9506/tbrf)
 [![Coverage status](https://codecov.io/gh/mps9506/tbrf/branch/master/graph/badge.svg)](https://codecov.io/github/mps9506/tbrf?branch=master)
-[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
  
 The goal of tbrf is to provide time-window based rolling statistical functions. The package differs from other rolling statistic packages because the intended use is for irregular measured data. Althogh tbrf can be used to apply statistical functions to regularly sampled data, [`zoo`](https://CRAN.R-project.org/package=zoo), [`RcppRoll`](https://cran.r-project.org/package=RcppRoll), and other packages provide fast, efficient, and rich implementations of rolling/windowed functions.
 
@@ -27,7 +27,13 @@ An appropriate example case is water quality data that is measured at irregular 
 
 ## Installation
 
-tbrf is still under active development (do not expect stable behavior) and can be installed from github with:
+tbrf is available on CRAN:
+```{r eval=FALSE}
+install.packages("tbrf")
+```
+
+
+The development version is maintained on github and can be installed as:
 
 ``` r
 devtools::install.github("mps9506/tbrf")
@@ -96,48 +102,85 @@ Dissolved_Oxygen %>%
 tbrf works with times or dates.
 
 ```{r}
-## Some sample data
-y <- -1000*log(runif(1000))
-time = sample(seq(as.POSIXct(strptime("2017-01-01 00:01:00", "%Y-%m-%d %H:%M:%S")),
-                  as.POSIXct(strptime("2017-01-05 23:00:00", "%Y-%m-%d %H:%M:%S")),
-                  by = "min"), 1000)
+## Generate some sample data
 
-df <- data_frame(time, y)
+sampledata <- function(N, start,  end) {
+  start <- as.POSIXct(start, "%Y-%m-%d %H:%M:%S", tz = "")
+  end <- as.POSIXct(end, "%Y-%m-%d %H:%M:%S", tz = "")
+  time <- sample(seq(start, end, by = "min"), N)
+  
+  df <- data_frame(time = time,
+                   y = -1000*log(runif(N)))
+  return(df)
+}
+
+df <- bind_rows(sampledata(100, "2017-01-01 00:01:00", "2017-01-04 23:00:00"),
+                sampledata(100, "2017-01-07 00:01:00", "2017-01-08 23:00:00"))
 
 ```
 
 Plot 120-minute geometric means:
 
 ```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+
 df %>% 
   tbr_gmean(y, time, unit = "minutes", n = 120, conf = 0.95, type = "perc") %>%
   ggplot() +
   geom_point(aes(time, y), alpha = 0.25) +
-  geom_step(aes(time, mean)) +
-  geom_ribbon(aes(time, ymin = lwr_ci, ymax = upr_ci), alpha = 0.5, stat = "stepribbon") +
+  geom_line(aes(time, mean)) +
+  geom_ribbon(aes(time, ymin = lwr_ci, ymax = upr_ci), alpha = 0.5) +
   scale_y_log10()
 ```
 
-Plot 12-hour minute geometric means:
+Plot 24-hour geometric means:
 ```{r message=FALSE, warning=FALSE, paged.print=FALSE}
 df %>% 
-  tbr_gmean(y, time, unit = "hours", n = 12, conf = 0.95, type = "perc") %>%
+  tbr_gmean(y, time, unit = "hours", n = 24, conf = 0.95, type = "perc") %>%
   ggplot() +
   geom_point(aes(time, y), alpha = 0.25) +
-  geom_step(aes(time, mean)) +
-  geom_ribbon(aes(time, ymin = lwr_ci, ymax = upr_ci), alpha = 0.5, stat = "stepribbon") +
+  geom_line(aes(time, mean)) +
+  geom_ribbon(aes(time, ymin = lwr_ci, ymax = upr_ci), alpha = 0.5) +
   scale_y_log10()
 ```
 
-Plot 1-day geometric means:
+Plot 4-day geometric means:
 ```{r message=FALSE, warning=FALSE, paged.print=FALSE}
 df %>% 
-  tbr_gmean(y, time, unit = "days", n = 1, conf = 0.95, type = "perc") %>%
+  tbr_gmean(y, time, unit = "days", n = 4, conf = 0.95, type = "perc") %>%
   ggplot() +
   geom_point(aes(time, y), alpha = 0.25) +
-  geom_step(aes(time, mean)) +
-  geom_ribbon(aes(time, ymin = lwr_ci, ymax = upr_ci), alpha = 0.5, stat = "stepribbon") +
+  geom_line(aes(time, mean)) +
+  geom_ribbon(aes(time, ymin = lwr_ci, ymax = upr_ci), alpha = 0.5) +
   scale_y_log10()
 ```
 
+
+### Parallel Processing
+
+Confidence Intervals in `tbr_gmean`, `tbr_mean`, and `tbr median` are calculated using `boot::boot_ci`. If you do not need confidence intervals, calculation times are substantially shorter. `parallel`, `ncores`, and `cl` arguments are passed to `boot` and can improve computation times. See `?boot` for more details on parallel operations. An example for parallel processing in Windows is shown below:
+
+```{r}
+library(microbenchmark)
+library(snow)
+
+##benchmark run on a windows Intel I7 2.6Ghz dual core laptop
+
+cl <- makeCluster(2, type = "SOCK")
+
+microbenchmark(
+  "noCI" = tbr_gmean(Dissolved_Oxygen, Average_DO, Date, 
+         "years", 5),
+  "single" = tbr_gmean(Dissolved_Oxygen, Average_DO, Date, 
+         "years", 5, R = 1000, conf = .95,
+         type = "perc"),
+  "parallel" = tbr_gmean(Dissolved_Oxygen, Average_DO, Date, 
+         "years", 5, R = 1000, conf = .95, 
+         type = "perc", parallel = "snow", 
+         ncpus = 2, cl = cl),
+  times = 20)
+
+stopCluster(cl)
+
+
+```
 
