@@ -12,7 +12,7 @@ test_that("tbr_binom returns error", {
                                    unit = "year",
                                    n = 5,
                                    alpha = 0.1),
-                  "Evaluation error: unit must be one of years, months, weeks, days, hours, minutes, seconds.")
+                  "unit must be one of years, months, weeks, days, hours, minutes, seconds.")
 })
 
 
@@ -27,7 +27,7 @@ test_that("tbr_gmean returns error", {
                                    tcolumn = date,
                                    unit = "year",
                                    n = 5),
-               "Evaluation error: unit must be one of years, months, weeks, days, hours, minutes, seconds.")
+               "unit must be one of years, months, weeks, days, hours, minutes, seconds.")
 })
 
 test_that("tbr_mean returns error", {
@@ -36,7 +36,7 @@ test_that("tbr_mean returns error", {
                                   tcolumn = date,
                                   unit = "year",
                                   n = 5),
-                  "Evaluation error: unit must be one of years, months, weeks, days, hours, minutes, seconds.")
+                  "unit must be one of years, months, weeks, days, hours, minutes, seconds.")
 })
 
 test_that("tbr_median returns error", {
@@ -45,7 +45,7 @@ test_that("tbr_median returns error", {
                                     tcolumn = date,
                                     unit = "year",
                                     n = 5),
-               "Evaluation error: unit must be one of years, months, weeks, days, hours, minutes, seconds.")
+               "unit must be one of years, months, weeks, days, hours, minutes, seconds.")
 })
 
 test_that("tbr_sd returns error", {
@@ -54,7 +54,7 @@ test_that("tbr_sd returns error", {
                                 tcolumn = date,
                                 unit = "year",
                                 n = 5),
-                  "Evaluation error: unit must be one of years, months, weeks, days, hours, minutes, seconds.")
+                  "unit must be one of years, months, weeks, days, hours, minutes, seconds.")
 })
 
 test_that("tbr_sum returns error", {
@@ -63,7 +63,7 @@ test_that("tbr_sum returns error", {
                                  tcolumn = date,
                                  unit = "year",
                                  n = 5),
-                  "Evaluation error: unit must be one of years, months, weeks, days, hours, minutes, seconds.")
+                  "unit must be one of years, months, weeks, days, hours, minutes, seconds.")
 })
 
 
@@ -74,5 +74,5 @@ test_that("tbr_misc returns error", {
                               unit = "year",
                               n = 5,
                               func = sum),
-               "Evaluation error: unit must be one of years, months, weeks, days, hours, minutes, seconds.")
+               "unit must be one of years, months, weeks, days, hours, minutes, seconds.")
 })
