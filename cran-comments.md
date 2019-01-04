@@ -6,3 +6,12 @@
 ## R CMD check results
 
 0 errors | 0 warnings | 0 notes
+
+## Reverse Dependencies
+
+There are currently no downstream dependencies for this package.
+
+## Comments
+
+* This is a release of version 0.1.1.
+* Fixes errors in the CRAN check with upcoming dplyr 0.8.0
