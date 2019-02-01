@@ -1,3 +1,9 @@
+# tbrf 0.1.2
+
+## Bug fixes
+
+* dplyr 0.8.0rc introduced breaking changes. Evaluation errors are now properly fixed with the expected realese version.
+
 # tbrf 0.1.1
 
 ## Minor Changes

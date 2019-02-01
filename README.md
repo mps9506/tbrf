@@ -85,7 +85,7 @@ time = sample(seq(as.POSIXct(strptime("2017-01-01 00:01:00", "%Y-%m-%d %H:%M:%S"
                   as.POSIXct(strptime("2017-01-03 23:00:00", "%Y-%m-%d %H:%M:%S")),
                   by = "min"), 50)
 
-df <- data_frame(time, y)
+df <- tibble(time, y)
 
 df %>% 
   tbr_gmean(y, time, unit = "hours", n = 6, conf = 0.95, type = "perc") %>%
@@ -116,7 +116,7 @@ Frank Harrell’s [`Hmisc`](https://github.com/harrelfe/Hmisc) package.
 library(tbrf)
 
 date()
-## [1] "Tue Sep 04 10:17:21 2018"
+## [1] "Fri Feb 01 10:30:23 2019"
 
 devtools::test()
 ## v | OK F W S | Context
@@ -128,7 +128,7 @@ devtools::test()
 / |  4       | core functions work in piped workflow
 - |  5       | core functions work in piped workflow
 \ |  6       | core functions work in piped workflow
-v |  6       | core functions work in piped workflow [0.6 s]
+v |  6       | core functions work in piped workflow [0.9 s]
 ## 
 / |  0       | core functions return expected errors and messages
 - |  1       | core functions return expected errors and messages
@@ -149,7 +149,7 @@ v |  7       | core functions return expected errors and messages
 \ |  6       | core functions return expected structures and values
 | |  7       | core functions return expected structures and values
 / |  8       | core functions return expected structures and values
-v |  8       | core functions return expected structures and values [1.8 s]
+v |  8       | core functions return expected structures and values [2.0 s]
 ## 
 / |  0       | internal statistical functions return expected values
 - |  1       | internal statistical functions return expected values
@@ -163,10 +163,10 @@ v |  8       | core functions return expected structures and values [1.8 s]
 - |  9       | internal statistical functions return expected values
 \ | 10       | internal statistical functions return expected values
 | | 11       | internal statistical functions return expected values
-v | 11       | internal statistical functions return expected values [0.9 s]
+v | 11       | internal statistical functions return expected values [0.8 s]
 ## 
 ## == Results ==========================================================================================
-## Duration: 3.5 s
+## Duration: 3.8 s
 ## 
 ## OK:       32
 ## Failed:   0

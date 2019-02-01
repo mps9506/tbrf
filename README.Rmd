@@ -78,7 +78,7 @@ time = sample(seq(as.POSIXct(strptime("2017-01-01 00:01:00", "%Y-%m-%d %H:%M:%S"
                   as.POSIXct(strptime("2017-01-03 23:00:00", "%Y-%m-%d %H:%M:%S")),
                   by = "min"), 50)
 
-df <- data_frame(time, y)
+df <- tibble(time, y)
 
 df %>% 
   tbr_gmean(y, time, unit = "hours", n = 6, conf = 0.95, type = "perc") %>%
