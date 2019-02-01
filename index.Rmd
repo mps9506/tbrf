@@ -109,7 +109,7 @@ sampledata <- function(N, start,  end) {
   end <- as.POSIXct(end, "%Y-%m-%d %H:%M:%S", tz = "")
   time <- sample(seq(start, end, by = "min"), N)
   
-  df <- data_frame(time = time,
+  df <- tibble(time = time,
                    y = -1000*log(runif(N)))
   return(df)
 }
