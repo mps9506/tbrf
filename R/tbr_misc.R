@@ -30,7 +30,7 @@ tbr_misc <- function(.tbl, x, tcolumn, unit = "years", n, func, ...) {
                                           n = n,
                                           i = .x,
                                           func = func))) %>%
-    tidyr::unnest()
+    tidyr::unnest(!! col_name)
   .tbl <- tibble::as_tibble(.tbl)
   return(.tbl)
 }
