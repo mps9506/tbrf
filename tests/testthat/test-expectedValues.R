@@ -1,6 +1,8 @@
 context("core functions return expected structures and values")
 library(tbrf)
 
+set.seed(1)
+
 df <- tibble(
   date = sample(seq(as.Date('2000-01-01'), as.Date('2005/12/30'), by = "day"), 10),
   value = rexp(10, 1/100)
@@ -12,7 +14,8 @@ test_that("tbr_mean provides same results as mean", {
   x1 <- df %>% tbr_mean(x = value,
                        tcolumn = date,
                        unit = "years",
-                       n = 5)
+                       n = 5) %>%
+    rename(results = mean)
   expect_s3_class(x1, "tbl_df")
 
   x2 <- df %>% tbr_misc(x = value,
@@ -21,11 +24,9 @@ test_that("tbr_mean provides same results as mean", {
                         n = 5,
                         func = mean)
   expect_s3_class(x2, "tbl_df")
-  
-  x1 <- sum(x1[2:10,3], na.rm = TRUE)
-  x2 <- sum(x2[2:10,3], na.rm = TRUE)
 
-  expect_equal(x1, x2)
+  expect_equal(x1[2:10,3], x2[2:10,3])
+  
   })
 
 
