@@ -22,8 +22,8 @@ test_that("tbr_mean provides same results as mean", {
                         func = mean)
   expect_s3_class(x2, "tbl_df")
   
-  x1 <- sum(x1$mean[2:10], na.rm = TRUE)
-  x2 <- sum(x2$results[2:10], na.rm = TRUE)
+  x1 <- sum(x1[2:10,3], na.rm = TRUE)
+  x2 <- sum(x2[2:10,3], na.rm = TRUE)
 
   expect_equal(x1, x2)
   })
