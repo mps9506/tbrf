@@ -16,14 +16,12 @@ test_that("tbr_mean provides same results as mean", {
                        unit = "years",
                        n = 5) %>%
     rename(results = mean)
-  expect_s3_class(x1, "tbl_df")
 
   x2 <- df %>% tbr_misc(x = value,
                         tcolumn = date,
                         unit = "years",
                         n = 5,
                         func = mean)
-  expect_s3_class(x2, "tbl_df")
 
   expect_equal(x1[2:10,3], x2[2:10,3])
   
