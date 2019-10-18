@@ -22,7 +22,8 @@ test_that("tbr_mean provides same results as mean", {
                         func = mean)
   expect_s3_class(x2, "tbl_df")
 
-  expect_equal(sum(x1[10,3]), sum(x2[10,3]))
+  expect_equal(sum(x1$mean[2:10], na.rm = TRUE), 
+               sum(x2$results[2:10], na.rm = TRUE))
   })
 
 
@@ -38,7 +39,8 @@ test_that("tbr_median provides same results as mean", {
                         unit = "years",
                         n = 5,
                         func = median)
-  expect_equal(sum(x1[10,3]), sum(x2[10,3]))
+  expect_equal(sum(x1$median[2:10], na.rm = TRUE), 
+               sum(x2$results[2:10], na.rm = TRUE))
 })
 
 
