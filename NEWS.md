@@ -2,7 +2,7 @@
 
 ## Bug fixes
 
-* tidyr 1.0.0 introduced warnings when columns are not specified in `unnest()`. (#9)
+* tidyr 1.0.0 introduced warnings when columns are not specified in `unnest()` (#9). Fixed with pull request #10.
 
 # tbrf 0.1.2
 

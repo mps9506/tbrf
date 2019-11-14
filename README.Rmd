@@ -25,7 +25,7 @@ The goal of tbrf is to provide time-window based rolling statistical functions. 
 
 An appropriate example case is water quality data that is measured at irregular time intervals. Regulatory compliance is often based on a statistical average measure or exceedance probability applied to all samples collected in the previous 7-years. tbrf can be used to display regulatory status at any sample point.
 
-tbrf identifies the previous n measurements within the specified time window, applies the function, and outputs a varaible with the result of the rolling statistical measure.
+tbrf identifies the previous n measurements within the specified time window, applies the function, and outputs a variable with the result of the rolling statistical measure.
 
 ## Installation
 
@@ -65,30 +65,40 @@ https://mps9506.github.io/tbrf/
 
 ## Example
 
-Plot a rolling 6-hour geometric mean
+Plot a rolling 1-hour mean:
 
-```{r tbr_misc, fig.retina=2, message=FALSE, warning=FALSE}
+```{r tbr_hour, fig.retina=2, message=FALSE, warning=FALSE}
 library(tbrf)
 library(dplyr)
 library(ggplot2)
 library(ggalt)
 
-y <- -100*log(runif(50))
+y = 3 * sin(2 * seq(from = 0, to = 4*pi, length.out = 100)) + rnorm(100)
 time = sample(seq(as.POSIXct(strptime("2017-01-01 00:01:00", "%Y-%m-%d %H:%M:%S")),
-                  as.POSIXct(strptime("2017-01-03 23:00:00", "%Y-%m-%d %H:%M:%S")),
-                  by = "min"), 50)
+                  as.POSIXct(strptime("2017-01-01 23:00:00", "%Y-%m-%d %H:%M:%S")),
+                  by = "min"), 100)
 
-df <- tibble(time, y)
+df <- data_frame(y, time)
 
-df %>% 
-  tbr_gmean(y, time, unit = "hours", n = 6, conf = 0.95, type = "perc") %>%
+df %>%
+  tbr_mean(y, time, "hours", n = 1) %>%
   ggplot() +
   geom_point(aes(time, y)) +
-  geom_step(aes(time, mean)) +
-  geom_ribbon(aes(time, ymin = lwr_ci, ymax = upr_ci), alpha = 0.5, stat = "stepribbon")
+  geom_step(aes(time, mean))
   
 ```
 
+
+Plot a rolling 3-hour mean:
+
+```{r tbr_threehour, fig.retina=2, message=FALSE, warning=FALSE}
+df %>%
+  tbr_mean(y, time, "hours", n = 3) %>%
+  ggplot() +
+  geom_point(aes(time, y)) +
+  geom_step(aes(time, mean))
+  
+```
 
 ## Contributing
 
