@@ -23,7 +23,7 @@ test_that("tbr_mean provides same results as mean", {
                         n = 5,
                         func = mean)
 
-  expect_equal(x1[2:10,3], x2[2:10,3])
+  expect_equivalent(x1[2:10,3], x2[2:10,3])
   
   })
 
@@ -40,7 +40,7 @@ test_that("tbr_median provides same results as median", {
                         unit = "years",
                         n = 5,
                         func = median)
-  expect_equal(sum(x1$median[2:10], na.rm = TRUE), 
+  expect_equivalent(sum(x1$median[2:10], na.rm = TRUE), 
                sum(x2$results[2:10], na.rm = TRUE))
 })
 
