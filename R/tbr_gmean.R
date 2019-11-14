@@ -60,7 +60,7 @@ tbr_gmean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
                                          parallel = default_dots$parallel,
                                          ncpus = default_dots$ncpus,
                                          cl = default_dots$cl))) %>%
-    tidyr::unnest()
+    tidyr::unnest(.data$temp)
   .tbl <- tibble::as_tibble(.tbl)
   return(.tbl)
 }
