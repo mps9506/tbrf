@@ -111,8 +111,8 @@ df %>%
 ## Contributing
 
 Please note that this project is released with a [Contributor Code of
-Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree
-to abide by its terms.
+Conduct](https://github.com/mps9506/tbrf/blob/master/CODE_OF_CONDUCT.md).
+By participating in this project you agree to abide by its terms.
 
 ## License
 
@@ -127,7 +127,7 @@ Frank Harrell’s [`Hmisc`](https://github.com/harrelfe/Hmisc) package.
 library(tbrf)
 
 date()
-## [1] "Thu Nov 14 16:47:47 2019"
+## [1] "Fri Nov 15 14:34:08 2019"
 
 devtools::test()
 ## v |  OK F W S | Context
@@ -135,31 +135,29 @@ devtools::test()
 / |   0       | core functions work in piped workflow
 - |   1       | core functions work in piped workflow
 | |   3       | core functions work in piped workflow
-/ |   4       | core functions work in piped workflow
+- |   5       | core functions work in piped workflow
 \ |   6       | core functions work in piped workflow
-v |   6       | core functions work in piped workflow [0.8 s]
+v |   6       | core functions work in piped workflow [0.6 s]
 ## 
 / |   0       | core functions return expected errors and messages
-| |   7       | core functions return expected errors and messages
-v |   7       | core functions return expected errors and messages [0.1 s]
+v |   7       | core functions return expected errors and messages
 ## 
 / |   0       | core functions return expected structures and values
 - |   1       | core functions return expected structures and values
-\ |   2       | core functions return expected structures and values
 | |   3       | core functions return expected structures and values
 - |   5       | core functions return expected structures and values
 \ |   6       | core functions return expected structures and values
-v |   6       | core functions return expected structures and values [2.7 s]
+v |   6       | core functions return expected structures and values [2.1 s]
 ## 
 / |   0       | internal statistical functions return expected values
 - |   1       | internal statistical functions return expected values
 \ |   2       | internal statistical functions return expected values
 | |   3       | internal statistical functions return expected values
 - |   5       | internal statistical functions return expected values
-v |  11       | internal statistical functions return expected values [1.1 s]
+v |  11       | internal statistical functions return expected values [1.3 s]
 ## 
 ## == Results =============================================================================
-## Duration: 4.7 s
+## Duration: 4.2 s
 ## 
 ## OK:       30
 ## Failed:   0

@@ -13,4 +13,4 @@ There are currently no downstream dependencies for this package.
 
 ## Comments
 
-* This is a release of version 0.1.3.
+* This is a resubmission of version 0.1.3 and addresses a note about a malformed URL in readme.md.
