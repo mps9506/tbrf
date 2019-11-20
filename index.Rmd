@@ -21,7 +21,7 @@ library(ggplot2)
 [![Coverage status](https://codecov.io/gh/mps9506/tbrf/branch/master/graph/badge.svg)](https://codecov.io/github/mps9506/tbrf?branch=master)
 
  
-The goal of tbrf is to provide time-window based rolling statistical functions. The package differs from other rolling statistic packages because the intended use is for irregular measured data. Althogh tbrf can be used to apply statistical functions to regularly sampled data, [`zoo`](https://CRAN.R-project.org/package=zoo), [`RcppRoll`](https://cran.r-project.org/package=RcppRoll), and other packages provide fast, efficient, and rich implementations of rolling/windowed functions.
+The goal of tbrf is to provide time-window based rolling statistical functions. The package differs from other rolling statistic packages because the intended use is for irregular measured data. Although tbrf can be used to apply statistical functions to regularly sampled data, [`zoo`](https://CRAN.R-project.org/package=zoo), [`RcppRoll`](https://cran.r-project.org/package=RcppRoll), and other packages provide fast, efficient, and rich implementations of rolling/windowed functions.
 
 An appropriate example case is water quality data that is measured at irregular time intervals. Regulatory compliance is often based on a statistical average measure or exceedance probability applied to all samples collected in the previous $n$-years. For each row of data, tbrf functions select previous observations in the time windows specified by the user and applies the statistical function.
 
@@ -41,7 +41,7 @@ devtools::install.github("mps9506/tbrf")
 
 ## Available Functions
 
-- `tbr_binom`: Rolling binomal probability with confidence intervals.
+- `tbr_binom`: Rolling binomial probability with confidence intervals.
 
 - `tbr_gmean`: Rolling geometric mean with confidence intervals.
 
@@ -159,27 +159,29 @@ df %>%
 
 Confidence Intervals in `tbr_gmean`, `tbr_mean`, and `tbr median` are calculated using `boot::boot_ci`. If you do not need confidence intervals, calculation times are substantially shorter. `parallel`, `ncores`, and `cl` arguments are passed to `boot` and can improve computation times. See `?boot` for more details on parallel operations. An example for parallel processing in Windows is shown below:
 
-```{r}
+```{r eval=FALSE}
 library(microbenchmark)
 library(snow)
 
-##benchmark run on a windows Intel I7 2.6Ghz dual core laptop
+cl <- makeCluster(4, type = "SOCK")
 
-cl <- makeCluster(2, type = "SOCK")
-
-microbenchmark(
+x <- microbenchmark(
   "noCI" = tbr_gmean(Dissolved_Oxygen, Average_DO, Date, 
          "years", 5),
   "single" = tbr_gmean(Dissolved_Oxygen, Average_DO, Date, 
-         "years", 5, R = 1000, conf = .95,
+         "years", 5, R = 500, conf = .95,
          type = "perc"),
   "parallel" = tbr_gmean(Dissolved_Oxygen, Average_DO, Date, 
-         "years", 5, R = 1000, conf = .95, 
+         "years", 5, R = 500, conf = .95, 
          type = "perc", parallel = "snow", 
-         ncpus = 2, cl = cl),
-  times = 20)
+         ncpus = 4, cl = cl),
+  times = 10, unit = "s")
 
 stopCluster(cl)
+
+print(x)
+
+autoplot(x)
 
 
 ```

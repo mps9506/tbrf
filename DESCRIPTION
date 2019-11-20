@@ -27,7 +27,8 @@ Imports:
     rlang,
     tibble,
     tidyr
-Suggests: 
+Suggests:
+    spelling, 
     covr,
     ggalt,
     ggplot2,
@@ -35,3 +36,4 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+Language: en-US

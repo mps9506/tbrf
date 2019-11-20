@@ -11,7 +11,7 @@ gm_mean(x, na.rm = TRUE, zero.propagate = FALSE)
 
 \item{na.rm}{logical TRUE/FALSE remove NA values}
 
-\item{zero.propagate}{logical TRUE/FALSE. Allows the optional propogation of
+\item{zero.propagate}{logical TRUE/FALSE. Allows the optional propagation of
 zeros.}
 }
 \value{

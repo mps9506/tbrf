@@ -24,7 +24,7 @@ The tbrf package aims to provide functions that return rolling or moving statist
 
 ## Introduction
 
-Currently tbrf provides functions to calculate binomial probability, geometric mean, mean, median, standard deviation, and sum. There is also a function to apply abritary R functions. This vignette demonstrates how time-windows are applied to irregularly spaced data and each of the functions.
+Currently tbrf provides functions to calculate binomial probability, geometric mean, mean, median, standard deviation, and sum. There is also a function to apply other R functions that return a numeric output. This vignette demonstrates how time-windows are applied to irregularly spaced data and each of the functions.
 
 ## Basic usage
 
@@ -239,7 +239,7 @@ df %>%
 
 ## CI method
 
-Confidence intervals in `tbr_gmean`, `tbr_mean`, and `tbr_median` are calculated using `boot_ci`. If you do not need confidence intervals, calulcation times are substantially shorter. `parallel`, `ncores`, and `cl` arguments are passed to `boot` and can improve computation times. An example using parallel processing for Windows systems is below:
+Confidence intervals in `tbr_gmean`, `tbr_mean`, and `tbr_median` are calculated using `boot_ci`. If you do not need confidence intervals, calculation times are substantially shorter. `parallel`, `ncores`, and `cl` arguments are passed to `boot` and can improve computation times. An example using parallel processing for Windows systems is below:
 
 
 ```{r eval=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}

@@ -113,9 +113,9 @@ tbr_binom_window <- function(x, tcolumn, unit = "years", n, i, alpha) {
 #' probabilities.
 #' @param x vector containing the number of "successes" for binomial variates.
 #' @param n vector containing the numbers of corresponding observations.
-#' @param alpha cprobability of a type I error, so confidence coefficient =
+#' @param alpha probability of a type I error, so confidence coefficient =
 #'   1-alpha.
-#' @param method character string specifing which method to use. The "exact"
+#' @param method character string specifying which method to use. The "exact"
 #'   method uses the F distribution to compute exact (based on the binomial cdf)
 #'   intervals; the "wilson" interval is score-test-based; and the "asymptotic"
 #'   is the text-book, asymptotic normal interval. Following Agresti and Coull,

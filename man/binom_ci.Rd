@@ -12,10 +12,10 @@ binom_ci(x, n, alpha = 0.05, method = c("wilson", "exact",
 
 \item{n}{vector containing the numbers of corresponding observations.}
 
-\item{alpha}{cprobability of a type I error, so confidence coefficient =
+\item{alpha}{probability of a type I error, so confidence coefficient =
 1-alpha.}
 
-\item{method}{character string specifing which method to use. The "exact"
+\item{method}{character string specifying which method to use. The "exact"
 method uses the F distribution to compute exact (based on the binomial cdf)
 intervals; the "wilson" interval is score-test-based; and the "asymptotic"
 is the text-book, asymptotic normal interval. Following Agresti and Coull,

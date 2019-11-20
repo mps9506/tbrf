@@ -146,7 +146,7 @@ tbr_gmean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
 #' https://stackoverflow.com/questions/2602583/geometric-mean-is-there-a-built-in
 #' @param x vector of numeric values
 #' @param na.rm logical TRUE/FALSE remove NA values
-#' @param zero.propagate logical TRUE/FALSE. Allows the optional propogation of
+#' @param zero.propagate logical TRUE/FALSE. Allows the optional propagation of
 #'   zeros.
 #'
 #' @return the geometric mean of the vector
