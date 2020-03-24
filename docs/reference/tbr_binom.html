@@ -8,11 +8,13 @@
 
 <title>Time-Based Rolling Binomial Probability — tbr_binom • tbrf</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -32,11 +34,12 @@
 
 
 
-<meta property="og:title" content="Time-Based Rolling Binomial Probability — tbr_binom" />
 
+<meta property="og:title" content="Time-Based Rolling Binomial Probability — tbr_binom" />
 <meta property="og:description" content="Produces a a rolling time-window based vector of binomial probability and
 confidence intervals." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -67,7 +70,7 @@ confidence intervals." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tbrf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2.9999</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4</span>
       </span>
     </div>
 
@@ -98,7 +101,6 @@ confidence intervals." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -120,14 +122,12 @@ confidence intervals." />
     </div>
 
     <div class="ref-description">
-    
     <p>Produces a a rolling time-window based vector of binomial probability and
 confidence intervals.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>tbr_binom</span>(<span class='no'>.tbl</span>, <span class='no'>x</span>, <span class='no'>tcolumn</span>, <span class='kw'>unit</span> <span class='kw'>=</span> <span class='st'>"years"</span>, <span class='no'>n</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -161,50 +161,45 @@ units.</p></td>
 coefficient = 1-alpha</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>tibble with binomial point estimate and confidence intervals.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='binom_ci.html'>binom_ci</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Generate Sample Data</span>
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tibble</span><span class='kw ns'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/deprecated.html'>data_frame</a></span>(
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tibble</span><span class='kw ns'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(
 <span class='kw'>date</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span>(<span class='st'>'2000-01-01'</span>), <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span>(<span class='st'>'2015/12/30'</span>), <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"day"</span>), <span class='fl'>100</span>),
 <span class='kw'>value</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Binomial.html'>rbinom</a></span>(<span class='fl'>100</span>, <span class='fl'>1</span>, <span class='fl'>0.25</span>)
-)</div><div class='output co'>#&gt; <span class='warning'>Warning: `data_frame()` is deprecated, use `tibble()`.</span>
-#&gt; <span class='warning'><span style='color: #555555;'>This warning is displayed once per session.</span><span></span></div><div class='input'>
+)
+
 <span class='co'>## Run Function</span>
 <span class='fu'>tbr_binom</span>(<span class='no'>df</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>value</span>,
 <span class='kw'>tcolumn</span> <span class='kw'>=</span> <span class='no'>date</span>, <span class='kw'>unit</span> <span class='kw'>=</span> <span class='st'>"years"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-<span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 100 x 5</span><span>
+<span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 100 x 5</span><span>
 #&gt;    date       value PointEst  Lower Upper
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> 2000-02-13     0    0     0      0.895
-#&gt; </span><span style='color: #555555;'> 2</span><span> 2000-04-25     1    0.5   0.052</span><span style='text-decoration: underline;'>7</span><span> 0.947
-#&gt; </span><span style='color: #555555;'> 3</span><span> 2000-06-09     0    0.333 0.035</span><span style='text-decoration: underline;'>1</span><span> 0.746
-#&gt; </span><span style='color: #555555;'> 4</span><span> 2000-06-10     0    0.25  0.026</span><span style='text-decoration: underline;'>3</span><span> 0.644
-#&gt; </span><span style='color: #555555;'> 5</span><span> 2000-06-30     0    0.2   0.021</span><span style='text-decoration: underline;'>1</span><span> 0.565
-#&gt; </span><span style='color: #555555;'> 6</span><span> 2000-07-18     0    0.167 0.017</span><span style='text-decoration: underline;'>6</span><span> 0.502
-#&gt; </span><span style='color: #555555;'> 7</span><span> 2000-10-26     0    0.143 0.015</span><span style='text-decoration: underline;'>1</span><span> 0.452
-#&gt; </span><span style='color: #555555;'> 8</span><span> 2000-12-03     0    0.125 0.013</span><span style='text-decoration: underline;'>2</span><span> 0.411
-#&gt; </span><span style='color: #555555;'> 9</span><span> 2001-01-05     1    0.222 0.076</span><span style='text-decoration: underline;'>5</span><span> 0.496
-#&gt; </span><span style='color: #555555;'>10</span><span> 2001-01-12     0    0.2   0.068</span><span style='text-decoration: underline;'>6</span><span> 0.459
+#&gt; </span><span style='color: #555555;'> 1</span><span> 2000-01-13     0    0     0      0.895
+#&gt; </span><span style='color: #555555;'> 2</span><span> 2000-05-09     1    0.5   0.052</span><span style='text-decoration: underline;'>7</span><span> 0.947
+#&gt; </span><span style='color: #555555;'> 3</span><span> 2000-07-15     1    0.667 0.254  0.965
+#&gt; </span><span style='color: #555555;'> 4</span><span> 2001-04-29     0    0.5   0.182  0.818
+#&gt; </span><span style='color: #555555;'> 5</span><span> 2001-05-16     1    0.6   0.272  0.857
+#&gt; </span><span style='color: #555555;'> 6</span><span> 2001-08-11     0    0.5   0.221  0.779
+#&gt; </span><span style='color: #555555;'> 7</span><span> 2001-10-04     1    0.571 0.289  0.814
+#&gt; </span><span style='color: #555555;'> 8</span><span> 2002-01-15     0    0.5   0.249  0.751
+#&gt; </span><span style='color: #555555;'> 9</span><span> 2002-01-21     1    0.556 0.303  0.782
+#&gt; </span><span style='color: #555555;'>10</span><span> 2002-01-22     0    0.5   0.269  0.731
 #&gt; </span><span style='color: #555555;'># ... with 90 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

@@ -8,11 +8,13 @@
 
 <title>Dissolved oxygen measurements from the Tres Palacios rivers — Dissolved_Oxygen • tbrf</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -32,13 +34,14 @@
 
 
 
-<meta property="og:title" content="Dissolved oxygen measurements from the Tres Palacios rivers — Dissolved_Oxygen" />
 
+<meta property="og:title" content="Dissolved oxygen measurements from the Tres Palacios rivers — Dissolved_Oxygen" />
 <meta property="og:description" content="Data from the Texas Commission on Environmental Quality Surface Water Quality
-Monitoring Information System. The AverageDO field is the mean of dissolved oxygen
+Monitoring Information System. The `AverageDO`` field is the mean of dissolved oxygen
 concentrations (mg/L) measured at a field site at that day. The MinDO is the minimum
 dissolved oxygen concentration measured at that site on that day." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -69,7 +72,7 @@ dissolved oxygen concentration measured at that site on that day." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tbrf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2.9999</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4</span>
       </span>
     </div>
 
@@ -100,7 +103,6 @@ dissolved oxygen concentration measured at that site on that day." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -122,42 +124,38 @@ dissolved oxygen concentration measured at that site on that day." />
     </div>
 
     <div class="ref-description">
-    
     <p>Data from the Texas Commission on Environmental Quality Surface Water Quality
-Monitoring Information System. The AverageDO field is the mean of dissolved oxygen
+Monitoring Information System. The `AverageDO`` field is the mean of dissolved oxygen
 concentrations (mg/L) measured at a field site at that day. The MinDO is the minimum
 dissolved oxygen concentration measured at that site on that day.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>Dissolved_Oxygen</span>)</pre>
-        
+
+
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
     <p>A data frame with 236 rows and 6 variables:</p><dl class='dl-horizontal'>
   <dt>Station_ID</dt><dd><p>unique water quality monitoring station identifier</p></dd>
   <dt>Date</dt><dd><p>sampling date in yyyy-mm-dd format</p></dd>
   <dt>Param_Code</dt><dd><p>unique parameter code</p></dd>
-  <dt>Param_Desc</dt><dd><p>paramter description with units</p></dd>
+  <dt>Param_Desc</dt><dd><p>parameter description with units</p></dd>
   <dt>Average_DO</dt><dd><p>mean of dissolved oxygen measurement, in mg/L</p></dd>
   <dt>Min_DO</dt><dd><p>minimum of dissolved oxygen measurement, in mg/L</p></dd>
   
 </dl>
-    
+
     <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
     <p>https://www80.tceq.texas.gov/SwqmisPublic/public/default.htm</p>
-    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      
       <li><a href="#format">Format</a></li>
-
       <li><a href="#source">Source</a></li>
-          </ul>
+    </ul>
 
   </div>
 </div>

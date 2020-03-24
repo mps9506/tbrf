@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Confidence Intervals for Binomial Probabilities — binom_ci • tbrf</title>
+<title>Open Window — open_window • tbrf</title>
 
 
 <!-- jquery -->
@@ -35,10 +35,8 @@
 
 
 
-<meta property="og:title" content="Confidence Intervals for Binomial Probabilities — binom_ci" />
-<meta property="og:description" content="An implementation of the binconf function in Frank
-Harrell's Hmisc package. Produces 1-alpha confidence intervals for binomial
-probabilities." />
+<meta property="og:title" content="Open Window — open_window" />
+<meta property="og:description" content="calculates the period at each row from the row of interest" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -117,81 +115,54 @@ probabilities." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Confidence Intervals for Binomial Probabilities</h1>
+    <h1>Open Window</h1>
     
-    <div class="hidden name"><code>binom_ci.Rd</code></div>
+    <div class="hidden name"><code>open_window.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>An implementation of the <code>binconf</code> function in Frank
-Harrell's Hmisc package. Produces 1-alpha confidence intervals for binomial
-probabilities.</p>
+    <p>calculates the period at each row from the row of interest</p>
     </div>
 
-    <pre class="usage"><span class='fu'>binom_ci</span>(
-  <span class='no'>x</span>,
-  <span class='no'>n</span>,
-  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"wilson"</span>, <span class='st'>"exact"</span>, <span class='st'>"asymptotic"</span>),
-  <span class='kw'>return.df</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>open_window</span>(<span class='no'>x</span>, <span class='no'>tcolumn</span>, <span class='kw'>unit</span> <span class='kw'>=</span> <span class='st'>"years"</span>, <span class='no'>n</span>, <span class='no'>i</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>vector containing the number of "successes" for binomial variates.</p></td>
+      <td><p>dateframe</p></td>
+    </tr>
+    <tr>
+      <th>tcolumn</th>
+      <td><p>time column</p></td>
+    </tr>
+    <tr>
+      <th>unit</th>
+      <td><p>unit</p></td>
     </tr>
     <tr>
       <th>n</th>
-      <td><p>vector containing the numbers of corresponding observations.</p></td>
+      <td><p>desired n</p></td>
     </tr>
     <tr>
-      <th>alpha</th>
-      <td><p>probability of a type I error, so confidence coefficient =
-1-alpha.</p></td>
-    </tr>
-    <tr>
-      <th>method</th>
-      <td><p>character string specifying which method to use. The "exact"
-method uses the F distribution to compute exact (based on the binomial cdf)
-intervals; the "wilson" interval is score-test-based; and the "asymptotic"
-is the text-book, asymptotic normal interval. Following Agresti and Coull,
-the Wilson interval is to be preferred and so is the default.</p></td>
-    </tr>
-    <tr>
-      <th>return.df</th>
-      <td><p>logical flag to indicate that a data frame rather than a
-matrix be returned.</p></td>
+      <th>i</th>
+      <td><p>row number</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A. Agresti and B.A. Coull, Approximate is better than "exact" for
-  interval estimation of binomial proportions, <em>American Statistician,</em>
-  <b>52</b>:119--126, 1998.</p>
-<p>R.G. Newcombe, Logit confidence intervals and the inverse sinh
-  transformation, <em>American Statistician,</em> <b>55</b>:200--202, 2001.</p>
-<p>L.D. Brown, T.T. Cai and A. DasGupta, Interval estimation for a binomial
-  proportion (with discussion), <em>Statistical Science,</em>
-  <b>16</b>:101--133, 2001.</p>
+    <p>vector</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>binom_ci</span>(<span class='fl'>46</span>,<span class='fl'>50</span>,<span class='kw'>method</span><span class='kw'>=</span><span class='st'>"wilson"</span>)</div><div class='output co'>#&gt;  PointEst     Lower     Upper
-#&gt;      0.92 0.8116175 0.9684505</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#value">Value</a></li>
     </ul>
 
-    <h2>Author</h2>
-    <p>Frank Harrell, modified by Michael Schramm</p>
   </div>
 </div>
 
