@@ -11,3 +11,13 @@ list_NA <- function(...) {
 }
 
 
+open_window <- function(x,
+                        tcolumn,
+                        unit = "years",
+                        n, 
+                        i) {
+  p <- as.period(difftime(tcolumn[i], tcolumn), unit = unit)
+  window <- x[p >= period(0, unit) & p <= period(n, unit)]
+  return(window)
+  
+}
