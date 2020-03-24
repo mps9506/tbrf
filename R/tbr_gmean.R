@@ -77,7 +77,7 @@ tbr_gmean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
 #' @param ... additional arguments passed to gmean_ci
 #'
 #' @importFrom lubridate as.duration duration
-#' @importFrom tibble as.tibble
+#' @importFrom tibble as_tibble
 #' @return list
 #' @keywords internal
 tbr_gmean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
@@ -122,7 +122,7 @@ tbr_gmean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
     else{
 
       if (is.na(dots$conf)) {
-        results <- tibble::as.tibble(list(mean = gm_mean_ci(window = window, ...)))
+        results <- tibble::as_tibble(list(mean = gm_mean_ci(window = window, ...)))
       }
 
       else {
