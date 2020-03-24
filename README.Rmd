@@ -37,8 +37,9 @@ install.packages("tbrf")
 
 The development version is maintained on github and can be installed as:
 
-``` r
-devtools::install.github("mps9506/tbrf")
+```{r eval=FALSE}
+install.packages(remotes)
+remotes::install_github("mps9506/tbrf")
 ```
 
 ## Available Functions
