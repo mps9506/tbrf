@@ -24,7 +24,7 @@
 #' @seealso \code{\link{binom_ci}}
 #' @examples
 #' ## Generate Sample Data
-#' df <- tibble::data_frame(
+#' df <- tibble::tibble(
 #' date = sample(seq(as.Date('2000-01-01'), as.Date('2015/12/30'), by = "day"), 100),
 #' value = rbinom(100, 1, 0.25)
 #' )
@@ -73,9 +73,9 @@ tbr_binom_window <- function(x, tcolumn, unit = "years", n, i, alpha) {
   }
 
   # creates a time-based window
-  temp <- x[lubridate::as.duration(tcolumn[i] - tcolumn)/lubridate::duration(num = 1, units = unit) <= n & lubridate::as.duration(tcolumn[i] - tcolumn)/lubridate::duration(num = 1, units = unit) >= 0]
-  df <- data_frame(temp) %>%
-    summarise(n = n(), successes = as.integer(sum(temp)))
+  window <- open_window(x, tcolumn, unit = unit, n, i)
+  df <- tibble(window) %>%
+    summarise(n = n(), successes = as.integer(sum(window)))
 
   # calculates the binomial test with confidence intervals
   results <- binom_ci(x = df$successes, n = df$n, alpha = alpha, return.df = TRUE)
