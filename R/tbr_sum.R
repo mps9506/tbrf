@@ -62,7 +62,7 @@ tbr_sum_window <- function(x, tcolumn, unit = "years", n, i, na.rm) {
 
   # create a time-based window by calculating the duration between current row
   # and the previous rows select the rows where 0 <= duration <= n
-  window <- open_window(x, tcolumn, unit = "years", n, i)
+  window <- open_window(x, tcolumn, unit = unit, n, i)
   
   # calculates the sum
   results <- sum(window, na.rm = na.rm)
