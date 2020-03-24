@@ -4,9 +4,16 @@
 \alias{gm_mean_ci}
 \title{Returns the Geomean and CI}
 \usage{
-gm_mean_ci(window, conf = 0.95, na.rm = TRUE, type = "basic",
-  R = 1000, parallel = "no", ncpus = getOption("boot.ncpus", 1L),
-  cl = NULL)
+gm_mean_ci(
+  window,
+  conf = 0.95,
+  na.rm = TRUE,
+  type = "basic",
+  R = 1000,
+  parallel = "no",
+  ncpus = getOption("boot.ncpus", 1L),
+  cl = NULL
+)
 }
 \arguments{
 \item{window}{vector of data values}

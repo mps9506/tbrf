@@ -33,7 +33,7 @@ confidence intervals.
 }
 \examples{
 ## Generate Sample Data
-df <- tibble::data_frame(
+df <- tibble::tibble(
 date = sample(seq(as.Date('2000-01-01'), as.Date('2015/12/30'), by = "day"), 100),
 value = rbinom(100, 1, 0.25)
 )

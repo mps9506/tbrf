@@ -4,9 +4,16 @@
 \alias{median_ci}
 \title{Returns the median and CI}
 \usage{
-median_ci(window, conf = 0.95, na.rm = TRUE, type = "basic",
-  R = 1000, parallel = "no", ncpus = getOption("boot.ncpus", 1L),
-  cl = NULL)
+median_ci(
+  window,
+  conf = 0.95,
+  na.rm = TRUE,
+  type = "basic",
+  R = 1000,
+  parallel = "no",
+  ncpus = getOption("boot.ncpus", 1L),
+  cl = NULL
+)
 }
 \arguments{
 \item{window}{vector of data values}

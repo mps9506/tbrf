@@ -45,7 +45,8 @@ install.packages("tbrf")
 The development version is maintained on github and can be installed as:
 
 ``` r
-devtools::install.github("mps9506/tbrf")
+install.packages(remotes)
+remotes::install_github("mps9506/tbrf")
 ```
 
 ## Available Functions
@@ -127,37 +128,17 @@ Frank Harrell’s [`Hmisc`](https://github.com/harrelfe/Hmisc) package.
 library(tbrf)
 
 date()
-## [1] "Wed Nov 20 14:42:41 2019"
+## [1] "Tue Mar 24 07:45:05 2020"
 
 devtools::test()
 ## v |  OK F W S | Context
+## / |   0       | core functions work in piped workflow- |   1       | core functions work in piped workflow- |   5       | core functions work in piped workflowv |   6       | core functions work in piped workflow [0.3 s]
+## / |   0       | core functions return expected errors and messagesv |   7       | core functions return expected errors and messages
+## / |   0       | core functions return expected structures and values\ |   2       | core functions return expected structures and values- |   5       | core functions return expected structures and values\ |   6       | core functions return expected structures and valuesv |   6       | core functions return expected structures and values [1.1 s]
+## / |   0       | internal statistical functions return expected values| |   3       | internal statistical functions return expected values- |   5       | internal statistical functions return expected valuesv |  11       | internal statistical functions return expected values [0.3 s]
 ## 
-/ |   0       | core functions work in piped workflow
-- |   1       | core functions work in piped workflow
-| |   3       | core functions work in piped workflow
-- |   5       | core functions work in piped workflow
-\ |   6       | core functions work in piped workflow
-v |   6       | core functions work in piped workflow [0.7 s]
-## 
-/ |   0       | core functions return expected errors and messages
-v |   7       | core functions return expected errors and messages
-## 
-/ |   0       | core functions return expected structures and values
-- |   1       | core functions return expected structures and values
-| |   3       | core functions return expected structures and values
-- |   5       | core functions return expected structures and values
-\ |   6       | core functions return expected structures and values
-v |   6       | core functions return expected structures and values [1.6 s]
-## 
-/ |   0       | internal statistical functions return expected values
-- |   1       | internal statistical functions return expected values
-\ |   2       | internal statistical functions return expected values
-| |   3       | internal statistical functions return expected values
-- |   5       | internal statistical functions return expected values
-v |  11       | internal statistical functions return expected values [1.0 s]
-## 
-## == Results =============================================================================
-## Duration: 3.4 s
+## == Results ===================================================================================================
+## Duration: 1.8 s
 ## 
 ## OK:       30
 ## Failed:   0

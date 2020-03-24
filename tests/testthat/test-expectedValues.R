@@ -61,7 +61,7 @@ test_that("tbr_sum provides expected values", {
                           unit = "years",
                           n = 5)
 
-  expect_equal(sum(x1$sum), 40)
+  expect_equal(sum(x1$sum), 45)
 })
 
 randomTimes <- function(n, st = "2012/01/01", et = "2012/01/02") {

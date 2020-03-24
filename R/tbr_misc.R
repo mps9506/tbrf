@@ -44,12 +44,10 @@ func_window <- function(x, tcolumn, unit = "years", n, i, func, ...) {
   if (!unit %in% u) {
     stop("unit must be one of ", paste(u, collapse = ", "))
   }
-  window <-
-    x[lubridate::as.duration(tcolumn[i] - tcolumn) / lubridate::duration(num = 1, units = unit) <= n &
-        lubridate::as.duration(tcolumn[i] - tcolumn) / lubridate::duration(num = 1, units = unit) >= 0]
-  date_window <-
-    tcolumn[lubridate::as.duration(tcolumn[i] - tcolumn) / lubridate::duration(num = 1, units = unit) <= n &
-                        lubridate::as.duration(tcolumn[i] - tcolumn) / lubridate::duration(num = 1, units = unit) >= 0]
+
+  window <- open_window(x, tcolumn, unit = unit, n, i)
+  date_window <- open_window(tcolumn, tcolumn, unit = unit, n, i)
+
   results <- tibble::tibble(results = func(window, ...), min_date = min(date_window), max_date = max(date_window))
   return(results)
 }

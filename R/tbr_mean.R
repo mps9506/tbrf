@@ -70,7 +70,7 @@ tbr_mean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
 #' @param ... additional arguments passed to \code{\link{mean_ci}}
 #'
 #' @importFrom lubridate as.duration duration
-#' @importFrom tibble as.tibble
+#' @importFrom tibble as_tibble
 #' @return list
 #' @keywords internal
 tbr_mean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
@@ -103,7 +103,7 @@ tbr_mean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
   else {
     # create a time-based window by calculating the duration between current row
     # and the previous rows select the rows where 0 <= duration <= n
-    window <- x[lubridate::as.duration(tcolumn[i] - tcolumn)/lubridate::duration(num = 1, units = unit) <= n & lubridate::as.duration(tcolumn[i] - tcolumn)/lubridate::duration(num = 1, units = unit) >= 0]
+    window <- open_window(x, tcolumn, unit = unit, n, i)
 
     # if length is 1 or less, return NAs
     if (length(window) <= 1) {
@@ -115,7 +115,7 @@ tbr_mean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
     else{
 
       if (is.na(dots$conf)) {
-        results <- tibble::as.tibble(list(mean = mean_ci(window = window, ...)))
+        results <- tibble::as_tibble(list(mean = mean_ci(window = window, ...)))
       }
 
       else {
