@@ -25,7 +25,7 @@ tbr_sum <- function(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE) {
   .tbl <- .tbl %>%
     arrange(!! rlang::enquo(tcolumn)) %>%
     mutate("sum" := purrr::map(row_number(),
-                            ~tbr_sum_window(x = !! rlang::enquo(x), #column that indicates success/failure
+                            ~tbr_sum_window(x = !! rlang::enquo(x), #column to sum
                                       tcolumn = !! rlang::enquo(tcolumn), #posix formatted time column
                                       unit = unit,
                                       n = n,
