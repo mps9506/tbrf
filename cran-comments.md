@@ -1,7 +1,7 @@
 ## Test environments
 * travis-ci: R 3.5.3, R 3.6.2, R-devel
 * appveyor: R 3.6.3, R-devel
-* win-builder: R 3.6.1
+* win-builder: R 3.6.3
 
 ## R CMD check results
 
