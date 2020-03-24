@@ -1,6 +1,6 @@
 ## Test environments
-* travis-ci: R 3.5.3, R 3.6.1, R-devel
-* appveyor: R 3.6.1, R-devel
+* travis-ci: R 3.5.3, R 3.6.2, R-devel
+* appveyor: R 3.6.3, R-devel
 * win-builder: R 3.6.1
 
 ## R CMD check results
@@ -13,4 +13,4 @@ There are currently no downstream dependencies for this package.
 
 ## Comments
 
-* This is a resubmission of version 0.1.3 and addresses a note about a malformed URL in readme.md.
+* This is a minor release to fix a bug introduced by an upcoming release of lubridate.
