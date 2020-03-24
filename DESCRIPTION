@@ -1,7 +1,7 @@
 Package: tbrf
 Type: Package
 Title: Time-Based Rolling Functions
-Version: 0.1.3
+Version: 0.1.3.9999
 Authors@R: c(
     person("Michael", "Schramm", role=c("aut", "cre"),
       email = "michael.schramm@ag.tamu.edu",

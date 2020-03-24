@@ -1,3 +1,9 @@
+# tbrf 0.1.3.9999
+
+## Bug fixes
+
+* lubridate 1.7.4.9000 now assumes year and month durations are 365.25 days in a year (#12). tbrf now uses date intervals and periods to calculate date windows.
+
 # tbrf 0.1.3
 
 ## Bug fixes
