@@ -21,7 +21,7 @@ list_NA <- function(x) {
 #' Open Window
 #' 
 #' calculates the period at each row from the row of interest
-#' @param x dateframe
+#' @param x dataframe
 #' @param tcolumn time column
 #' @param unit unit
 #' @param n desired n
