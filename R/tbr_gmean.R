@@ -94,11 +94,13 @@ tbr_gmean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
   dots <- list(...)
 
   if (is.na(dots$conf)) {
-    resultsColumns <- c("mean")
+    resultsColumns <- c("mean" = NA)
   }
 
   else {
-    resultsColumns <- c("mean", "lwr_ci", "upr_ci")
+    resultsColumns <- c("mean" = NA, 
+                        "lwr_ci" = NA,
+                        "upr_ci" = NA)
   }
 
   # do not calculate the first row, always returns NA
