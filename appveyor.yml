@@ -19,22 +19,26 @@ environment:
   # see https://github.com/krlmlr/r-appveyor#readme for details
   USE_RTOOLS: true
   R_REMOTES_STANDALONE: true
-  PKGTYPE: both
   # Adapt as necessary starting from here
   matrix:
   - R_VERSION: devel
     GCC_PATH: mingw_32
+    PKGTYPE: source
 
   - R_VERSION: devel
     R_ARCH: x64
     GCC_PATH: mingw_64
+    PKGTYPE: source
 
   - R_VERSION: release
     R_ARCH: x64
+    PKGTYPE: both
 
   - R_VERSION: stable
+    PKGTYPE: both
 
   - R_VERSION: patched
+    PKGTYPE: both
 
 
 build_script:
