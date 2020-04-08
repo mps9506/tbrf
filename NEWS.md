@@ -1,4 +1,8 @@
-# tbrf (development version)
+# tbrf 0.1.5
+
+## Bug fixes
+
+* tibble 3.0.0 introduced changes to subassignments that broke internal functions (#15). fixed with pull request #.  
 
 # tbrf 0.1.4
 
