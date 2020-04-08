@@ -7,7 +7,7 @@
 open_window(x, tcolumn, unit = "years", n, i)
 }
 \arguments{
-\item{x}{dateframe}
+\item{x}{dataframe}
 
 \item{tcolumn}{time column}
 
