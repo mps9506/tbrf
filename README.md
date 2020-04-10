@@ -128,17 +128,17 @@ Frank Harrell’s [`Hmisc`](https://github.com/harrelfe/Hmisc) package.
 library(tbrf)
 
 date()
-## [1] "Tue Mar 24 07:45:05 2020"
+## [1] "Fri Apr 10 08:24:50 2020"
 
 devtools::test()
 ## v |  OK F W S | Context
 ## / |   0       | core functions work in piped workflow- |   1       | core functions work in piped workflow- |   5       | core functions work in piped workflowv |   6       | core functions work in piped workflow [0.3 s]
 ## / |   0       | core functions return expected errors and messagesv |   7       | core functions return expected errors and messages
-## / |   0       | core functions return expected structures and values\ |   2       | core functions return expected structures and values- |   5       | core functions return expected structures and values\ |   6       | core functions return expected structures and valuesv |   6       | core functions return expected structures and values [1.1 s]
+## / |   0       | core functions return expected structures and values\ |   2       | core functions return expected structures and values/ |   4       | core functions return expected structures and values- |   5       | core functions return expected structures and values\ |   6       | core functions return expected structures and valuesv |   6       | core functions return expected structures and values [1.2 s]
 ## / |   0       | internal statistical functions return expected values| |   3       | internal statistical functions return expected values- |   5       | internal statistical functions return expected valuesv |  11       | internal statistical functions return expected values [0.3 s]
 ## 
-## == Results ===================================================================================================
-## Duration: 1.8 s
+## == Results ==========================================
+## Duration: 1.9 s
 ## 
 ## OK:       30
 ## Failed:   0
