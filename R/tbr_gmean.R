@@ -201,7 +201,7 @@ gm_mean_ci <- function(window, conf = 0.95, na.rm = TRUE, type = "basic",
 
   ## if conf is.na return just the gm_mean
   if (is.na(conf)) {
-    results <- c(mean = gm_mean(window))
+    results <- c(mean = gm_mean(window, na.rm = na.rm))
   }
   ## else return gm_mean + conf intervals
 
