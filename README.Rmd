@@ -113,6 +113,9 @@ tbrf code is released under GPL-3 | LICENSE.md
 
 `binom_ci()` is an implementation of code licensed under GPL (>=2) by Frank Harrell's [`Hmisc`](https://github.com/harrelfe/Hmisc) package.
 
+If you can cite the use of this software, please use `citation("tbrf")`
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3727319.svg)](https://doi.org/10.5281/zenodo.3727319.)
+
 ## Test Results
 
 ```{r message=FALSE, warning=FALSE, error=FALSE}

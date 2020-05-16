@@ -1,0 +1,8 @@
+citHeader("To cite tbrf in publications, please use:")
+
+bibentry(bibtype="manual",
+         title = {tbrf}: Time Based Rolling Functions,
+         author = person("Michael", "Schramm"),
+         year = 2020,
+         url = "https://CRAN.R-project.org/package=tbrf",
+         doi = "10.5281/zenodo.3727319")
