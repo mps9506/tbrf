@@ -8,6 +8,7 @@ ci
 Coull
 DasGupta
 dplyr
+durations
 eg
 Geomean
 github
@@ -17,16 +18,19 @@ Hmisc
 htm
 https
 io
+lubridate
 McMurdie
 md
 MinDO
 mps
+na
 Newcombe
 Palacios
 rc
 sd
 sinh
 stackoverflow
+subassignments
 SwqmisPublic
 tceq
 texas
