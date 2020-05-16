@@ -1,25 +1,27 @@
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# tbrf
+tbrf
+====
+
+<!-- badges: start -->
 
 [![CRAN
 version](https://www.r-pkg.org/badges/version/tbrf)](https://CRAN.R-project.org/package=tbrf)
+[![R build
+status](https://github.com/mps9506/tbrf/workflows/R-CMD-check/badge.svg)](https://github.com/mps9506/tbrf/actions)
 [![Travis build
 status](https://travis-ci.org/mps9506/tbrf.svg?branch=master)](https://travis-ci.org/mps9506/tbrf)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/mps9506/tbrf?branch=master&svg=true)](https://ci.appveyor.com/project/mps9506/tbrf)
 [![Coverage
 status](https://codecov.io/gh/mps9506/tbrf/branch/master/graph/badge.svg)](https://codecov.io/github/mps9506/tbrf?branch=master)
-
 [![License: GPL
 v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-
-The goal of tbrf is to provide time-window based rolling statistical
-functions. The package differs from other rolling statistic packages
-because the intended use is for irregular measured data. Although tbrf
-can be used to apply statistical functions to regularly sampled data,
-[`zoo`](https://CRAN.R-project.org/package=zoo),
+<!-- badges: end --> The goal of tbrf is to provide time-window based
+rolling statistical functions. The package differs from other rolling
+statistic packages because the intended use is for irregular measured
+data. Although tbrf can be used to apply statistical functions to
+regularly sampled data, [`zoo`](https://CRAN.R-project.org/package=zoo),
 [`RcppRoll`](https://cran.r-project.org/package=RcppRoll), and other
 packages provide fast, efficient, and rich implementations of
 rolling/windowed functions.
@@ -34,114 +36,115 @@ tbrf identifies the previous n measurements within the specified time
 window, applies the function, and outputs a variable with the result of
 the rolling statistical measure.
 
-## Installation
+Installation
+------------
 
 tbrf is available on CRAN:
 
-``` r
-install.packages("tbrf")
-```
+    install.packages("tbrf")
 
 The development version is maintained on github and can be installed as:
 
-``` r
-install.packages(remotes)
-remotes::install_github("mps9506/tbrf")
-```
+    install.packages(remotes)
+    remotes::install_github("mps9506/tbrf")
 
-## Available Functions
+Available Functions
+-------------------
 
-  - `tbr_binom`: Rolling binomial probability with confidence intervals.
+-   `tbr_binom`: Rolling binomial probability with confidence intervals.
 
-  - `tbr_gmean`: Rolling geometric mean with confidence intervals.
+-   `tbr_gmean`: Rolling geometric mean with confidence intervals.
 
-  - `tbr_mean`: Rolling mean with confidence intervals.
+-   `tbr_mean`: Rolling mean with confidence intervals.
 
-  - `tbr_median`: Rolling median with confidence intervals.
+-   `tbr_median`: Rolling median with confidence intervals.
 
-  - `tbr_misc`: Accepts user specified function.
+-   `tbr_misc`: Accepts user specified function.
 
-  - `tbr_sd`: Rolling standard deviation.
+-   `tbr_sd`: Rolling standard deviation.
 
-  - `tbr_sum`: Rolling sum.
+-   `tbr_sum`: Rolling sum.
 
-## Usage
+Usage
+-----
 
 See:
 
-<https://mps9506.github.io/tbrf/>
+<a href="https://mps9506.github.io/tbrf/" class="uri">https://mps9506.github.io/tbrf/</a>
 
-## Example
+Example
+-------
 
 Plot a rolling 1-hour mean:
 
-``` r
-library(tbrf)
-library(dplyr)
-library(ggplot2)
-library(ggalt)
+    library(tbrf)
+    library(dplyr)
+    library(ggplot2)
+    library(ggalt)
 
-y = 3 * sin(2 * seq(from = 0, to = 4*pi, length.out = 100)) + rnorm(100)
-time = sample(seq(as.POSIXct(strptime("2017-01-01 00:01:00", "%Y-%m-%d %H:%M:%S")),
-                  as.POSIXct(strptime("2017-01-01 23:00:00", "%Y-%m-%d %H:%M:%S")),
-                  by = "min"), 100)
+    y = 3 * sin(2 * seq(from = 0, to = 4*pi, length.out = 100)) + rnorm(100)
+    time = sample(seq(as.POSIXct(strptime("2017-01-01 00:01:00", "%Y-%m-%d %H:%M:%S")),
+                      as.POSIXct(strptime("2017-01-01 23:00:00", "%Y-%m-%d %H:%M:%S")),
+                      by = "min"), 100)
 
-df <- data_frame(y, time)
+    df <- tibble(y, time)
 
-df %>%
-  tbr_mean(y, time, "hours", n = 1) %>%
-  ggplot() +
-  geom_point(aes(time, y)) +
-  geom_step(aes(time, mean))
-```
+    df %>%
+      tbr_mean(y, time, "hours", n = 1) %>%
+      ggplot() +
+      geom_point(aes(time, y)) +
+      geom_step(aes(time, mean))
 
 <img src="man/figures/README-tbr_hour-1.png" width="672" />
 
 Plot a rolling 3-hour mean:
 
-``` r
-df %>%
-  tbr_mean(y, time, "hours", n = 3) %>%
-  ggplot() +
-  geom_point(aes(time, y)) +
-  geom_step(aes(time, mean))
-```
+    df %>%
+      tbr_mean(y, time, "hours", n = 3) %>%
+      ggplot() +
+      geom_point(aes(time, y)) +
+      geom_step(aes(time, mean))
 
 <img src="man/figures/README-tbr_threehour-1.png" width="672" />
 
-## Contributing
+Contributing
+------------
 
 Please note that this project is released with a [Contributor Code of
 Conduct](https://github.com/mps9506/tbrf/blob/master/CODE_OF_CONDUCT.md).
 By participating in this project you agree to abide by its terms.
 
-## License
+License
+-------
 
 tbrf code is released under GPL-3 | LICENSE.md
 
-`binom_ci()` is an implementation of code licensed under GPL (\>=2) by
+`binom_ci()` is an implementation of code licensed under GPL (&gt;=2) by
 Frank Harrell’s [`Hmisc`](https://github.com/harrelfe/Hmisc) package.
 
-## Test Results
+Test Results
+------------
 
-``` r
-library(tbrf)
+    library(tbrf)
 
-date()
-## [1] "Fri Apr 10 08:24:50 2020"
+    date()
+    ## [1] "Sat May 16 03:00:27 2020"
 
-devtools::test()
-## v |  OK F W S | Context
-## / |   0       | core functions work in piped workflow- |   1       | core functions work in piped workflow- |   5       | core functions work in piped workflowv |   6       | core functions work in piped workflow [0.3 s]
-## / |   0       | core functions return expected errors and messagesv |   7       | core functions return expected errors and messages
-## / |   0       | core functions return expected structures and values\ |   2       | core functions return expected structures and values/ |   4       | core functions return expected structures and values- |   5       | core functions return expected structures and values\ |   6       | core functions return expected structures and valuesv |   6       | core functions return expected structures and values [1.2 s]
-## / |   0       | internal statistical functions return expected values| |   3       | internal statistical functions return expected values- |   5       | internal statistical functions return expected valuesv |  11       | internal statistical functions return expected values [0.3 s]
-## 
-## == Results ==========================================
-## Duration: 1.9 s
-## 
-## OK:       30
-## Failed:   0
-## Warnings: 0
-## Skipped:  0
-```
+    devtools::test()
+    ## ✔ |  OK [31mF[39m [35mW[39m [34mS[39m | Context
+    ## ⠏ |   0       | core functions work in piped workflow⠋ |   1       | core functions work in piped workflow⠹ |   3       | core functions work in piped workflow⠴ |   6       | core functions work in piped workflow[32m✔[39m |   6       | core functions work in piped workflow[36m [0.4 s][39m
+    ## ⠏ |   0       | core functions return expected errors and messages⠦ |   7       | core functions return expected errors and messages[32m✔[39m |   7       | core functions return expected errors and messages[36m [0.1 s][39m
+    ## ⠏ |   0       | core functions return expected structures and values⠋ |   0   1   | core functions return expected structures and values⠸ |   3   1   | core functions return expected structures and values⠴ |   5   1   | core functions return expected structures and values⠦ |   6   1   | core functions return expected structures and values[32m✔[39m |   6   1   | core functions return expected structures and values[36m [1.5 s][39m
+    ## ────────────────────────────────────────────────────────────────────────────────
+    ## [1mtest-expectedValues.R:26: [35mwarning[39m: tbr_mean provides same results as mean[22m
+    ## Column `results` has different attributes on LHS and RHS of join
+    ## ────────────────────────────────────────────────────────────────────────────────
+    ## ⠏ |   0       | internal statistical functions return expected values⠹ |   3       | internal statistical functions return expected values⠼ |   5       | internal statistical functions return expected values⠇ |   9       | internal statistical functions return expected values[32m✔[39m |  17       | internal statistical functions return expected values[36m [0.8 s][39m
+    ## 
+    ## ══ [1mResults[22m ═════════════════════════════════════════════════════════════════════
+    ## [36mDuration: 2.8 s[39m
+    ## 
+    ## OK:       [32m36[39m
+    ## Failed:   [32m0[39m
+    ## Warnings: [35m1[39m
+    ## Skipped:  [32m0[39m
