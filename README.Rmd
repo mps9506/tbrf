@@ -80,7 +80,7 @@ time = sample(seq(as.POSIXct(strptime("2017-01-01 00:01:00", "%Y-%m-%d %H:%M:%S"
                   as.POSIXct(strptime("2017-01-01 23:00:00", "%Y-%m-%d %H:%M:%S")),
                   by = "min"), 100)
 
-df <- data_frame(y, time)
+df <- tibble(y, time)
 
 df %>%
   tbr_mean(y, time, "hours", n = 1) %>%
