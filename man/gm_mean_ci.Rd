@@ -12,7 +12,8 @@ gm_mean_ci(
   R = 1000,
   parallel = "no",
   ncpus = getOption("boot.ncpus", 1L),
-  cl = NULL
+  cl = NULL,
+  zero.propagate = FALSE
 )
 }
 \arguments{
@@ -37,6 +38,9 @@ calculating the bootstrapped CI}
 
 \item{cl}{optional parallel or snow cluster for use if \code{parallel =
 "snow"}. see \code{\link{boot}}}
+
+\item{zero.propagate}{logical \code{TRUE/FALSE} Allows the optional propagation of
+zeros.}
 }
 \value{
 named list with geometric mean and (optionally) specified confidence

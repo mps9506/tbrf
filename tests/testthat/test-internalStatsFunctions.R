@@ -41,6 +41,34 @@ test_that("median_ci returns expected results", {
   expect_equal(unname(x2[1]), x3)
 })
 
+test_that("gmean_ci returns expected results", {
+  x <- rexp(10, 1E-2)
+  x1 <- tbrf::gm_mean_ci(x)
+  x2 <- tbrf::gm_mean_ci(x, type = "norm")
+  x3 <- exp(mean(log(x), na.rm = TRUE))
+  
+  expect_equal(unname(x1[1]), x3)
+  expect_equal(unname(x2[1]), x3)
+  
+  #randomly choose 2 indices to replace
+  ind <- which(x %in% sample(x, 2))
+  x[ind] <- NA
+  
+  x1 <- tbrf::gm_mean_ci(x, na.rm = TRUE, zero.propagate = TRUE)
+  x2 <- tbrf::gm_mean_ci(x, type = "norm", na.rm = TRUE, zero.propagate = TRUE)
+  x3 <- exp(mean(log(x), na.rm = TRUE))
+  
+  expect_equal(unname(x1[1]), x3)
+  expect_equal(unname(x2[1]), x3)
+  
+  x1 <- tbrf::gm_mean_ci(x, na.rm = TRUE, zero.propagate = FALSE)
+  x2 <- tbrf::gm_mean_ci(x, type = "norm", na.rm = TRUE, zero.propagate = FALSE)
+  x3 <- exp(sum(log(x[x > 0]), na.rm = TRUE) / length(x))
+  
+  expect_equal(unname(x1[1]), x3)
+  expect_equal(unname(x2[1]), x3)
+})
+
 
 test_that("binom_ci returns expected results", {
   x <- rbinom(20, 1, 0.25)

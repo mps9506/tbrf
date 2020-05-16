@@ -1,5 +1,7 @@
 # tbrf (development version)
 
+* gm_mean_ci now properly passes the na.rm and zero.propagate arguments to gm_mean (#18).
+
 # tbrf 0.1.5
 
 ## Bug fixes
