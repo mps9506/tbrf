@@ -131,21 +131,21 @@ Test Results
     library(tbrf)
 
     date()
-    ## [1] "Sat May 16 04:36:59 2020"
+    ## [1] "Mon May 18 19:33:59 2020"
 
     devtools::test()
     ## ✔ |  OK [31mF[39m [35mW[39m [34mS[39m | Context
-    ## ⠏ |   0       | core functions work in piped workflow⠋ |   1       | core functions work in piped workflow⠸ |   4       | core functions work in piped workflow⠴ |   6       | core functions work in piped workflow[32m✔[39m |   6       | core functions work in piped workflow[36m [0.4 s][39m
-    ## ⠏ |   0       | core functions return expected errors and messages⠴ |   6       | core functions return expected errors and messages[32m✔[39m |   7       | core functions return expected errors and messages[36m [0.1 s][39m
-    ## ⠏ |   0       | core functions return expected structures and values⠋ |   0   1   | core functions return expected structures and values⠸ |   3   1   | core functions return expected structures and values⠴ |   5   1   | core functions return expected structures and values⠦ |   6   1   | core functions return expected structures and values[32m✔[39m |   6   1   | core functions return expected structures and values[36m [1.4 s][39m
+    ## ⠏ |   0       | core functions work in piped workflow⠋ |   1       | core functions work in piped workflow⠹ |   3       | core functions work in piped workflow⠴ |   6       | core functions work in piped workflow[32m✔[39m |   6       | core functions work in piped workflow[36m [0.4 s][39m
+    ## ⠏ |   0       | core functions return expected errors and messages⠼ |   5       | core functions return expected errors and messages[32m✔[39m |   7       | core functions return expected errors and messages[36m [0.1 s][39m
+    ## ⠏ |   0       | core functions return expected structures and values⠋ |   0   1   | core functions return expected structures and values⠸ |   3   1   | core functions return expected structures and values⠴ |   5   1   | core functions return expected structures and values⠦ |   6   1   | core functions return expected structures and values[32m✔[39m |   6   1   | core functions return expected structures and values[36m [1.6 s][39m
     ## ────────────────────────────────────────────────────────────────────────────────
     ## [1mtest-expectedValues.R:26: [35mwarning[39m: tbr_mean provides same results as mean[22m
     ## Column `results` has different attributes on LHS and RHS of join
     ## ────────────────────────────────────────────────────────────────────────────────
-    ## ⠏ |   0       | internal statistical functions return expected values⠙ |   2       | internal statistical functions return expected values⠹ |   3       | internal statistical functions return expected values⠼ |   5       | internal statistical functions return expected values⠇ |   9       | internal statistical functions return expected values[32m✔[39m |  17       | internal statistical functions return expected values[36m [0.8 s][39m
+    ## ⠏ |   0       | internal statistical functions return expected values⠙ |   2       | internal statistical functions return expected values⠹ |   3       | internal statistical functions return expected values⠼ |   5       | internal statistical functions return expected values⠇ |   9       | internal statistical functions return expected values⠦ |  17       | internal statistical functions return expected values[32m✔[39m |  17       | internal statistical functions return expected values[36m [0.9 s][39m
     ## 
     ## ══ [1mResults[22m ═════════════════════════════════════════════════════════════════════
-    ## [36mDuration: 2.8 s[39m
+    ## [36mDuration: 3.1 s[39m
     ## 
     ## OK:       [32m36[39m
     ## Failed:   [32m0[39m
