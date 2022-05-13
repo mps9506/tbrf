@@ -5,6 +5,8 @@ tbrf
 
 <!-- badges: start -->
 
+[![lifecycle](https://img.shields.io/badge/lifecycle-retired-orange.svg)](https://www.tidyverse.org/lifecycle/#retired)
+
 [![CRAN
 version](https://www.r-pkg.org/badges/version/tbrf)](https://CRAN.R-project.org/package=tbrf)
 [![R build
@@ -15,6 +17,11 @@ status](https://codecov.io/gh/mps9506/tbrf/branch/master/graph/badge.svg)](https
 v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 <!-- badges: end -->
+
+tbrf is retired. I will maintain the package to ensure it remains on
+CRAN but do not expect additional functionality or improvements. I
+highly recommend [runner](https://gogonzo.github.io/runner/) for the
+same functionality but faster!
 
 The goal of tbrf is to provide time-window based rolling statistical
 functions. The package differs from other rolling statistic packages
@@ -130,7 +137,7 @@ Test Results
     library(tbrf)
 
     date()
-    ## [1] "Fri May 13 20:49:43 2022"
+    ## [1] "Fri May 13 21:47:50 2022"
 
     devtools::test()
     ## ✔ | F W S  OK | Context
@@ -139,35 +146,33 @@ Test Results
     ## ⠏ |         0 | core functions work in piped workflow                           
     ## ⠋ |         1 | core functions work in piped workflow                           
     ## ⠹ |         3 | core functions work in piped workflow                           
-    ## ⠴ |         6 | core functions work in piped workflow                           
-    ## ✔ |         6 | core functions work in piped workflow [0.5s]
+    ## ⠼ |         5 | core functions work in piped workflow                           
+    ## ✔ |         6 | core functions work in piped workflow [0.6s]
     ## 
     ## ⠏ |         0 | expectedMessages                                                
     ## ⠏ |         0 | core functions return expected errors and messages              
     ## ⠙ |         2 | core functions return expected errors and messages              
-    ## ⠸ |         4 | core functions return expected errors and messages              
+    ## ⠹ |         3 | core functions return expected errors and messages              
     ## ⠼ |         5 | core functions return expected errors and messages              
-    ## ⠴ |         6 | core functions return expected errors and messages              
     ## ⠦ |         7 | core functions return expected errors and messages              
-    ## ✔ |         7 | core functions return expected errors and messages [0.7s]
+    ## ✔ |         7 | core functions return expected errors and messages [0.6s]
     ## 
     ## ⠏ |         0 | expectedValues                                                  
     ## ⠏ |         0 | core functions return expected structures and values            
     ## ⠋ |         1 | core functions return expected structures and values            
-    ## ⠙ |         2 | core functions return expected structures and values            
     ## ⠹ |         3 | core functions return expected structures and values            
     ## ⠼ |         5 | core functions return expected structures and values            
     ## ⠴ |         6 | core functions return expected structures and values            
-    ## ✔ |         6 | core functions return expected structures and values [2.1s]
+    ## ✔ |         6 | core functions return expected structures and values [1.5s]
     ## 
     ## ⠏ |         0 | internalStatsFunctions                                          
     ## ⠏ |         0 | internal statistical functions return expected values           
     ## ⠹ |         3 | internal statistical functions return expected values           
     ## ⠼ |         5 | internal statistical functions return expected values           
     ## ⠇ |         9 | internal statistical functions return expected values           
-    ## ✔ |        17 | internal statistical functions return expected values [0.8s]
+    ## ✔ |        17 | internal statistical functions return expected values [0.7s]
     ## 
     ## ══ Results ═════════════════════════════════════════════════════════════════════
-    ## Duration: 4.1 s
+    ## Duration: 3.5 s
     ## 
     ## [ FAIL 0 | WARN 0 | SKIP 0 | PASS 36 ]
