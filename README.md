@@ -9,19 +9,18 @@ tbrf
 version](https://www.r-pkg.org/badges/version/tbrf)](https://CRAN.R-project.org/package=tbrf)
 [![R build
 status](https://github.com/mps9506/tbrf/workflows/R-CMD-check/badge.svg)](https://github.com/mps9506/tbrf/actions)
-[![Travis build
-status](https://travis-ci.org/mps9506/tbrf.svg?branch=master)](https://travis-ci.org/mps9506/tbrf)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/mps9506/tbrf?branch=master&svg=true)](https://ci.appveyor.com/project/mps9506/tbrf)
 [![Coverage
 status](https://codecov.io/gh/mps9506/tbrf/branch/master/graph/badge.svg)](https://codecov.io/github/mps9506/tbrf?branch=master)
 [![License: GPL
 v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-<!-- badges: end --> The goal of tbrf is to provide time-window based
-rolling statistical functions. The package differs from other rolling
-statistic packages because the intended use is for irregular measured
-data. Although tbrf can be used to apply statistical functions to
-regularly sampled data, [`zoo`](https://CRAN.R-project.org/package=zoo),
+
+<!-- badges: end -->
+
+The goal of tbrf is to provide time-window based rolling statistical
+functions. The package differs from other rolling statistic packages
+because the intended use is for irregular measured data. Although tbrf
+can be used to apply statistical functions to regularly sampled data,
+[`zoo`](https://CRAN.R-project.org/package=zoo),
 [`RcppRoll`](https://cran.r-project.org/package=RcppRoll), and other
 packages provide fast, efficient, and rich implementations of
 rolling/windowed functions.
@@ -131,23 +130,44 @@ Test Results
     library(tbrf)
 
     date()
-    ## [1] "Mon May 18 19:33:59 2020"
+    ## [1] "Fri May 13 20:49:43 2022"
 
     devtools::test()
-    ## ✔ |  OK [31mF[39m [35mW[39m [34mS[39m | Context
-    ## ⠏ |   0       | core functions work in piped workflow⠋ |   1       | core functions work in piped workflow⠹ |   3       | core functions work in piped workflow⠴ |   6       | core functions work in piped workflow[32m✔[39m |   6       | core functions work in piped workflow[36m [0.4 s][39m
-    ## ⠏ |   0       | core functions return expected errors and messages⠼ |   5       | core functions return expected errors and messages[32m✔[39m |   7       | core functions return expected errors and messages[36m [0.1 s][39m
-    ## ⠏ |   0       | core functions return expected structures and values⠋ |   0   1   | core functions return expected structures and values⠸ |   3   1   | core functions return expected structures and values⠴ |   5   1   | core functions return expected structures and values⠦ |   6   1   | core functions return expected structures and values[32m✔[39m |   6   1   | core functions return expected structures and values[36m [1.6 s][39m
-    ## ────────────────────────────────────────────────────────────────────────────────
-    ## [1mtest-expectedValues.R:26: [35mwarning[39m: tbr_mean provides same results as mean[22m
-    ## Column `results` has different attributes on LHS and RHS of join
-    ## ────────────────────────────────────────────────────────────────────────────────
-    ## ⠏ |   0       | internal statistical functions return expected values⠙ |   2       | internal statistical functions return expected values⠹ |   3       | internal statistical functions return expected values⠼ |   5       | internal statistical functions return expected values⠇ |   9       | internal statistical functions return expected values⠦ |  17       | internal statistical functions return expected values[32m✔[39m |  17       | internal statistical functions return expected values[36m [0.9 s][39m
+    ## ✔ | F W S  OK | Context
     ## 
-    ## ══ [1mResults[22m ═════════════════════════════════════════════════════════════════════
-    ## [36mDuration: 3.1 s[39m
+    ## ⠏ |         0 | expectedClass                                                   
+    ## ⠏ |         0 | core functions work in piped workflow                           
+    ## ⠋ |         1 | core functions work in piped workflow                           
+    ## ⠹ |         3 | core functions work in piped workflow                           
+    ## ⠴ |         6 | core functions work in piped workflow                           
+    ## ✔ |         6 | core functions work in piped workflow [0.5s]
     ## 
-    ## OK:       [32m36[39m
-    ## Failed:   [32m0[39m
-    ## Warnings: [35m1[39m
-    ## Skipped:  [32m0[39m
+    ## ⠏ |         0 | expectedMessages                                                
+    ## ⠏ |         0 | core functions return expected errors and messages              
+    ## ⠙ |         2 | core functions return expected errors and messages              
+    ## ⠸ |         4 | core functions return expected errors and messages              
+    ## ⠼ |         5 | core functions return expected errors and messages              
+    ## ⠴ |         6 | core functions return expected errors and messages              
+    ## ⠦ |         7 | core functions return expected errors and messages              
+    ## ✔ |         7 | core functions return expected errors and messages [0.7s]
+    ## 
+    ## ⠏ |         0 | expectedValues                                                  
+    ## ⠏ |         0 | core functions return expected structures and values            
+    ## ⠋ |         1 | core functions return expected structures and values            
+    ## ⠙ |         2 | core functions return expected structures and values            
+    ## ⠹ |         3 | core functions return expected structures and values            
+    ## ⠼ |         5 | core functions return expected structures and values            
+    ## ⠴ |         6 | core functions return expected structures and values            
+    ## ✔ |         6 | core functions return expected structures and values [2.1s]
+    ## 
+    ## ⠏ |         0 | internalStatsFunctions                                          
+    ## ⠏ |         0 | internal statistical functions return expected values           
+    ## ⠹ |         3 | internal statistical functions return expected values           
+    ## ⠼ |         5 | internal statistical functions return expected values           
+    ## ⠇ |         9 | internal statistical functions return expected values           
+    ## ✔ |        17 | internal statistical functions return expected values [0.8s]
+    ## 
+    ## ══ Results ═════════════════════════════════════════════════════════════════════
+    ## Duration: 4.1 s
+    ## 
+    ## [ FAIL 0 | WARN 0 | SKIP 0 | PASS 36 ]
