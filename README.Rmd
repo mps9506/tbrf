@@ -14,13 +14,14 @@ knitr::opts_chunk$set(
 ```
 
 # tbrf
+
 <!-- badges: start -->
+
 [![CRAN version](https://www.r-pkg.org/badges/version/tbrf)](https://CRAN.R-project.org/package=tbrf)
 [![R build status](https://github.com/mps9506/tbrf/workflows/R-CMD-check/badge.svg)](https://github.com/mps9506/tbrf/actions)
-[![Travis build status](https://travis-ci.org/mps9506/tbrf.svg?branch=master)](https://travis-ci.org/mps9506/tbrf)
-[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/mps9506/tbrf?branch=master&svg=true)](https://ci.appveyor.com/project/mps9506/tbrf)
 [![Coverage status](https://codecov.io/gh/mps9506/tbrf/branch/master/graph/badge.svg)](https://codecov.io/github/mps9506/tbrf?branch=master)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
 <!-- badges: end -->
 The goal of tbrf is to provide time-window based rolling statistical functions. The package differs from other rolling statistic packages because the intended use is for irregular measured data. Although tbrf can be used to apply statistical functions to regularly sampled data, [`zoo`](https://CRAN.R-project.org/package=zoo), [`RcppRoll`](https://cran.r-project.org/package=RcppRoll), and other packages provide fast, efficient, and rich implementations of rolling/windowed functions.
 
