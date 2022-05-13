@@ -1,0 +1,3 @@
+template:
+  package: mpsTemplates
+  bootstrap: 5
