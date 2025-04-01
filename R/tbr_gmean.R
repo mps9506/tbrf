@@ -188,14 +188,14 @@ gm_mean <- function(x, na.rm=TRUE, zero.propagate = FALSE){
 #' @param zero.propagate logical \code{TRUE/FALSE} Allows the optional propagation of
 #'   zeros.
 #' @param type character string, one of \code{c("norm","basic", "stud", "perc",
-#'   "bca")}. \code{"all"} is not a valid value. See \code{\link{boot.ci}}
-#' @param R the number of bootstrap replicates. see \code{\link{boot}}
+#'   "bca")}. \code{"all"} is not a valid value. See \code{\link[boot]{boot.ci}}
+#' @param R the number of bootstrap replicates. see \code{\link[boot]{boot}}
 #' @param parallel The type of parallel operation to be used (if any). see
-#'   \code{\link{boot}}
+#'   \code{\link[boot]{boot}}
 #' @param ncpus integer: number of process to be used in parallel operation. see
-#'   \code{\link{boot}}
+#'   \code{\link[boot]{boot}}
 #' @param cl optional parallel or snow cluster for use if \code{parallel =
-#'   "snow"}. see \code{\link{boot}}
+#'   "snow"}. see \code{\link[boot]{boot}}
 #'
 #' @return named list with geometric mean and (optionally) specified confidence
 #'   interval
