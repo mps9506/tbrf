@@ -129,82 +129,15 @@ If you can cite the use of this software, please use `citation("tbrf")`
     library(tbrf)
 
     date()
-    ## [1] "Tue Apr  1 14:02:26 2025"
+    ## [1] "Tue Apr  1 16:19:52 2025"
 
     devtools::test()
     ## ✔ | F W  S  OK | Context
     ## 
     ## ⠏ |          0 | expectedClass                                                  
     ## ⠏ |          0 | core functions work in piped workflow                          
-    ## ⠸ |   1      3 | core functions work in piped workflow                          
-    ## ✔ |   3      6 | core functions work in piped workflow
-    ## ────────────────────────────────────────────────────────────────────────────────
-    ## Warning ('test-expectedClass.R:10:3'): tbr_binom returns tbl_df in tidy chain
-    ## Use of .data in tidyselect expressions was deprecated in tidyselect 1.2.0.
-    ## ℹ Please use `"temp"` instead of `.data$temp`
-    ## Backtrace:
-    ##      ▆
-    ##   1. ├─testthat::expect_s3_class(...) at test-expectedClass.R:10:3
-    ##   2. │ └─testthat::quasi_label(enquo(object), arg = "object")
-    ##   3. │   └─rlang::eval_bare(expr, quo_get_env(quo))
-    ##   4. ├─df %>% ...
-    ##   5. ├─tbrf::tbr_binom(...)
-    ##   6. │ └─... %>% tidyr::unnest(.data$temp) at tbrf/R/tbr_binom.R:38:3
-    ##   7. ├─tidyr::unnest(., .data$temp)
-    ##   8. └─tidyr:::unnest.data.frame(., .data$temp)
-    ##   9.   └─tidyselect::eval_select(expr = enquo(cols), data = data, allow_rename = FALSE)
-    ##  10.     └─tidyselect:::eval_select_impl(...)
-    ##  11.       ├─tidyselect:::with_subscript_errors(...)
-    ##  12.       │ └─base::withCallingHandlers(...)
-    ##  13.       └─tidyselect:::vars_select_eval(...)
-    ##  14.         └─tidyselect:::walk_data_tree(expr, data_mask, context_mask)
-    ##  15.           └─tidyselect:::expr_kind(expr, context_mask, error_call)
-    ##  16.             └─tidyselect:::call_kind(expr, context_mask, error_call)
-    ## 
-    ## Warning ('test-expectedClass.R:44:3'): tbr_sd returns tbl_df in tidy chain
-    ## Use of .data in tidyselect expressions was deprecated in tidyselect 1.2.0.
-    ## ℹ Please use `"sd"` instead of `.data$sd`
-    ## Backtrace:
-    ##      ▆
-    ##   1. ├─testthat::expect_s3_class(...) at test-expectedClass.R:44:3
-    ##   2. │ └─testthat::quasi_label(enquo(object), arg = "object")
-    ##   3. │   └─rlang::eval_bare(expr, quo_get_env(quo))
-    ##   4. ├─df %>% tbr_sd(x = value, tcolumn = date, unit = "years", n = 5)
-    ##   5. ├─tbrf::tbr_sd(., x = value, tcolumn = date, unit = "years", n = 5)
-    ##   6. │ └─... %>% tidyr::unnest(.data$sd) at tbrf/R/tbr_sd.R:21:3
-    ##   7. ├─tidyr::unnest(., .data$sd)
-    ##   8. └─tidyr:::unnest.data.frame(., .data$sd)
-    ##   9.   └─tidyselect::eval_select(expr = enquo(cols), data = data, allow_rename = FALSE)
-    ##  10.     └─tidyselect:::eval_select_impl(...)
-    ##  11.       ├─tidyselect:::with_subscript_errors(...)
-    ##  12.       │ └─base::withCallingHandlers(...)
-    ##  13.       └─tidyselect:::vars_select_eval(...)
-    ##  14.         └─tidyselect:::walk_data_tree(expr, data_mask, context_mask)
-    ##  15.           └─tidyselect:::expr_kind(expr, context_mask, error_call)
-    ##  16.             └─tidyselect:::call_kind(expr, context_mask, error_call)
-    ## 
-    ## Warning ('test-expectedClass.R:53:3'): tbr_sum returns tbl_df in tidy chain
-    ## Use of .data in tidyselect expressions was deprecated in tidyselect 1.2.0.
-    ## ℹ Please use `"sum"` instead of `.data$sum`
-    ## Backtrace:
-    ##      ▆
-    ##   1. ├─testthat::expect_s3_class(...) at test-expectedClass.R:53:3
-    ##   2. │ └─testthat::quasi_label(enquo(object), arg = "object")
-    ##   3. │   └─rlang::eval_bare(expr, quo_get_env(quo))
-    ##   4. ├─df %>% ...
-    ##   5. ├─tbrf::tbr_sum(., x = value, tcolumn = date, unit = "years", n = 5)
-    ##   6. │ └─... %>% tidyr::unnest(.data$sum) at tbrf/R/tbr_sum.R:25:3
-    ##   7. ├─tidyr::unnest(., .data$sum)
-    ##   8. └─tidyr:::unnest.data.frame(., .data$sum)
-    ##   9.   └─tidyselect::eval_select(expr = enquo(cols), data = data, allow_rename = FALSE)
-    ##  10.     └─tidyselect:::eval_select_impl(...)
-    ##  11.       ├─tidyselect:::with_subscript_errors(...)
-    ##  12.       │ └─base::withCallingHandlers(...)
-    ##  13.       └─tidyselect:::vars_select_eval(...)
-    ##  14.         └─tidyselect:::walk_data_tree(expr, data_mask, context_mask)
-    ##  15.           └─tidyselect:::expr_kind(expr, context_mask, error_call)
-    ##  16.             └─tidyselect:::call_kind(expr, context_mask, error_call)
-    ## ────────────────────────────────────────────────────────────────────────────────
+    ## ⠹ |          3 | core functions work in piped workflow                          
+    ## ✔ |          6 | core functions work in piped workflow
     ## 
     ## ⠏ |          0 | expectedMessages                                               
     ## ⠏ |          0 | core functions return expected errors and messages             
@@ -227,4 +160,4 @@ If you can cite the use of this software, please use `citation("tbrf")`
     ## ══ Results ═════════════════════════════════════════════════════════════════════
     ## Duration: 1.5 s
     ## 
-    ## [ FAIL 0 | WARN 3 | SKIP 0 | PASS 36 ]
+    ## [ FAIL 0 | WARN 0 | SKIP 0 | PASS 36 ]
