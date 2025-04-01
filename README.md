@@ -129,14 +129,14 @@ If you can cite the use of this software, please use `citation("tbrf")`
     library(tbrf)
 
     date()
-    ## [1] "Tue Apr  1 16:19:52 2025"
+    ## [1] "Tue Apr  1 16:37:25 2025"
 
     devtools::test()
     ## ✔ | F W  S  OK | Context
     ## 
     ## ⠏ |          0 | expectedClass                                                  
     ## ⠏ |          0 | core functions work in piped workflow                          
-    ## ⠹ |          3 | core functions work in piped workflow                          
+    ## ⠙ |          2 | core functions work in piped workflow                          
     ## ✔ |          6 | core functions work in piped workflow
     ## 
     ## ⠏ |          0 | expectedMessages                                               
@@ -158,6 +158,6 @@ If you can cite the use of this software, please use `citation("tbrf")`
     ## ✔ |         17 | internal statistical functions return expected values
     ## 
     ## ══ Results ═════════════════════════════════════════════════════════════════════
-    ## Duration: 1.5 s
+    ## Duration: 1.4 s
     ## 
     ## [ FAIL 0 | WARN 0 | SKIP 0 | PASS 36 ]
