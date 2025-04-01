@@ -4,14 +4,14 @@
 
 <!-- badges: start -->
 
-[![lifecycle](https://img.shields.io/badge/lifecycle-retired-orange.svg)](https://www.tidyverse.org/lifecycle/#retired)
+[![lifecycle](https://img.shields.io/badge/lifecycle-retired-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#retired)
 
 [![CRAN
 version](https://www.r-pkg.org/badges/version/tbrf)](https://CRAN.R-project.org/package=tbrf)
 [![R build
 status](https://github.com/mps9506/tbrf/workflows/R-CMD-check/badge.svg)](https://github.com/mps9506/tbrf/actions)
 [![Coverage
-status](https://codecov.io/gh/mps9506/tbrf/branch/master/graph/badge.svg)](https://codecov.io/github/mps9506/tbrf?branch=master)
+status](https://codecov.io/gh/mps9506/tbrf/branch/master/graph/badge.svg)](https://app.codecov.io/github/mps9506/tbrf?branch=master)
 [![License: GPL
 v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
@@ -122,27 +122,27 @@ tbrf code is released under GPL-3 | LICENSE.md
 Frank Harrell’s [`Hmisc`](https://github.com/harrelfe/Hmisc) package.
 
 If you can cite the use of this software, please use `citation("tbrf")`
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3727319.svg)](https://doi.org/10.5281/zenodo.3727319.)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3727319.svg)](https://doi.org/10.5281/zenodo.3727319)
 
 ## Test Results
 
     library(tbrf)
 
     date()
-    ## [1] "Tue Apr  1 16:37:25 2025"
+    ## [1] "Tue Apr  1 18:43:48 2025"
 
     devtools::test()
     ## ✔ | F W  S  OK | Context
     ## 
     ## ⠏ |          0 | expectedClass                                                  
     ## ⠏ |          0 | core functions work in piped workflow                          
-    ## ⠙ |          2 | core functions work in piped workflow                          
+    ## ⠸ |          4 | core functions work in piped workflow                          
     ## ✔ |          6 | core functions work in piped workflow
     ## 
     ## ⠏ |          0 | expectedMessages                                               
     ## ⠏ |          0 | core functions return expected errors and messages             
     ## ⠹ |          3 | core functions return expected errors and messages             
-    ## ⠴ |          6 | core functions return expected errors and messages             
+    ## ⠦ |          7 | core functions return expected errors and messages             
     ## ✔ |          7 | core functions return expected errors and messages
     ## 
     ## ⠏ |          0 | expectedValues                                                 
@@ -158,6 +158,6 @@ If you can cite the use of this software, please use `citation("tbrf")`
     ## ✔ |         17 | internal statistical functions return expected values
     ## 
     ## ══ Results ═════════════════════════════════════════════════════════════════════
-    ## Duration: 1.4 s
+    ## Duration: 1.2 s
     ## 
     ## [ FAIL 0 | WARN 0 | SKIP 0 | PASS 36 ]
