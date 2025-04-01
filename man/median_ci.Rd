@@ -21,22 +21,22 @@ median_ci(
 \item{conf}{confidence level of the required interval. \code{NA} if skipping
 calculating the bootstrapped CI}
 
-\item{na.rm}{logical code{TRUE/FALSE}. Remove NAs from the dataset. Defaults
+\item{na.rm}{logical \code{TRUE/FALSE}. Remove NAs from the dataset. Defaults
 \code{TRUE}}
 
 \item{type}{character string, one of \code{c("norm","basic", "stud", "perc",
-"bca")}. \code{"all"} is not a valid value. See \code{\link{boot.ci}}}
+"bca")}. \code{"all"} is not a valid value. See \code{\link[boot]{boot.ci}}}
 
-\item{R}{the number of bootstrap replicates. see \code{\link{boot}}}
+\item{R}{the number of bootstrap replicates. see \code{\link[boot]{boot}}}
 
 \item{parallel}{The type of parallel operation to be used (if any). see
-\code{\link{boot}}}
+\code{\link[boot]{boot}}}
 
 \item{ncpus}{integer: number of process to be used in parallel operation. see
-\code{\link{boot}}}
+\code{\link[boot]{boot}}}
 
 \item{cl}{optional parallel or snow cluster for use if \code{parallel =
-"snow"}. see \code{\link{boot}}}
+"snow"}. see \code{\link[boot]{boot}}}
 }
 \value{
 named list with mean and (optionally) specified confidence

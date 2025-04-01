@@ -31,7 +31,7 @@ tbr_sum <- function(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE) {
                                       n = n,
                                       i = .x,
                                       na.rm = na.rm))) %>%
-    tidyr::unnest(.data$sum)
+    tidyr::unnest("sum")
 
   .tbl <- tibble::as_tibble(.tbl)
   return(.tbl)

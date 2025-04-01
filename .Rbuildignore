@@ -12,6 +12,6 @@
 ^cran-comments\.md$
 ^index\.Rmd
 ^docs$
-^_pkgdown\.yml$
+^_pkgdown\.yaml$
 ^pkgdown$
 ^\.github$
