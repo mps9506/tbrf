@@ -134,7 +134,7 @@ tbr_mean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
 #' @param window vector of data values
 #' @param conf confidence level of the required interval. \code{NA} if skipping
 #'   calculating the bootstrapped CI
-#' @param na.rm logical code{TRUE/FALSE}. Remove NAs from the dataset. Defaults
+#' @param na.rm logical \code{TRUE/FALSE}. Remove NAs from the dataset. Defaults
 #'   \code{TRUE}
 #' @param type character string, one of \code{c("norm","basic", "stud", "perc",
 #'   "bca")}. \code{"all"} is not a valid value. See \code{\link{boot.ci}}

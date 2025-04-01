@@ -21,7 +21,7 @@ mean_ci(
 \item{conf}{confidence level of the required interval. \code{NA} if skipping
 calculating the bootstrapped CI}
 
-\item{na.rm}{logical code{TRUE/FALSE}. Remove NAs from the dataset. Defaults
+\item{na.rm}{logical \code{TRUE/FALSE}. Remove NAs from the dataset. Defaults
 \code{TRUE}}
 
 \item{type}{character string, one of \code{c("norm","basic", "stud", "perc",
