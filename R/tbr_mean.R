@@ -54,7 +54,7 @@ tbr_mean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
                                         parallel = default_dots$parallel,
                                         ncpus = default_dots$ncpus,
                                         cl = default_dots$cl))) %>%
-    tidyr::unnest(.data$temp)
+    tidyr::unnest("temp")
   .tbl <- tibble::as_tibble(.tbl)
   return(.tbl)
 }

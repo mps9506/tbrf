@@ -44,7 +44,7 @@ tbr_binom <- function(.tbl, x, tcolumn, unit = "years", n, alpha = 0.05) {
                                                n = n,
                                                alpha = alpha,
                                                i = .x))) %>%
-    tidyr::unnest(.data$temp)
+    tidyr::unnest("temp")
   .tbl <- tibble::as_tibble(.tbl)
   return(.tbl)
 }
