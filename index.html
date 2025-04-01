@@ -134,7 +134,7 @@
 </h2>
 <p>tbrf code is released under GPL-3 | LICENSE.md</p>
 <p><code><a href="reference/binom_ci.html">binom_ci()</a></code> is an implementation of code licensed under GPL (&gt;=2) by Frank Harrell’s <a href="https://github.com/harrelfe/Hmisc" class="external-link"><code>Hmisc</code></a> package.</p>
-<p>If you can cite the use of this software, please use <code>citation("tbrf")</code> <a href="https://doi.org/10.5281/zenodo.3727319." class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.3727319.svg" alt="DOI"></a></p>
+<p>If you can cite the use of this software, please use <code>citation("tbrf")</code> <a href="https://doi.org/10.5281/zenodo.3727319" class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.3727319.svg" alt="DOI"></a></p>
 </div>
 <div class="section level2">
 <h2 id="test-results">Test Results<a class="anchor" aria-label="anchor" href="#test-results"></a>
@@ -142,20 +142,20 @@
 <div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">library</span>(tbrf)</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">date</span>()</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="do">## [1] "Tue Apr  1 16:19:52 2025"</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="do">## [1] "Tue Apr  1 18:43:48 2025"</span></span>
 <span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a></span>
 <span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">test</span>()</span>
 <span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="do">## ✔ | F W  S  OK | Context</span></span>
 <span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="do">## ⠏ |          0 | expectedClass                                                  </span></span>
 <span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="do">## ⠏ |          0 | core functions work in piped workflow                          </span></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="do">## ⠹ |          3 | core functions work in piped workflow                          </span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="do">## ⠸ |          4 | core functions work in piped workflow                          </span></span>
 <span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="do">## ✔ |          6 | core functions work in piped workflow</span></span>
 <span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="do">## ⠏ |          0 | expectedMessages                                               </span></span>
 <span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="do">## ⠏ |          0 | core functions return expected errors and messages             </span></span>
 <span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="do">## ⠹ |          3 | core functions return expected errors and messages             </span></span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="do">## ⠴ |          6 | core functions return expected errors and messages             </span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="do">## ⠦ |          7 | core functions return expected errors and messages             </span></span>
 <span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="do">## ✔ |          7 | core functions return expected errors and messages</span></span>
 <span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="do">## ⠏ |          0 | expectedValues                                                 </span></span>
@@ -171,7 +171,7 @@
 <span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a><span class="do">## ✔ |         17 | internal statistical functions return expected values</span></span>
 <span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a><span class="do">## ══ Results ═════════════════════════════════════════════════════════════════════</span></span>
-<span id="cb5-33"><a href="#cb5-33" tabindex="-1"></a><span class="do">## Duration: 1.5 s</span></span>
+<span id="cb5-33"><a href="#cb5-33" tabindex="-1"></a><span class="do">## Duration: 1.2 s</span></span>
 <span id="cb5-34"><a href="#cb5-34" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb5-35"><a href="#cb5-35" tabindex="-1"></a><span class="do">## [ FAIL 0 | WARN 0 | SKIP 0 | PASS 36 ]</span></span></code></pre></div>
 </div>
@@ -219,10 +219,10 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.tidyverse.org/lifecycle/#retired" class="external-link"><img src="https://img.shields.io/badge/lifecycle-retired-orange.svg" alt="lifecycle"></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html#retired" class="external-link"><img src="https://img.shields.io/badge/lifecycle-retired-orange.svg" alt="lifecycle"></a></li>
 <li><a href="https://CRAN.R-project.org/package=tbrf" class="external-link"><img src="https://www.r-pkg.org/badges/version/tbrf" alt="CRAN version"></a></li>
 <li><a href="https://github.com/mps9506/tbrf/actions" class="external-link"><img src="https://github.com/mps9506/tbrf/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
-<li><a href="https://codecov.io/github/mps9506/tbrf?branch=master" class="external-link"><img src="https://codecov.io/gh/mps9506/tbrf/branch/master/graph/badge.svg" alt="Coverage status"></a></li>
+<li><a href="https://app.codecov.io/github/mps9506/tbrf?branch=master" class="external-link"><img src="https://codecov.io/gh/mps9506/tbrf/branch/master/graph/badge.svg" alt="Coverage status"></a></li>
 <li><a href="https://www.gnu.org/licenses/gpl-3.0" class="external-link"><img src="https://img.shields.io/badge/License-GPL%20v3-blue.svg" alt="License: GPL v3"></a></li>
 </ul>
 </div>
