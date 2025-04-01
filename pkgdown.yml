@@ -1,7 +1,6 @@
-pandoc: 2.7.3
-pkgdown: 2.0.3
+pandoc: 3.1.11
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   intro_to_tbrf: intro_to_tbrf.html
-last_built: 2022-05-13T20:51Z
-
+last_built: 2025-04-01T13:30Z
