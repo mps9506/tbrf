@@ -1,6 +1,10 @@
-# tbrf (development version)
+# tbrf 0.1.6
+
+## Minor changes
 
 * gm_mean_ci now properly passes the na.rm and zero.propagate arguments to gm_mean (#18).
+* update internal functions for compatibility with tidyselect.
+* external links in documentation have proper package anchors (#25).
 
 # tbrf 0.1.5
 
