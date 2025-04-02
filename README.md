@@ -129,25 +129,26 @@ If you can cite the use of this software, please use `citation("tbrf")`
     library(tbrf)
 
     date()
-    ## [1] "Tue Apr  1 18:48:45 2025"
+    ## [1] "Wed Apr  2 14:05:06 2025"
 
     devtools::test()
     ## ✔ | F W  S  OK | Context
     ## 
     ## ⠏ |          0 | expectedClass                                                  
     ## ⠏ |          0 | core functions work in piped workflow                          
-    ## ⠼ |          5 | core functions work in piped workflow                          
+    ## ⠙ |          2 | core functions work in piped workflow                          
     ## ✔ |          6 | core functions work in piped workflow
     ## 
     ## ⠏ |          0 | expectedMessages                                               
     ## ⠏ |          0 | core functions return expected errors and messages             
-    ## ⠙ |          2 | core functions return expected errors and messages             
+    ## ⠹ |          3 | core functions return expected errors and messages             
     ## ⠼ |          5 | core functions return expected errors and messages             
+    ## ⠦ |          7 | core functions return expected errors and messages             
     ## ✔ |          7 | core functions return expected errors and messages
     ## 
     ## ⠏ |          0 | expectedValues                                                 
     ## ⠏ |          0 | core functions return expected structures and values           
-    ## ⠸ |          4 | core functions return expected structures and values           
+    ## ⠹ |          3 | core functions return expected structures and values           
     ## ⠼ |          5 | core functions return expected structures and values           
     ## ⠴ |          6 | core functions return expected structures and values           
     ## ✔ |          6 | core functions return expected structures and values
@@ -155,9 +156,10 @@ If you can cite the use of this software, please use `citation("tbrf")`
     ## ⠏ |          0 | internalStatsFunctions                                         
     ## ⠏ |          0 | internal statistical functions return expected values          
     ## ⠼ |          5 | internal statistical functions return expected values          
+    ## ⠇ |          9 | internal statistical functions return expected values          
     ## ✔ |         17 | internal statistical functions return expected values
     ## 
     ## ══ Results ═════════════════════════════════════════════════════════════════════
-    ## Duration: 1.3 s
+    ## Duration: 1.8 s
     ## 
     ## [ FAIL 0 | WARN 0 | SKIP 0 | PASS 36 ]
