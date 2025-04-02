@@ -3,12 +3,11 @@ Type: Package
 Title: Time-Based Rolling Functions
 Version: 0.1.6
 Authors@R: c(
-    person("Michael", "Schramm", role=c("aut", "cre"),
+    person("Michael", "Schramm", role=c("aut", "cre", "cph"),
       email = "mpschramm@gmail.com",
       comment = c(ORCID = "0000-0003-1876-6592")),
     person("Frank", "Harrell", role=c("ctb"))
     )
-Maintainer: Michael Schramm <mpschramm@gmail.com>
 Description: Provides rolling statistical functions based
     on date and time windows instead of n-lagged observations.
 URL: https://mps9506.github.io/tbrf/
