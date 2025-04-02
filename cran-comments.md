@@ -1,11 +1,13 @@
 ## Test environments
-* travis-ci: R 3.5.3, R 3.6.2, R-devel
-* appveyor: R 3.6.3
-* win-builder: R 3.6.3, R-devel
+
+* win-builder: R 4.4.3, R-devel
+* github actions (ubuntu): R 4.4.3, R-devel
+* github actions (macos): R 4.4.3, R-devel
+
 
 ## R CMD check results
 
-0 errors | 0 warnings | 0 notes
+0 errors | 0 warnings | 1 notes
 
 ## Reverse Dependencies
 
@@ -13,4 +15,5 @@ There are currently no downstream dependencies for this package.
 
 ## Comments
 
-* This is a minor release to fix breaking changes introduced by the newest release of tibble.
+* This release updates the maintainer email address (same maintainer), I will send confirmation from the previous email address.
+* This release fixes existing notes by adding package anchors to links in package documentation.
