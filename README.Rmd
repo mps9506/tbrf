@@ -20,6 +20,7 @@ knitr::opts_chunk$set(
 [![lifecycle](https://img.shields.io/badge/lifecycle-retired-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#retired)
 
 [![CRAN version](https://www.r-pkg.org/badges/version/tbrf)](https://CRAN.R-project.org/package=tbrf)
+[![tbrf status badge](https://mps9506.r-universe.dev/tbrf/badges/version)](https://mps9506.r-universe.dev/tbrf)
 [![R build status](https://github.com/mps9506/tbrf/workflows/R-CMD-check/badge.svg)](https://github.com/mps9506/tbrf/actions)
 [![Coverage status](https://codecov.io/gh/mps9506/tbrf/branch/master/graph/badge.svg)](https://app.codecov.io/github/mps9506/tbrf?branch=master)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
@@ -42,11 +43,10 @@ install.packages("tbrf")
 ```
 
 
-The development version is maintained on github and can be installed as:
+The development version is available on r-universe and can be installed as:
 
 ```{r eval=FALSE}
-install.packages(remotes)
-remotes::install_github("mps9506/tbrf")
+install.packages('tbrf', repos = c('https://mps9506.r-universe.dev', 'https://cloud.r-project.org'))
 ```
 
 ## Available Functions
@@ -79,7 +79,6 @@ Plot a rolling 1-hour mean:
 library(tbrf)
 library(dplyr)
 library(ggplot2)
-library(ggalt)
 
 y = 3 * sin(2 * seq(from = 0, to = 4*pi, length.out = 100)) + rnorm(100)
 time = sample(seq(as.POSIXct(strptime("2017-01-01 00:01:00", "%Y-%m-%d %H:%M:%S")),
@@ -119,8 +118,10 @@ tbrf code is released under GPL-3 | LICENSE.md
 
 `binom_ci()` is an implementation of code licensed under GPL (>=2) by Frank Harrell's [`Hmisc`](https://github.com/harrelfe/Hmisc) package.
 
+`stat_stepribbon()` is an implementation of code licensed under MIT by Bob Rudis's [`ggalt`](https://github.com/hrbrmstr/ggalt) package.
+
 If you can cite the use of this software, please use `citation("tbrf")`
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3727319.svg)](https://doi.org/10.5281/zenodo.3727319)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3727319.svg)](https://doi.org/10.5281/zenodo.3727319).
 
 ## Test Results
 
