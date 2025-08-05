@@ -9,10 +9,6 @@
 #' @param n numeric, describing the length of the time window.
 #' @param ... additional arguments passed to \code{\link{mean_ci}}.
 #'
-#' @import dplyr
-#' @import rlang
-#' @importFrom purrr map
-#' @importFrom tidyr unnest
 #' @return tibble with columns for the rolling mean and upper and lower confidence intervals.
 #' @export
 #' @seealso \code{\link{mean_ci}}
@@ -40,22 +36,22 @@ tbr_mean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
 
   # apply the window function to each row
   .tbl <- .tbl %>%
-    arrange(!! rlang::enquo(tcolumn)) %>%
-    mutate("temp" := purrr::map(row_number(),
-                             ~tbr_mean_window(x = !! rlang::enquo(x), #column that indicates success/failure
-                                        tcolumn = !! rlang::enquo(tcolumn), #posix formatted time column
-                                        unit = unit,
-                                        n = n,
-                                        i = .x,
-                                        conf = default_dots$conf,
-                                        na.rm = default_dots$na.rm,
-                                        type = default_dots$type,
-                                        R = default_dots$R,
-                                        parallel = default_dots$parallel,
-                                        ncpus = default_dots$ncpus,
-                                        cl = default_dots$cl))) %>%
-    tidyr::unnest("temp")
-  .tbl <- tibble::as_tibble(.tbl)
+    arrange(!! enquo(tcolumn)) %>%
+    mutate("temp" := map(row_number(),
+                         ~tbr_mean_window(x = !! enquo(x), #column that indicates success/failure
+                                          tcolumn = !! enquo(tcolumn), #posix formatted time column
+                                          unit = unit,
+                                          n = n,
+                                          i = .x,
+                                          conf = default_dots$conf,
+                                          na.rm = default_dots$na.rm,
+                                          type = default_dots$type,
+                                          R = default_dots$R,
+                                          parallel = default_dots$parallel,
+                                          ncpus = default_dots$ncpus,
+                                          cl = default_dots$cl))) %>%
+    unnest("temp")
+  .tbl <- as_tibble(.tbl)
   return(.tbl)
 }
 
@@ -69,8 +65,6 @@ tbr_mean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
 #' @param i row
 #' @param ... additional arguments passed to \code{\link{mean_ci}}
 #'
-#' @importFrom lubridate as.duration duration
-#' @importFrom tibble as_tibble
 #' @return list
 #' @keywords internal
 tbr_mean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
@@ -98,7 +92,7 @@ tbr_mean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
   if (i == 1) {
     results <- list(NA, NA, NA)
     names(results) <- c("mean", "lwr_ci", "upr_ci")
-    return(tibble::as_tibble(results))
+    return(as_tibble(results))
   }
   else {
     # create a time-based window by calculating the duration between current row
@@ -115,11 +109,11 @@ tbr_mean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
     else{
 
       if (is.na(dots$conf)) {
-        results <- tibble::as_tibble(list(mean = mean_ci(window = window, ...)))
+        results <- as_tibble(list(mean = mean_ci(window = window, ...)))
       }
 
       else {
-        results <- tibble::as_tibble(as.list(mean_ci(window = window, ...)))
+        results <- as_tibble(as.list(mean_ci(window = window, ...)))
       }
 
       return(results)
@@ -148,8 +142,6 @@ tbr_mean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
 #'
 #' @return named list with mean and (optionally) specified confidence
 #'   interval
-#' @import boot
-#' @importFrom stats var
 #' @export
 #'
 #' @keywords internal
@@ -166,7 +158,7 @@ mean_ci <- function(window, conf = 0.95, na.rm = TRUE, type = "basic",
   else {
 
     ## type must be one of "norm", "basic", "stud", "perc", "bca"
-    boot <- boot::boot(window, function(x,i) {
+    boot <- boot(window, function(x,i) {
       gm <- mean(x[i], na.rm = na.rm)
       n <- length(i)
       v <- (n - 1) * stats::var(x[i]) / n^2
@@ -178,7 +170,7 @@ mean_ci <- function(window, conf = 0.95, na.rm = TRUE, type = "basic",
     cl = cl)
 
 
-    ci <- boot::boot.ci(boot, conf = conf, type = type)
+    ci <- boot.ci(boot, conf = conf, type = type)
 
     if (type == "norm") {
       results <- c(mean = ci[[2]],

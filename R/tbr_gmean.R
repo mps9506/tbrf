@@ -13,11 +13,6 @@
 #' @param n numeric, describing the length of the time window.
 #' @param ... additional arguments passed to \code{\link{gm_mean_ci}}
 #'
-#' @import dplyr
-#' @import rlang
-#' @importFrom purrr map
-#' @importFrom tibble as_tibble
-#' @importFrom tidyr unnest
 #' @return tibble with columns for the rolling geometric mean and upper and
 #'   lower confidence levels.
 #' @export
@@ -47,10 +42,10 @@ tbr_gmean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
 
   # apply the window function to each row
   .tbl <- .tbl %>%
-    arrange(!! rlang::enquo(tcolumn)) %>%
-    mutate("temp" := purrr::map(row_number(),
-                             ~tbr_gmean_window(x = !! rlang::enquo(x), #column that indicates success/failure
-                                         tcolumn = !! rlang::enquo(tcolumn), #posix formatted time column
+    arrange(!! enquo(tcolumn)) %>%
+    mutate("temp" := map(row_number(),
+                             ~tbr_gmean_window(x = !! enquo(x), #column that indicates success/failure
+                                         tcolumn = !! enquo(tcolumn), #posix formatted time column
                                          unit = unit,
                                          n = n,
                                          i = .x,
@@ -62,8 +57,8 @@ tbr_gmean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
                                          parallel = default_dots$parallel,
                                          ncpus = default_dots$ncpus,
                                          cl = default_dots$cl))) %>%
-    tidyr::unnest("temp")
-  .tbl <- tibble::as_tibble(.tbl)
+    unnest("temp")
+  .tbl <- as_tibble(.tbl)
   return(.tbl)
 }
 
@@ -78,8 +73,6 @@ tbr_gmean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
 #' @param i row
 #' @param ... additional arguments passed to gmean_ci
 #'
-#' @importFrom lubridate as.duration duration
-#' @importFrom tibble as_tibble
 #' @return list
 #' @keywords internal
 tbr_gmean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
@@ -114,7 +107,7 @@ tbr_gmean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
     # create a time-based window by calculating the duration between current row
     # and the previous rows select the rows where 0 <= duration <= n
     window <- open_window(x, tcolumn, unit = unit, n, i)
-
+    
     # if length is 1 or less, return NAs
     if (length(window) <= 1) {
       results <- list_NA(resultsColumns)
@@ -124,20 +117,20 @@ tbr_gmean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
     }
     # else calculate the geometric mean with confidence interval
     else{
-
+      
       if (is.na(dots$conf)) {
-        results <- tibble::as_tibble(list(mean = gm_mean_ci(window = window,
-                                                            conf = NA,
-                                                            na.rm = dots$na.rm,
-                                                            zero.propagate = dots$zero.propagate)))
+        results <- as_tibble(list(mean = gm_mean_ci(window = window,
+                                                    conf = NA,
+                                                    na.rm = dots$na.rm,
+                                                    zero.propagate = dots$zero.propagate)))
       }
-
+      
       else {
-        results <- tibble::as_tibble(as.list(gm_mean_ci(window = window,
-                                                        na.rm = dots$na.rm,
-                                                        zero.propagate = dots$zero.propagate)))
+        results <- as_tibble(as.list(gm_mean_ci(window = window,
+                                                na.rm = dots$na.rm,
+                                                zero.propagate = dots$zero.propagate)))
       }
-
+      
       return(results)
     }
   }
@@ -199,8 +192,6 @@ gm_mean <- function(x, na.rm=TRUE, zero.propagate = FALSE){
 #'
 #' @return named list with geometric mean and (optionally) specified confidence
 #'   interval
-#' @import boot
-#' @importFrom stats var
 #' @export
 #'
 #' @keywords internal
@@ -219,7 +210,7 @@ gm_mean_ci <- function(window, conf = 0.95, na.rm = TRUE, type = "basic",
   else {
 
     ## type must be one of "norm", "basic", "stud", "perc", "bca"
-    gmboot <- boot::boot(window, function(x,i) {
+    gmboot <- boot(window, function(x,i) {
       gm <- gm_mean(x[i], na.rm = na.rm, zero.propagate = zero.propagate)
       n <- length(i)
       v <- (n - 1) * stats::var(x[i]) / n^2
@@ -231,7 +222,7 @@ gm_mean_ci <- function(window, conf = 0.95, na.rm = TRUE, type = "basic",
     cl = cl)
 
 
-    ci <- boot::boot.ci(gmboot, conf = conf, type = type)
+    ci <- boot.ci(gmboot, conf = conf, type = type)
 
     if (type == "norm") {
       results <- c(mean = ci[[2]],

@@ -7,9 +7,6 @@
 #' @param n numeric, describing the length of the time window.
 #' @param na.rm logical. Should missing values be removed?
 #'
-#' @import dplyr
-#' @import rlang
-#' @importFrom purrr map
 #' @return tibble with column for the rolling sd.
 #' @export
 #' @seealso \code{\link{sd}}

@@ -4,8 +4,6 @@
 #' function to return tibble with NAs as specified
 #' @param x named vector 
 #'
-#' @importFrom tibble enframe
-#' @importFrom tidyr pivot_wider
 #' @return empty tibble
 #' @keywords internal
 list_NA <- function(x) {
@@ -27,9 +25,6 @@ list_NA <- function(x) {
 #' @param n desired n
 #' @param i row number
 #'
-#' @importFrom lubridate interval
-#' @importFrom lubridate as.period
-#' @importFrom lubridate period
 #' @return vector
 #' @export
 #' @keywords internal

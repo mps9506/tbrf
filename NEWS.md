@@ -1,3 +1,14 @@
+# tbrf 0.1.7
+
+## New features
+
+* incorporate `stat_stepribbon()` from the ggalt package. This adds a dependency on ggplot, but it is a super useful stat for this type of data.  
+
+## Bug fixes
+
+* Remove vignette dependency, and DESCRIPTION suggests on ggalt package (#29).
+
+
 # tbrf 0.1.6
 
 ## Minor changes

@@ -9,9 +9,6 @@
 #' @param func specified function
 #' @param ... optional additional arguments passed to function \code{func}
 #'
-#' @import rlang
-#' @import dplyr
-#' @importFrom tidyr unnest
 #' @return tibble
 #' @export
 #' @examples

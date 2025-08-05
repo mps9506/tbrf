@@ -130,9 +130,6 @@ tbr_median_window <- function(x, tcolumn, unit = "years", n, i, ...) {
 #'
 #' @return named list with mean and (optionally) specified confidence
 #'   interval
-#' @import boot
-#' @importFrom stats var
-#' @importFrom stats median
 #' @export
 #'
 #' @keywords internal

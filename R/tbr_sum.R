@@ -10,9 +10,6 @@
 #' @param n numeric, describing the length of the time window.
 #' @param na.rm logical. Should missing values be removed?
 #'
-#' @import dplyr
-#' @import rlang
-#' @importFrom purrr map
 #' @return dataframe with column for the rolling sum.
 #' @export
 #' @seealso \code{\link{sum}}
@@ -47,8 +44,6 @@ tbr_sum <- function(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE) {
 #' @param i row
 #' @param na.rm logical. Should missing values be removed?
 #'
-#' @importFrom lubridate as.duration duration
-#' @importFrom tibble as.tibble
 #' @return numeric value
 #' @keywords internal
 tbr_sum_window <- function(x, tcolumn, unit = "years", n, i, na.rm) {
