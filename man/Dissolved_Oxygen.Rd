@@ -3,7 +3,7 @@
 \docType{data}
 \name{Dissolved_Oxygen}
 \alias{Dissolved_Oxygen}
-\title{Dissolved oxygen measurements from the Tres Palacios rivers}
+\title{Dissolved oxygen measurements from the Tres Palacios River}
 \format{
 A data frame with 236 rows and 6 variables:
 \describe{
