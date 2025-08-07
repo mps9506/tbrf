@@ -14,6 +14,7 @@
 #'   units.
 #' @param alpha numeric, probability of a type 1 error, so confidence
 #'   coefficient = 1-alpha
+#' @param na.pad logical. If `na.pad = TRUE` incomplete windows (duration of the window < `n`) return `NA`. Defatuls to `TRUE`
 #'
 #' @return tibble with binomial point estimate and confidence intervals.
 #' @export
@@ -29,7 +30,7 @@
 #' tbr_binom(df, x = value,
 #' tcolumn = date, unit = "years", n = 5,
 #' alpha = 0.1)
-tbr_binom <- function(.tbl, x, tcolumn, unit = "years", n, alpha = 0.05) {
+tbr_binom <- function(.tbl, x, tcolumn, unit = "years", n, alpha = 0.05, na.pad = TRUE) {
 
   .tbl <- .tbl %>%
     arrange(!! enquo(tcolumn)) %>%
@@ -39,7 +40,8 @@ tbr_binom <- function(.tbl, x, tcolumn, unit = "years", n, alpha = 0.05) {
                                                unit = unit,
                                                n = n,
                                                alpha = alpha,
-                                               i = .x))) %>%
+                                               i = .x,
+                                               na.pad = na.pad))) %>%
     unnest("temp")
   .tbl <- as_tibble(.tbl)
   return(.tbl)
@@ -56,10 +58,11 @@ tbr_binom <- function(.tbl, x, tcolumn, unit = "years", n, alpha = 0.05) {
 #' @param i rows
 #' @param alpha numeric, probability of a type 1 error, so confidence
 #'   coefficient = 1-alpha
+#' @param na.pad logical. If `na.pad = TRUE` incomplete windows (duration of the window < `n`) return `NA`.
 #'
 #' @return list
 #' @keywords internal
-tbr_binom_window <- function(x, tcolumn, unit = "years", n, i, alpha) {
+tbr_binom_window <- function(x, tcolumn, unit = "years", n, i, alpha, na.pad) {
 
   # checks for valid unit values
   u <- (c("years", "months", "weeks", "days", "hours", "minutes", "seconds"))
@@ -69,7 +72,7 @@ tbr_binom_window <- function(x, tcolumn, unit = "years", n, i, alpha) {
   }
 
   # creates a time-based window
-  window <- open_window(x, tcolumn, unit = unit, n, i)
+  window <- open_window(x, tcolumn, unit = unit, n, i, na.pad)
   df <- tibble(window) %>%
     summarise(n = n(), successes = as.integer(sum(window)))
 
@@ -138,6 +141,18 @@ binom_ci <- function(x, n, alpha = 0.05,
                      method = c("wilson","exact","asymptotic"),
                      return.df = FALSE)
 {
+  
+  if (is.na(x)) {
+    mat <- matrix(ncol = 3, nrow = length(1))
+    dimnames(mat) <- list(rep("", dim(mat)[1]),
+                          c("PointEst", "Lower", "Upper"))
+    if (return.df) {
+      mat <- as.data.frame(mat, row.names = NULL)
+      return(mat)
+    } else  {
+      return(mat)
+    }
+  }
   ## ..modifications for printing and the addition of a
   ##   method argument and the asymptotic interval
   ##   and to accept vector arguments were
@@ -148,6 +163,7 @@ binom_ci <- function(x, n, alpha = 0.05,
   {
     nu1 <- 2 * (n - x + 1)
     nu2 <- 2 * x
+    message(paste0(" x = ", x))
     ll <- if (x > 0)
       x/(x + qf(1 - alpha/2, nu1, nu2) * (n - x + 1))
     else

@@ -4,6 +4,7 @@
 #' @import ggplot2
 #' @import rlang
 #' @importFrom lubridate as.duration
+#' @importFrom lubridate as.period
 #' @importFrom lubridate duration
 #' @importFrom lubridate interval
 #' @importFrom purrr map

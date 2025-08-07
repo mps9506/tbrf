@@ -4,7 +4,7 @@
 \alias{tbr_misc}
 \title{Use Generic Functions with Time Windows}
 \usage{
-tbr_misc(.tbl, x, tcolumn, unit = "years", n, func, ...)
+tbr_misc(.tbl, x, tcolumn, unit = "years", n, na.pad = TRUE, func, ...)
 }
 \arguments{
 \item{.tbl}{a data frame with at least two variables; time column formatted
@@ -17,6 +17,8 @@ as date, date/time and value column.}
 \item{unit}{character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"}
 
 \item{n}{numeric, describing the length of the time window.}
+
+\item{na.pad}{logical. If `na.pad = TRUE` incomplete windows (duration of the window < `n`) return `NA`. Defaults to `TRUE`}
 
 \item{func}{specified function}
 

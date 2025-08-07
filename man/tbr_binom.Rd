@@ -4,7 +4,7 @@
 \alias{tbr_binom}
 \title{Time-Based Rolling Binomial Probability}
 \usage{
-tbr_binom(.tbl, x, tcolumn, unit = "years", n, alpha = 0.05)
+tbr_binom(.tbl, x, tcolumn, unit = "years", n, alpha = 0.05, na.pad = TRUE)
 }
 \arguments{
 \item{.tbl}{dataframe with two variables.}
@@ -23,6 +23,8 @@ units.}
 
 \item{alpha}{numeric, probability of a type 1 error, so confidence
 coefficient = 1-alpha}
+
+\item{na.pad}{logical. If `na.pad = TRUE` incomplete windows (duration of the window < `n`) return `NA`. Defatuls to `TRUE`}
 }
 \value{
 tibble with binomial point estimate and confidence intervals.

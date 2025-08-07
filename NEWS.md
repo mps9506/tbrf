@@ -3,10 +3,17 @@
 ## New features
 
 * incorporate `stat_stepribbon()` from the ggalt package. This adds a dependency on ggplot, but it is a super useful stat for this type of data.  
+* adds the `Entero` example dataset to facilitate examples of analysis using lognormal data.
+* new `na.pad` argument for all tbr_ rolling functions that will pad the results with `NA` values when the window length is less then argument `n`.
 
 ## Bug fixes
 
 * Remove vignette dependency, and DESCRIPTION suggests on ggalt package (#29).
+
+## Minor changes
+
+* use `usethis_import_from()` to document imports under the `tbrf-package.R`.
+* updated vignettes and examples with new example data.
 
 
 # tbrf 0.1.6

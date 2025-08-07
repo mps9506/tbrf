@@ -7,6 +7,7 @@
 #' @param tcolumn formatted time column.
 #' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
+#' @param na.pad logical. If `na.pad = TRUE` incomplete windows (duration of the window < `n`) return `NA`. Defaults to `TRUE`
 #' @param ... additional arguments passed to \code{\link{mean_ci}}.
 #'
 #' @return tibble with columns for the rolling mean and upper and lower confidence intervals.
@@ -19,7 +20,7 @@
 #' \dontrun{
 #' ## Return a tibble with rolling mean and 95% CI
 #' tbr_mean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5, conf = .95)}
-tbr_mean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
+tbr_mean <- function(.tbl, x, tcolumn, unit = "years", n, na.pad = TRUE, ...) {
 
   dots <- list(...)
 
@@ -43,6 +44,7 @@ tbr_mean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
                                           unit = unit,
                                           n = n,
                                           i = .x,
+                                          na.pad = na.pad,
                                           conf = default_dots$conf,
                                           na.rm = default_dots$na.rm,
                                           type = default_dots$type,
@@ -63,11 +65,12 @@ tbr_mean <- function(.tbl, x, tcolumn, unit = "years", n, ...) {
 #' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
 #' @param i row
+#' @param na.pad logical. If `na.pad = TRUE` incomplete windows (duration of the window < `n`) return `NA`.
 #' @param ... additional arguments passed to \code{\link{mean_ci}}
 #'
 #' @return list
 #' @keywords internal
-tbr_mean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
+tbr_mean_window <- function(x, tcolumn, unit = "years", n, i, na.pad, ...) {
 
   # checks for valid unit values
   u <- (c("years", "months", "weeks", "days", "hours", "minutes", "seconds"))
@@ -97,7 +100,7 @@ tbr_mean_window <- function(x, tcolumn, unit = "years", n, i, ...) {
   else {
     # create a time-based window by calculating the duration between current row
     # and the previous rows select the rows where 0 <= duration <= n
-    window <- open_window(x, tcolumn, unit = unit, n, i)
+    window <- open_window(x, tcolumn, unit = unit, n = n, i = i, na.pad = na.pad)
 
     # if length is 1 or less, return NAs
     if (length(window) <= 1) {

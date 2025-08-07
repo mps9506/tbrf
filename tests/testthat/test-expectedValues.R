@@ -59,7 +59,8 @@ test_that("tbr_sum provides expected values", {
   x1 <- df %>% tbr_sum(x = value,
                           tcolumn = date,
                           unit = "years",
-                          n = 5)
+                          n = 5,
+                       na.pad = FALSE)
 
   expect_equal(sum(x1$sum), 45)
 })

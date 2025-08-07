@@ -4,7 +4,7 @@
 \alias{tbr_sum_window}
 \title{Sum Based on a Time-Window}
 \usage{
-tbr_sum_window(x, tcolumn, unit = "years", n, i, na.rm)
+tbr_sum_window(x, tcolumn, unit = "years", n, i, na.rm, na.pad)
 }
 \arguments{
 \item{x}{column containing the values to calculate the sum.}
@@ -18,6 +18,8 @@ tbr_sum_window(x, tcolumn, unit = "years", n, i, na.rm)
 \item{i}{row}
 
 \item{na.rm}{logical. Should missing values be removed?}
+
+\item{na.pad}{logical if `na.pad = TRUE` incomplete windows (duration of the window < `n`) return `NA`.}
 }
 \value{
 numeric value

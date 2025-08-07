@@ -49,14 +49,15 @@ If we want a 10-year rolling mean for the `Dissolved_Oxygen` dataset:
 
 ```{r}
 tbr_mean(Dissolved_Oxygen, x = Average_DO,
-         tcolumn = Date, unit = "years", n = 10)
+         tcolumn = Date, unit = "years", n = 10,
+         na.pad = FALSE)
 ```
 
 We can use a tidy workflow:
 ```{r}
 Dissolved_Oxygen %>%
   group_by(Station_ID) %>%
-  tbr_mean(Average_DO, Date, "years", 10)
+  tbr_mean(Average_DO, Date, "years", 10, na.pad = FALSE)
 ```
 
 
@@ -68,7 +69,7 @@ Generate some sample data:
 
 ```{r}
 # Some sample data
-df <- data_frame(date = sample(seq(as.Date('2000-01-01'),
+df <- dplyr::tibble(date = sample(seq(as.Date('2000-01-01'),
                                    as.Date('2005-12-30'), by = "day"), 25)) %>%
   bind_rows(data.frame(date = sample(seq(as.Date('2009-01-01'),
                                          as.Date('2011-12-30'), by = "day"), 25))) %>%
@@ -121,17 +122,19 @@ Plot the rolling 7-year geometric mean:
 
 ```{r message=FALSE, warning=FALSE, paged.print=FALSE}
 
-data_frame(date = sample(seq(as.Date('2001-01-01'),
-                                   as.Date('2017-12-31'), 
-                                   by = "day"), 
-                               60),
-                 x = rexp(60, 1/1000)) %>%
-  tbr_gmean(x, date, "years", 7, conf = 0.95, type = "perc") %>%
+data("Entero")
+
+Entero %>%
+  #group_by(Station_ID) %>%
+  tbr_gmean(Value, Date, "years", 7, conf = 0.95, type = "basic")  %>%
   ggplot() +
-  geom_point(aes(date, x), alpha = 0.5) +
-  geom_step(aes(date, mean)) +
-  geom_ribbon(aes(x = date, ymin = lwr_ci, ymax = upr_ci), alpha = 0.5, stat = "stepribbon") +
+  geom_point(aes(Date, Value), alpha = 0.5) +
+  geom_step(aes(Date, mean)) +
+  geom_ribbon(aes(x = Date, ymin = lwr_ci, ymax = upr_ci), alpha = 0.5, stat = "stepribbon") +
   scale_y_log10()
+  
+
+
 
 
 ```

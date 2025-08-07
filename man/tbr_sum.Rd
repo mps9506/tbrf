@@ -4,7 +4,7 @@
 \alias{tbr_sum}
 \title{Time-Based Rolling Sum}
 \usage{
-tbr_sum(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE)
+tbr_sum(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE, na.pad = TRUE)
 }
 \arguments{
 \item{.tbl}{a data frame with at least two variables; time column formatted
@@ -20,6 +20,8 @@ as date, date/time and value column.}
 \item{n}{numeric, describing the length of the time window.}
 
 \item{na.rm}{logical. Should missing values be removed?}
+
+\item{na.pad}{logical. If `na.pad = TRUE` incomplete windows (duration of the window < `n`) return `NA`. Defatuls to `TRUE`}
 }
 \value{
 dataframe with column for the rolling sum.

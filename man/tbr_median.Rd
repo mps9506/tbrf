@@ -4,7 +4,7 @@
 \alias{tbr_median}
 \title{Time-Based Rolling Median}
 \usage{
-tbr_median(.tbl, x, tcolumn, unit = "years", n, ...)
+tbr_median(.tbl, x, tcolumn, unit = "years", n, na.pad = TRUE, ...)
 }
 \arguments{
 \item{.tbl}{a data frame with at least two variables; time column formatted as date, date/time and value column.}
@@ -16,6 +16,8 @@ tbr_median(.tbl, x, tcolumn, unit = "years", n, ...)
 \item{unit}{character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"}
 
 \item{n}{numeric, describing the length of the time window.}
+
+\item{na.pad}{logical. If `na.pad = TRUE` incomplete windows (duration of the window < `n`) return `NA`. Defaults to `TRUE`}
 
 \item{...}{additional arguments passed to \code{\link{median_ci}}}
 }
