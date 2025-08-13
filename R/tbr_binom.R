@@ -29,7 +29,7 @@
 #' ## Run Function
 #' tbr_binom(df, x = value,
 #' tcolumn = date, unit = "years", n = 5,
-#' alpha = 0.1)
+#' alpha = 0.1, na.pad = FALSE)
 tbr_binom <- function(.tbl, x, tcolumn, unit = "years", n, alpha = 0.05, na.pad = TRUE) {
 
   .tbl <- .tbl %>%

@@ -28,7 +28,7 @@ tibble with column for the rolling sd.
 Time-Based Rolling Standard Deviation
 }
 \examples{
-tbr_sd(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5)
+tbr_sd(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5, na.pad = FALSE)
 }
 \seealso{
 \code{\link{sd}}

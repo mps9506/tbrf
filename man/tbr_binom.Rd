@@ -43,7 +43,7 @@ value = rbinom(100, 1, 0.25)
 ## Run Function
 tbr_binom(df, x = value,
 tcolumn = date, unit = "years", n = 5,
-alpha = 0.1)
+alpha = 0.1, na.pad = FALSE)
 }
 \seealso{
 \code{\link{binom_ci}}

@@ -34,7 +34,7 @@ confidence intervals.
 \examples{
 
 ## Return a tibble with new rolling geometric mean column
-tbr_gmean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5)
+tbr_gmean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5, na.pad = FALSE)
 
 \dontrun{
 ## Return a tibble with rolling geometric mean and 95\% CI

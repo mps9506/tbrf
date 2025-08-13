@@ -30,7 +30,7 @@ Produces a a rolling time-window based vector of medians and confidence interval
 \examples{
 ## Return a tibble with new rolling median column
 tbr_median(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years",
-n = 5)
+n = 5, na.pad = FALSE)
 
 \dontrun{
 ## Return a tibble with rolling median and 95\% CI 

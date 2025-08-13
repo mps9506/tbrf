@@ -29,7 +29,7 @@ Produces a a rolling time-window based vector of means and confidence intervals.
 }
 \examples{
 ## Return a tibble with new rolling mean column
-tbr_mean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5)
+tbr_mean(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5, na.pad = FALSE)
 
 \dontrun{
 ## Return a tibble with rolling mean and 95\% CI

@@ -16,7 +16,7 @@
 #' @seealso \code{\link{sum}}
 #' @examples
 #' tbr_sum(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n =
-#' 5)
+#' 5, na.pad = FALSE)
 tbr_sum <- function(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE, na.pad = TRUE) {
 
   # apply the window function to each row

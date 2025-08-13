@@ -13,7 +13,7 @@
 #' @return tibble
 #' @export
 #' @examples
-#' tbr_misc(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5, func = mean)
+#' tbr_misc(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5, na,.pad = FALSE, func = mean)
 tbr_misc <- function(.tbl, x, tcolumn, unit = "years", n, na.pad = TRUE, func, ...) {
 
   col_name <- as.character(substitute(func))

@@ -11,7 +11,7 @@
 #' @export
 #' @seealso \code{\link{sd}}
 #' @examples
-#' tbr_sd(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5)
+#' tbr_sd(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5, na.pad = FALSE)
 tbr_sd <- function(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE, na.pad = TRUE) {
 
   # apply the window function to each row

@@ -31,7 +31,7 @@ Time-Based Rolling Sum
 }
 \examples{
 tbr_sum(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n =
-5)
+5, na.pad = FALSE)
 }
 \seealso{
 \code{\link{sum}}
