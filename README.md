@@ -1,4 +1,3 @@
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # tbrf
@@ -48,32 +47,28 @@ the rolling statistical measure.
 
 tbrf is available on CRAN:
 
-``` r
-install.packages("tbrf")
-```
+    install.packages("tbrf")
 
 The development version is available on r-universe and can be installed
 as:
 
-``` r
-install.packages('tbrf', repos = c('https://mps9506.r-universe.dev', 'https://cloud.r-project.org'))
-```
+    install.packages('tbrf', repos = c('https://mps9506.r-universe.dev', 'https://cloud.r-project.org'))
 
 ## Available Functions
 
-- `tbr_binom`: Rolling binomial probability with confidence intervals.
+-   `tbr_binom`: Rolling binomial probability with confidence intervals.
 
-- `tbr_gmean`: Rolling geometric mean with confidence intervals.
+-   `tbr_gmean`: Rolling geometric mean with confidence intervals.
 
-- `tbr_mean`: Rolling mean with confidence intervals.
+-   `tbr_mean`: Rolling mean with confidence intervals.
 
-- `tbr_median`: Rolling median with confidence intervals.
+-   `tbr_median`: Rolling median with confidence intervals.
 
-- `tbr_misc`: Accepts user specified function.
+-   `tbr_misc`: Accepts user specified function.
 
-- `tbr_sd`: Rolling standard deviation.
+-   `tbr_sd`: Rolling standard deviation.
 
-- `tbr_sum`: Rolling sum.
+-   `tbr_sum`: Rolling sum.
 
 ## Usage
 
@@ -85,36 +80,32 @@ See:
 
 Plot a rolling 1-hour mean:
 
-``` r
-library(tbrf)
-library(dplyr)
-library(ggplot2)
+    library(tbrf)
+    library(dplyr)
+    library(ggplot2)
 
-y = 3 * sin(2 * seq(from = 0, to = 4*pi, length.out = 100)) + rnorm(100)
-time = sample(seq(as.POSIXct(strptime("2017-01-01 00:01:00", "%Y-%m-%d %H:%M:%S")),
-                  as.POSIXct(strptime("2017-01-01 23:00:00", "%Y-%m-%d %H:%M:%S")),
-                  by = "min"), 100)
+    y = 3 * sin(2 * seq(from = 0, to = 4*pi, length.out = 100)) + rnorm(100)
+    time = sample(seq(as.POSIXct(strptime("2017-01-01 00:01:00", "%Y-%m-%d %H:%M:%S")),
+                      as.POSIXct(strptime("2017-01-01 23:00:00", "%Y-%m-%d %H:%M:%S")),
+                      by = "min"), 100)
 
-df <- tibble(y, time)
+    df <- tibble(y, time)
 
-df %>%
-  tbr_mean(y, time, "hours", n = 1) %>%
-  ggplot() +
-  geom_point(aes(time, y)) +
-  geom_step(aes(time, mean))
-```
+    df %>%
+      tbr_mean(y, time, "hours", n = 1) %>%
+      ggplot() +
+      geom_point(aes(time, y)) +
+      geom_step(aes(time, mean))
 
 <img src="man/figures/README-tbr_hour-1.png" width="672" />
 
 Plot a rolling 3-hour mean:
 
-``` r
-df %>%
-  tbr_mean(y, time, "hours", n = 3) %>%
-  ggplot() +
-  geom_point(aes(time, y)) +
-  geom_step(aes(time, mean))
-```
+    df %>%
+      tbr_mean(y, time, "hours", n = 3) %>%
+      ggplot() +
+      geom_point(aes(time, y)) +
+      geom_step(aes(time, mean))
 
 <img src="man/figures/README-tbr_threehour-1.png" width="672" />
 
@@ -126,9 +117,9 @@ By participating in this project you agree to abide by its terms.
 
 ## License
 
-tbrf code is released under GPL-3 \| LICENSE.md
+tbrf code is released under GPL-3 | LICENSE.md
 
-`binom_ci()` is an implementation of code licensed under GPL (\>=2) by
+`binom_ci()` is an implementation of code licensed under GPL (&gt;=2) by
 Frank Harrell’s [`Hmisc`](https://github.com/harrelfe/Hmisc) package.
 
 `stat_stepribbon()` is an implementation of code licensed under MIT by
@@ -139,21 +130,38 @@ If you can cite the use of this software, please use `citation("tbrf")`
 
 ## Test Results
 
-``` r
-library(tbrf)
+    library(tbrf)
 
-date()
-## [1] "Tue Aug  5 08:35:08 2025"
+    date()
+    ## [1] "Wed Aug 13 19:17:33 2025"
 
-devtools::test()
-## ✔ | F W  S  OK | Context
-## ⠏ |          0 | expectedClass                                                  ⠏ |          0 | core functions work in piped workflow                          ⠋ |          1 | core functions work in piped workflow                          ⠹ |          3 | core functions work in piped workflow                          ⠴ |          6 | core functions work in piped workflow                          ✔ |          6 | core functions work in piped workflow
-## ⠏ |          0 | expectedMessages                                               ⠏ |          0 | core functions return expected errors and messages             ⠋ |          1 | core functions return expected errors and messages             ⠙ |          2 | core functions return expected errors and messages             ⠹ |          3 | core functions return expected errors and messages             ⠸ |          4 | core functions return expected errors and messages             ⠼ |          5 | core functions return expected errors and messages             ⠴ |          6 | core functions return expected errors and messages             ⠦ |          7 | core functions return expected errors and messages             ✔ |          7 | core functions return expected errors and messages [1.6s]
-## ⠏ |          0 | expectedValues                                                 ⠏ |          0 | core functions return expected structures and values           ⠙ |          2 | core functions return expected structures and values           ⠼ |          5 | core functions return expected structures and values           ⠴ |          6 | core functions return expected structures and values           ✔ |          6 | core functions return expected structures and values
-## ⠏ |          0 | internalStatsFunctions                                         ⠏ |          0 | internal statistical functions return expected values          ⠹ |          3 | internal statistical functions return expected values          ⠦ |          7 | internal statistical functions return expected values          ⠹ |         13 | internal statistical functions return expected values          ✔ |         17 | internal statistical functions return expected values
-## 
-## ══ Results ═════════════════════════════════════════════════════════════════════
-## Duration: 3.4 s
-## 
-## [ FAIL 0 | WARN 0 | SKIP 0 | PASS 36 ]
-```
+    devtools::test()
+    ## ✔ | F W  S  OK | Context
+    ## 
+    ## ⠏ |          0 | expectedClass                                                  
+    ## ⠏ |          0 | core functions work in piped workflow                          
+    ## ⠸ |          4 | core functions work in piped workflow                          
+    ## ✔ |          6 | core functions work in piped workflow
+    ## 
+    ## ⠏ |          0 | expectedMessages                                               
+    ## ⠏ |          0 | core functions return expected errors and messages             
+    ## ⠹ |          3 | core functions return expected errors and messages             
+    ## ⠴ |          6 | core functions return expected errors and messages             
+    ## ✔ |          7 | core functions return expected errors and messages
+    ## 
+    ## ⠏ |          0 | expectedValues                                                 
+    ## ⠏ |          0 | core functions return expected structures and values           
+    ## ⠸ |          4 | core functions return expected structures and values           
+    ## ⠼ |          5 | core functions return expected structures and values           
+    ## ⠴ |          6 | core functions return expected structures and values           
+    ## ✔ |          6 | core functions return expected structures and values
+    ## 
+    ## ⠏ |          0 | internalStatsFunctions                                         
+    ## ⠏ |          0 | internal statistical functions return expected values          
+    ## ⠼ |          5 | internal statistical functions return expected values          
+    ## ✔ |         17 | internal statistical functions return expected values
+    ## 
+    ## ══ Results ═════════════════════════════════════════════════════════════════════
+    ## Duration: 1.3 s
+    ## 
+    ## [ FAIL 0 | WARN 0 | SKIP 0 | PASS 36 ]
