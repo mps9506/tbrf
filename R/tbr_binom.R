@@ -163,7 +163,7 @@ binom_ci <- function(x, n, alpha = 0.05,
   {
     nu1 <- 2 * (n - x + 1)
     nu2 <- 2 * x
-    message(paste0(" x = ", x))
+
     ll <- if (x > 0)
       x/(x + qf(1 - alpha/2, nu1, nu2) * (n - x + 1))
     else
