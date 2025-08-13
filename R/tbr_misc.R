@@ -6,17 +6,15 @@
 #' @param tcolumn formatted time column.
 #' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
+#' @param na.pad logical. If `na.pad = TRUE` incomplete windows (duration of the window < `n`) return `NA`. Defaults to `TRUE`
 #' @param func specified function
 #' @param ... optional additional arguments passed to function \code{func}
 #'
-#' @import rlang
-#' @import dplyr
-#' @importFrom tidyr unnest
 #' @return tibble
 #' @export
 #' @examples
 #' tbr_misc(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5, func = mean)
-tbr_misc <- function(.tbl, x, tcolumn, unit = "years", n, func, ...) {
+tbr_misc <- function(.tbl, x, tcolumn, unit = "years", n, na.pad = TRUE, func, ...) {
 
   col_name <- as.character(substitute(func))
 
@@ -29,6 +27,7 @@ tbr_misc <- function(.tbl, x, tcolumn, unit = "years", n, func, ...) {
                                           unit = unit,
                                           n = n,
                                           i = .x,
+                                          na.pad = na.pad,
                                           func = func))) %>%
     tidyr::unnest(!! col_name)
   .tbl <- tibble::as_tibble(.tbl)
@@ -36,7 +35,7 @@ tbr_misc <- function(.tbl, x, tcolumn, unit = "years", n, func, ...) {
 }
 
 
-func_window <- function(x, tcolumn, unit = "years", n, i, func, ...) {
+func_window <- function(x, tcolumn, unit = "years", n, i, na.pad, func, ...) {
 
   # checks for valid unit values
   u <- (c("years", "months", "weeks", "days", "hours", "minutes", "seconds"))
@@ -45,8 +44,8 @@ func_window <- function(x, tcolumn, unit = "years", n, i, func, ...) {
     stop("unit must be one of ", paste(u, collapse = ", "))
   }
 
-  window <- open_window(x, tcolumn, unit = unit, n, i)
-  date_window <- open_window(tcolumn, tcolumn, unit = unit, n, i)
+  window <- open_window(x, tcolumn, unit = unit, n = n, i = i, na.pad = na.pad)
+  date_window <- open_window(tcolumn, tcolumn, unit = unit, n = n, i = i, na.pad = FALSE)
 
   results <- tibble::tibble(results = func(window, ...), min_date = min(date_window), max_date = max(date_window))
   return(results)

@@ -4,7 +4,7 @@
 \alias{open_window}
 \title{Open Window}
 \usage{
-open_window(x, tcolumn, unit = "years", n, i)
+open_window(x, tcolumn, unit = "years", n, i, na.pad)
 }
 \arguments{
 \item{x}{dataframe}
@@ -16,6 +16,8 @@ open_window(x, tcolumn, unit = "years", n, i)
 \item{n}{desired n}
 
 \item{i}{row number}
+
+\item{na.pad}{logical if `na.pad = TRUE` incomplete windows (duration of the window < `n`) return `NA`.}
 }
 \value{
 vector

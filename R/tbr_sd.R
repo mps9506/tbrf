@@ -6,16 +6,13 @@
 #' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
 #' @param na.rm logical. Should missing values be removed?
-#'
-#' @import dplyr
-#' @import rlang
-#' @importFrom purrr map
+#'@param na.pad logical. If `na.pad = TRUE` incomplete windows (duration of the window < `n`) return `NA`. Defaults to `TRUE`
 #' @return tibble with column for the rolling sd.
 #' @export
 #' @seealso \code{\link{sd}}
 #' @examples
 #' tbr_sd(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5)
-tbr_sd <- function(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE) {
+tbr_sd <- function(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE, na.pad = TRUE) {
 
   # apply the window function to each row
   .tbl <- .tbl %>%
@@ -26,7 +23,8 @@ tbr_sd <- function(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE) {
                                          unit = unit,
                                          n = n,
                                          i = .x,
-                                         na.rm = na.rm))) %>%
+                                         na.rm = na.rm,
+                                         na.pad = na.pad))) %>%
     tidyr::unnest("sd")
 
   .tbl <- tibble::as_tibble(.tbl)
@@ -40,6 +38,7 @@ tbr_sd <- function(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE) {
 #' @param unit character, one of "years", "months", "weeks", "days", "hours", "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
 #' @param i row
+#' @param na.pad logical. If `na.pad = TRUE` incomplete windows (duration of the window < `n`) return `NA`.
 #' @param ... additional arguments passed to base::sd()
 #'
 #' @importFrom stats sd
@@ -47,7 +46,7 @@ tbr_sd <- function(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE) {
 #' @importFrom tibble as.tibble
 #' @return numeric value
 #' @keywords internal
-tbr_sd_window <- function(x, tcolumn, unit = "years", n, i, ...) {
+tbr_sd_window <- function(x, tcolumn, unit = "years", n, i, na.pad, ...) {
 
   # checks for valid unit values
   u <- (c("years", "months", "weeks", "days", "hours", "minutes", "seconds"))
@@ -58,7 +57,7 @@ tbr_sd_window <- function(x, tcolumn, unit = "years", n, i, ...) {
 
   # create a time-based window by calculating the duration between current row
   # and the previous rows select the rows where 0 <= duration <= n
-  window <- open_window(x, tcolumn, unit = unit, n, i)
+  window <- open_window(x, tcolumn, unit = unit, n, i, na.pad)
   
   # calculates the sd
   results <- sd(x = window, ...)

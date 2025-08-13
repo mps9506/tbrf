@@ -4,7 +4,7 @@
 \alias{tbr_binom_window}
 \title{Binomial test based on time window}
 \usage{
-tbr_binom_window(x, tcolumn, unit = "years", n, i, alpha)
+tbr_binom_window(x, tcolumn, unit = "years", n, i, alpha, na.pad)
 }
 \arguments{
 \item{x}{column containing "success" and "failure" observations as 0 or 1}
@@ -20,6 +20,8 @@ tbr_binom_window(x, tcolumn, unit = "years", n, i, alpha)
 
 \item{alpha}{numeric, probability of a type 1 error, so confidence
 coefficient = 1-alpha}
+
+\item{na.pad}{logical. If `na.pad = TRUE` incomplete windows (duration of the window < `n`) return `NA`.}
 }
 \value{
 list

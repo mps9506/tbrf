@@ -9,17 +9,15 @@
 #'   "minutes", "seconds"
 #' @param n numeric, describing the length of the time window.
 #' @param na.rm logical. Should missing values be removed?
+#' @param na.pad logical. If `na.pad = TRUE` incomplete windows (duration of the window < `n`) return `NA`. Defatuls to `TRUE`
 #'
-#' @import dplyr
-#' @import rlang
-#' @importFrom purrr map
 #' @return dataframe with column for the rolling sum.
 #' @export
 #' @seealso \code{\link{sum}}
 #' @examples
 #' tbr_sum(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n =
 #' 5)
-tbr_sum <- function(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE) {
+tbr_sum <- function(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE, na.pad = TRUE) {
 
   # apply the window function to each row
   .tbl <- .tbl %>%
@@ -30,7 +28,8 @@ tbr_sum <- function(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE) {
                                       unit = unit,
                                       n = n,
                                       i = .x,
-                                      na.rm = na.rm))) %>%
+                                      na.rm = na.rm,
+                                      na.pad = na.pad))) %>%
     tidyr::unnest("sum")
 
   .tbl <- tibble::as_tibble(.tbl)
@@ -46,12 +45,11 @@ tbr_sum <- function(.tbl, x, tcolumn, unit = "years", n, na.rm = FALSE) {
 #' @param n numeric, describing the length of the time window.
 #' @param i row
 #' @param na.rm logical. Should missing values be removed?
+#' @param na.pad logical if `na.pad = TRUE` incomplete windows (duration of the window < `n`) return `NA`.
 #'
-#' @importFrom lubridate as.duration duration
-#' @importFrom tibble as.tibble
 #' @return numeric value
 #' @keywords internal
-tbr_sum_window <- function(x, tcolumn, unit = "years", n, i, na.rm) {
+tbr_sum_window <- function(x, tcolumn, unit = "years", n, i, na.rm, na.pad) {
 
   # checks for valid unit values
   u <- (c("years", "months", "weeks", "days", "hours", "minutes", "seconds"))
@@ -62,10 +60,12 @@ tbr_sum_window <- function(x, tcolumn, unit = "years", n, i, na.rm) {
 
   # create a time-based window by calculating the duration between current row
   # and the previous rows select the rows where 0 <= duration <= n
-  window <- open_window(x, tcolumn, unit = unit, n, i)
+  window <- open_window(x, tcolumn, unit = unit, n = n, i = i, na.pad = na.pad)
   
   # calculates the sum
   results <- sum(window, na.rm = na.rm)
+  
+  return(results)    
+  
 
-  return(results)
 }

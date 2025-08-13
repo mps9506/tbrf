@@ -14,13 +14,15 @@ test_that("tbr_mean provides same results as mean", {
   x1 <- df %>% tbr_mean(x = value,
                        tcolumn = date,
                        unit = "years",
-                       n = 5) %>%
+                       n = 5, 
+                       na.pad = FALSE) %>%
     rename(results = mean)
 
   x2 <- df %>% tbr_misc(x = value,
                         tcolumn = date,
                         unit = "years",
                         n = 5,
+                        na.pad = FALSE,
                         func = mean)
 
   expect_equivalent(x1[2:10,3], x2[2:10,3])
@@ -33,12 +35,14 @@ test_that("tbr_median provides same results as median", {
   x1 <- df %>% tbr_median(x = value,
                         tcolumn = date,
                         unit = "years",
-                        n = 5)
+                        n = 5,
+                        na.pad = FALSE)
   expect_s3_class(x1, "tbl_df")
   x2 <- df %>% tbr_misc(x = value,
                         tcolumn = date,
                         unit = "years",
                         n = 5,
+                        na.pad = FALSE,
                         func = median)
   expect_equivalent(sum(x1$median[2:10], na.rm = TRUE), 
                sum(x2$results[2:10], na.rm = TRUE))
@@ -59,7 +63,8 @@ test_that("tbr_sum provides expected values", {
   x1 <- df %>% tbr_sum(x = value,
                           tcolumn = date,
                           unit = "years",
-                          n = 5)
+                          n = 5,
+                       na.pad = FALSE)
 
   expect_equal(sum(x1$sum), 45)
 })
@@ -82,13 +87,15 @@ test_that("core functions work with different time units", {
   expect_s3_class(df %>% tbr_mean(x = value,
                                   tcolumn = date,
                                   unit = "minutes",
-                                  n = 60),
+                                  n = 60,
+                                  na.pad = FALSE),
                   "tbl_df")
 
   expect_s3_class(df %>% tbr_misc(x = value,
                                   tcolumn = date,
                                   unit = "minutes",
                                   n = 60,
+                                  na.pad = FALSE,
                                   func = mean),
                   "tbl_df")
 })

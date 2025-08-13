@@ -4,7 +4,7 @@
 \alias{tbr_median_window}
 \title{Median Based on a Time-Window}
 \usage{
-tbr_median_window(x, tcolumn, unit = "years", n, i, ...)
+tbr_median_window(x, tcolumn, unit = "years", n, i, na.pad, ...)
 }
 \arguments{
 \item{x}{column containing the values to calculate the median.}
@@ -16,6 +16,8 @@ tbr_median_window(x, tcolumn, unit = "years", n, i, ...)
 \item{n}{numeric, describing the length of the time window.}
 
 \item{i}{row}
+
+\item{na.pad}{logical. If `na.pad = TRUE` incomplete windows (duration of the window < `n`) return `NA`.}
 
 \item{...}{additional arguments passed to \code{\link{median_ci}}}
 }

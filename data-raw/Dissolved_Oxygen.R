@@ -11,4 +11,16 @@ Dissolved_Oxygen <- readr::read_delim(file = here::here("data-raw/DO.txt"), deli
          Param_Code = `Parameter Code`,
          Param_Desc = `Parameter Description`)
 
-devtools::use_data(Dissolved_Oxygen, overwrite = TRUE)
+usethis::use_data(Dissolved_Oxygen, overwrite = TRUE)
+
+
+Entero <- readr::read_delim(file = here::here("data-raw/Entero.txt"), delim = "|" ) |> 
+  mutate(`End Date` = as.Date(`End Date`, "%m/%d/%Y"),
+         `Station ID` = as.factor(`Station ID`)) |> 
+  select(Station_ID = `Station ID`,
+         Date = `End Date`,
+         Param_Code = `Parameter Code`,
+         Param_Desc = `Parameter Description`,
+         Value = Value)
+
+usethis::use_data(Entero, overwrite = TRUE)

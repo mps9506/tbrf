@@ -25,7 +25,8 @@ test_that("tbr_gmean returns tbl_df in tidy chain", {
   expect_s3_class(df %>% tbr_gmean(x = value,
                                    tcolumn = date,
                                    unit = "years",
-                                   n = 5),
+                                   n = 5,
+                                   na.pad = FALSE),
                   "tbl_df")
 })
 
@@ -34,7 +35,8 @@ test_that("tbr_mean returns tbl_df in tidy chain", {
   expect_s3_class(df %>% tbr_mean(x = value,
                                   tcolumn = date,
                                   unit = "years",
-                                  n = 5),
+                                  n = 5,
+                                  na.pad = FALSE),
                   "tbl_df")
 })
 

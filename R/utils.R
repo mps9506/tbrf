@@ -4,8 +4,6 @@
 #' function to return tibble with NAs as specified
 #' @param x named vector 
 #'
-#' @importFrom tibble enframe
-#' @importFrom tidyr pivot_wider
 #' @return empty tibble
 #' @keywords internal
 list_NA <- function(x) {
@@ -26,10 +24,8 @@ list_NA <- function(x) {
 #' @param unit unit
 #' @param n desired n
 #' @param i row number
+#' @param na.pad logical if `na.pad = TRUE` incomplete windows (duration of the window < `n`) return `NA`.
 #'
-#' @importFrom lubridate interval
-#' @importFrom lubridate as.period
-#' @importFrom lubridate period
 #' @return vector
 #' @export
 #' @keywords internal
@@ -38,11 +34,27 @@ open_window <- function(x,
                         tcolumn,
                         unit = "years",
                         n, 
-                        i) {
-  #p <- lubridate::as.period(difftime(tcolumn[i], tcolumn), unit = unit)
+                        i,
+                        na.pad) {
+  
+  ## if the duration between the current row and the first row is < n
+  ## return NA
+
   p <- lubridate::interval(tcolumn[i], tcolumn)
-  p <- lubridate::as.period(p)
+  p <- lubridate::as.period(p, unit = unit)
+  
+  if (isTRUE(na.pad)) {
+    if (-as.period(interval(tcolumn[i], tcolumn[1]), unit = unit) < lubridate::period(n, unit)) {
+      return(NA)
+      } else {
+           window <- x[p <= lubridate::period(0, unit) & p >= -lubridate::period(n, unit)]
+      return(window)
+      }
+  } else { 
+  ## if na.pad == FALSE return all the calculations
   window <- x[p <= lubridate::period(0, unit) & p >= -lubridate::period(n, unit)]
-  return(window)
+  return(window)  
+}
+  
   
 }

@@ -4,7 +4,7 @@
 \alias{tbr_gmean_window}
 \title{Geometric mean based on a time-window}
 \usage{
-tbr_gmean_window(x, tcolumn, unit = "years", n, i, ...)
+tbr_gmean_window(x, tcolumn, unit = "years", n, i, na.pad, ...)
 }
 \arguments{
 \item{x}{column containing the values to calculate the geometric mean.}

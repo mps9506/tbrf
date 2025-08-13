@@ -4,7 +4,7 @@
 \alias{tbr_gmean}
 \title{Time-Based Rolling Geometric Mean}
 \usage{
-tbr_gmean(.tbl, x, tcolumn, unit = "years", n, ...)
+tbr_gmean(.tbl, x, tcolumn, unit = "years", n, na.pad = TRUE, ...)
 }
 \arguments{
 \item{.tbl}{a data frame with at least two variables; time column formatted
@@ -18,6 +18,8 @@ as date, date/time and value column.}
 "minutes", "seconds"}
 
 \item{n}{numeric, describing the length of the time window.}
+
+\item{na.pad}{logical. If `na.pad = TRUE` incomplete windows (duration of the window < `n`) return `NA`. Defatuls to `TRUE`}
 
 \item{...}{additional arguments passed to \code{\link{gm_mean_ci}}}
 }
