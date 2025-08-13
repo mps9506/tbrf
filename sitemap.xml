@@ -9,6 +9,7 @@
 <url><loc>/index.html</loc></url>
 <url><loc>/news/index.html</loc></url>
 <url><loc>/reference/Dissolved_Oxygen.html</loc></url>
+<url><loc>/reference/Entero.html</loc></url>
 <url><loc>/reference/binom_ci.html</loc></url>
 <url><loc>/reference/gm_mean.html</loc></url>
 <url><loc>/reference/gm_mean_ci.html</loc></url>
@@ -17,6 +18,7 @@
 <url><loc>/reference/mean_ci.html</loc></url>
 <url><loc>/reference/median_ci.html</loc></url>
 <url><loc>/reference/open_window.html</loc></url>
+<url><loc>/reference/stat_stepribbon.html</loc></url>
 <url><loc>/reference/tbr_binom.html</loc></url>
 <url><loc>/reference/tbr_binom_window.html</loc></url>
 <url><loc>/reference/tbr_gmean.html</loc></url>
@@ -30,5 +32,7 @@
 <url><loc>/reference/tbr_sd_window.html</loc></url>
 <url><loc>/reference/tbr_sum.html</loc></url>
 <url><loc>/reference/tbr_sum_window.html</loc></url>
+<url><loc>/reference/tbrf-ggproto.html</loc></url>
+<url><loc>/reference/tbrf.html</loc></url>
 </urlset>
 
