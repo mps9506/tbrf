@@ -2,8 +2,9 @@
 
 * win-builder: R 4.5.1 (2025-06-13 ucrt)
 * mac-builder: R 4.5.1 Patched
-* github actions (ubuntu): R 4.5.1, R-devel
-* github actions (macos): R 4.5.1, R-devel
+* github actions (ubuntu): R 4.5.1, R-devel, R 4.4.3
+* github actions (macos): R 4.5.1
+* github actions (windows): R 4.5.1
 
 
 ## R CMD check results
