@@ -110,8 +110,8 @@ Dissolved_Oxygen %>%
     Average_DO < 5 ~ 1)) %>%
   tbr_binom(x, Date, "years", 7, alpha = 0.05) %>%
   ggplot() +
-  geom_line(aes(x = Date, y = PointEst)) +
-  geom_ribbon(aes(x = Date, ymin = Lower, ymax = Upper), alpha = 0.5)
+  geom_step(aes(x = Date, y = PointEst)) +
+  geom_ribbon(aes(x = Date, ymin = Lower, ymax = Upper), alpha = 0.5, stat = "stepribbon")
 
 ```
 
@@ -124,18 +124,17 @@ Plot the rolling 7-year geometric mean:
 
 data("Entero")
 
+## note that there are censored values here that are only treated at
+## the reported limit
+
 Entero %>%
-  #group_by(Station_ID) %>%
-  tbr_gmean(Value, Date, "years", 7, conf = 0.95, type = "basic")  %>%
+  group_by(Station_ID) %>%
+  tbr_gmean(Value, Date, "years", 7, conf = 0.95, type = "perc")  %>%
   ggplot() +
-  geom_point(aes(Date, Value), alpha = 0.5) +
-  geom_step(aes(Date, mean)) +
-  geom_ribbon(aes(x = Date, ymin = lwr_ci, ymax = upr_ci), alpha = 0.5, stat = "stepribbon") +
+  geom_point(aes(Date, Value, color = Station_ID), alpha = 0.5) +
+  geom_step(aes(Date, mean, color = Station_ID)) +
+  geom_ribbon(aes(x = Date, fill = Station_ID, ymin = lwr_ci, ymax = upr_ci), alpha = 0.5, stat = "stepribbon") +
   scale_y_log10()
-  
-
-
-
 
 ```
 

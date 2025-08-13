@@ -1,8 +1,9 @@
 ## Test environments
 
-* win-builder: R 4.4.3, R-devel
-* github actions (ubuntu): R 4.4.3, R-devel
-* github actions (macos): R 4.4.3, R-devel
+* win-builder: R 4.5.1 (2025-06-13 ucrt)
+* mac-builder: R 4.5.1 Patched
+* github actions (ubuntu): R 4.5.1, R-devel
+* github actions (macos): R 4.5.1, R-devel
 
 
 ## R CMD check results
@@ -15,5 +16,5 @@ There are currently no downstream dependencies for this package.
 
 ## Comments
 
-* This release updates the maintainer email address (same maintainer), I will send confirmation from the previous email address.
-* This release fixes existing notes by adding package anchors to links in package documentation.
+* This release removes dependency on the archived ggalt package fixing ERRORS in
+  current CRAN checks.
