@@ -31,5 +31,6 @@ tibble
 Use Generic Functions with Time Windows
 }
 \examples{
-tbr_misc(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", n = 5, na,.pad = FALSE, func = mean)
+tbr_misc(Dissolved_Oxygen, x = Average_DO, tcolumn = Date, unit = "years", 
+n = 5, na.pad = FALSE, func = mean)
 }
