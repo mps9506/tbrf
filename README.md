@@ -133,7 +133,7 @@ If you can cite the use of this software, please use `citation("tbrf")`
     library(tbrf)
 
     date()
-    ## [1] "Wed Aug 13 20:28:33 2025"
+    ## [1] "Tue Aug 19 13:23:48 2025"
 
     devtools::test()
     ## ✔ | F W  S  OK | Context
@@ -146,7 +146,7 @@ If you can cite the use of this software, please use `citation("tbrf")`
     ## ⠏ |          0 | expectedMessages                                               
     ## ⠏ |          0 | core functions return expected errors and messages             
     ## ⠹ |          3 | core functions return expected errors and messages             
-    ## ⠦ |          7 | core functions return expected errors and messages             
+    ## ⠴ |          6 | core functions return expected errors and messages             
     ## ✔ |          7 | core functions return expected errors and messages
     ## 
     ## ⠏ |          0 | expectedValues                                                 
@@ -162,6 +162,6 @@ If you can cite the use of this software, please use `citation("tbrf")`
     ## ✔ |         17 | internal statistical functions return expected values
     ## 
     ## ══ Results ═════════════════════════════════════════════════════════════════════
-    ## Duration: 1.1 s
+    ## Duration: 1.3 s
     ## 
     ## [ FAIL 0 | WARN 0 | SKIP 0 | PASS 36 ]
