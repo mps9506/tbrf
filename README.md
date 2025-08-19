@@ -133,14 +133,14 @@ If you can cite the use of this software, please use `citation("tbrf")`
     library(tbrf)
 
     date()
-    ## [1] "Tue Aug 19 13:23:48 2025"
+    ## [1] "Tue Aug 19 13:32:27 2025"
 
     devtools::test()
     ## ✔ | F W  S  OK | Context
     ## 
     ## ⠏ |          0 | expectedClass                                                  
     ## ⠏ |          0 | core functions work in piped workflow                          
-    ## ⠸ |          4 | core functions work in piped workflow                          
+    ## ⠙ |          2 | core functions work in piped workflow                          
     ## ✔ |          6 | core functions work in piped workflow
     ## 
     ## ⠏ |          0 | expectedMessages                                               
@@ -151,7 +151,7 @@ If you can cite the use of this software, please use `citation("tbrf")`
     ## 
     ## ⠏ |          0 | expectedValues                                                 
     ## ⠏ |          0 | core functions return expected structures and values           
-    ## ⠸ |          4 | core functions return expected structures and values           
+    ## ⠹ |          3 | core functions return expected structures and values           
     ## ⠼ |          5 | core functions return expected structures and values           
     ## ⠴ |          6 | core functions return expected structures and values           
     ## ✔ |          6 | core functions return expected structures and values
@@ -162,6 +162,6 @@ If you can cite the use of this software, please use `citation("tbrf")`
     ## ✔ |         17 | internal statistical functions return expected values
     ## 
     ## ══ Results ═════════════════════════════════════════════════════════════════════
-    ## Duration: 1.3 s
+    ## Duration: 1.4 s
     ## 
     ## [ FAIL 0 | WARN 0 | SKIP 0 | PASS 36 ]
